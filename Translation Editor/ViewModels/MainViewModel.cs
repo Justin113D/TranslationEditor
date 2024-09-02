@@ -144,7 +144,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         public string ExportLanguage()
         {
             Format!.Format.WriteExportToStrings(out _, out string values);
-            SetMessage("Exported Language Files", false);
+            SetMessage("Exported Language File", false);
             return values;
         }
     }
