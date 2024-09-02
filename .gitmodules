@@ -1,0 +1,9 @@
+[submodule "Libraries/J113D.Avalonia"]
+	path = Libraries/J113D.Avalonia
+	url = https://github.com/Justin113D/J113D.Avalonia
+[submodule "Libraries/J113D.Common"]
+	path = Libraries/J113D.Common
+	url = https://github.com/Justin113D/J113D.Common
+[submodule "Libraries/J113D.UndoRedo"]
+	path = Libraries/J113D.UndoRedo
+	url = https://github.com/Justin113D/J113D.UndoRedo

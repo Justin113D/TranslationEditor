@@ -1,0 +1,36 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
+	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Toolbar"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="J113D.TranslationEditor.ProjectApp.Views.Toolbar.UcToolbar"
+	x:DataType="vm:MainViewModel">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		
+		<local:UcMenuBar x:Name="MenuBar" Grid.Column="0"/>
+		
+		<local:UcFileInfo 
+			Grid.Column="1" 
+			IsVisible="{Binding Format, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}" 
+			DataContext="{Binding Format}"/>
+		
+		<TextBlock
+			Grid.Column="1"
+			Foreground="{DynamicResource HintFontBrush}"
+			Text="No format loaded"
+			TextAlignment="Center"
+			VerticalAlignment="Center"
+			FontWeight="Medium"
+			IsVisible="{Binding Format, Converter={x:Static ObjectConverters.IsNull}, FallbackValue=True}"/>
+		
+	</Grid>
+	
+</UserControl>

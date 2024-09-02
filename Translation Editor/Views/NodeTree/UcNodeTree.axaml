@@ -1,0 +1,156 @@
+<UserControl
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
+	xmlns:ds="using:J113D.Avalonia.DataSelectors"
+	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.NodeTree"
+	xmlns:converters="using:Avalonia.Data.Converters"
+	xmlns:scrconverters="using:J113D.Avalonia.Converters"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="J113D.TranslationEditor.ProjectApp.Views.NodeTree.UcNodeTree"
+	x:DataType="vm:FormatViewModel">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<MergeResourceInclude Source="avares://TranslationEditor/Views/NodeTree/NodeTreeView.axaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+		
+		<scrconverters:NullToStringConverter x:Key="NullToStringConverter"/>
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		<Style Selector="Grid.Root > Label">
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="FontWeight" Value="Medium"/>
+			<Setter Property="Padding" Value="8 4"/>
+		</Style>
+		
+		<Style Selector="GridSplitter">
+			<Setter Property="ResizeDirection" Value="Columns"/>
+		</Style>
+	</UserControl.Styles>
+	
+	<Grid ColumnDefinitions="2*,2,3*,2,2*" RowDefinitions="auto,*" Classes="Root">
+
+		<!-- Background -->
+		
+		<Border 
+			Grid.ColumnSpan="5"
+			Background="{DynamicResource DefaultColor}"
+			CornerRadius="3 3 0 0"/>
+		
+		<Border
+			Background="{DynamicResource BackgroundColor1}"
+			Grid.Row="1"
+			Grid.ColumnSpan="5"
+			CornerRadius="0 0 3 3"/>
+		
+		<Border 
+			Background="{DynamicResource BackgroundColor2}"
+			Grid.Row="1"
+			Grid.Column="1"
+			Grid.ColumnSpan="3"
+			Opacity="0.5"/>
+		
+		<!-- Header -->
+		
+		<Label Grid.Column="0" Content="Name" x:Name="NameHeader"/>
+		<GridSplitter Grid.Column="1"/>
+		<Label Grid.Column="2" Content="Translation &amp; Use Default" x:Name="ContentHeader"/>
+		<GridSplitter Grid.Column="3"/>
+		<Label Grid.Column="4" Content="Description &amp; Default Value"/>
+
+		<!-- Tree -->
+		
+		<local:NodeTreeView
+			Grid.Row="1"
+			Grid.ColumnSpan="5"
+			
+			ItemsSource="{Binding Nodes}"
+			NameWidth="{Binding #NameHeader.Bounds.Width}"
+			ContentWidth="{Binding #ContentHeader.Bounds.Width}"
+			HorizontalAlignment="Stretch"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+			
+			<local:NodeTreeView.ItemTemplate>
+				<ds:TreeDataTemplateSelector>
+					<TreeDataTemplate x:DataType="vm:ParentNodeViewModel" ItemsSource="{Binding ChildNodes}">
+						<Grid ColumnDefinitions="auto, *">
+							<Panel Width="{Binding $parent[local:NodeTreeView].ContentWidth}"/>
+
+							<TextBlock
+								Margin="6"
+								Grid.Column="1"
+								Text="{Binding Description}"
+								TextWrapping="Wrap" 
+								VerticalAlignment="Center"/>
+						</Grid>
+					</TreeDataTemplate>
+
+					<TreeDataTemplate x:DataType="vm:StringNodeViewModel">
+						<Grid ColumnDefinitions="auto, *">
+
+							<Grid 
+								ColumnDefinitions="*, auto" 
+								Width="{Binding $parent[local:NodeTreeView].ContentWidth}">
+
+								<TextBox
+									IsUndoEnabled="False"
+									Text="{Binding NodeValue, Mode=TwoWay, Converter={StaticResource NullToStringConverter}, UpdateSourceTrigger=LostFocus}"
+									AcceptsReturn="True"
+									VerticalContentAlignment="Top"
+									Margin="0 2"
+									IsEnabled="{Binding KeepDefault, Converter={x:Static converters:BoolConverters.Not}}"/>
+							
+								<CheckBox 
+									Grid.Column="1" 
+									Padding="0" 
+									Margin="4 8"
+									IsChecked="{Binding KeepDefault}"
+									ToolTip.Tip="Whether to use the default value, instead of translating it"/>
+							</Grid>
+							
+
+							<StackPanel
+								Grid.Column="1"
+								Margin="6"
+								VerticalAlignment="Center">
+
+								<TextBlock
+									Grid.Row="0"
+									Text="{Binding Description}"
+									TextWrapping="Wrap"
+									ToolTip.Tip="Information about the text to translate"/>
+
+								<Border
+									Grid.Row="1"
+									Background="{DynamicResource ForegroundColor4}"
+									Height="1"
+									Margin="4"/>
+
+								<TextBlock
+									Grid.Row="2"
+									Foreground="{DynamicResource ForegroundColor3}"
+									Text="{Binding DefaultValue}"
+									TextWrapping="Wrap"
+									ToolTip.Tip="The default value provided by the format, a.k.a. the text that needs to be translated"/>
+
+							</StackPanel>
+						</Grid>
+
+					</TreeDataTemplate>
+				</ds:TreeDataTemplateSelector>
+			</local:NodeTreeView.ItemTemplate>
+		</local:NodeTreeView>
+
+	</Grid>
+	
+
+</UserControl>

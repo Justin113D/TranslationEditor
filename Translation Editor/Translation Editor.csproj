@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+
+		<ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
+		<RootNamespace>J113D.TranslationEditor.ProjectApp</RootNamespace>
+		<AssemblyName>TranslationEditor</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Translation Editor</Title>
+		<Authors>Justin113D</Authors>
+		<Company>J113D</Company>
+		<Product>Translation Editor</Product>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Avalonia">
+		<AvaloniaXamlIlDebuggerLaunch>False</AvaloniaXamlIlDebuggerLaunch>
+		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Libraries\J113D.Avalonia\J113D.Avalonia\J113D.Avalonia.csproj" />
+		<ProjectReference Include="..\TranslationEditor.Data\TranslationEditor.Data.csproj" />
+	</ItemGroup>
+
+</Project>

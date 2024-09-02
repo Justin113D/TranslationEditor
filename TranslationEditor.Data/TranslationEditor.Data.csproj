@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>J113D.TranslationEditor.Data</AssemblyName>
+		<RootNamespace>J113D.TranslationEditor.Data</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Libraries\J113D.Common\J113D.Common\J113D.Common.csproj" />
+	  <ProjectReference Include="..\Libraries\J113D.UndoRedo\J113D.UndoRedo\J113D.UndoRedo.csproj" />
+	</ItemGroup>
+
+</Project>

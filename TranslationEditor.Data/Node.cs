@@ -1,0 +1,251 @@
+﻿using J113D.TranslationEditor.Data.Events;
+using System;
+using System.Linq;
+using static J113D.UndoRedo.GlobalChangeTracker;
+
+namespace J113D.TranslationEditor.Data
+{
+    /// <summary>
+    /// Base value container of a translation format
+    /// </summary>
+    public abstract class Node
+    {
+        #region private fields
+#pragma warning disable IDE0044
+
+        private string _name;
+        private string? _description;
+        private NodeState _state;
+        internal ParentNode? _parent;
+
+#pragma warning restore IDE0044
+        #endregion
+
+        #region events
+
+        /// <summary>
+        /// On changing <see cref="Name"/> <br/>
+        /// Does not get invoked on undo/redo!
+        /// </summary>
+        public event NodeNameChangedEventHandler? NameChanged;
+
+        /// <summary>
+        /// On changing <see cref="Parent"/> <br/>
+        /// Does not get invoked on undo/redo!
+        /// </summary>
+        public event NodeParentChangedEventHandler? ParentChanged;
+
+        /// <summary>
+        /// On <see cref="Format"/> has changed <br/>
+        /// Does not get invoked on undo/redo!
+        /// </summary>
+        public event NodeHeaderChangedEventHandler? HeaderChanged;
+
+        /// <summary>
+        /// On changing <see cref="State"/> <br/>
+        /// Does not get invoked on undo/redo!
+        /// </summary>
+        public event NodeStateChangedEventHandler? NodeStateChanged;
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// Node label/unique identifier
+        /// </summary>
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                value = ValidateName(value);
+
+                if(string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Name cant be Whitespace!", nameof(value));
+                }
+
+                if(value == _name)
+                {
+                    BlankChange("Node.Name");
+                    return;
+                }
+
+                string oldNodeName = _name;
+
+                BeginChangeGroup("Node.Name");
+
+                TrackFieldChange(this, nameof(_name), value, "Node._name");
+                InternalOnNameChanged(oldNodeName);
+                NameChanged?.Invoke(this, new(oldNodeName, value));
+
+                EndChangeGroup();
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the nodes description accordingly
+        /// </summary>
+        public string? Description
+        {
+            get => _description;
+            set
+            {
+                value = string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+                if(value == _description)
+                {
+                    return;
+                }
+
+                TrackFieldChange(this, nameof(_description), value, "Node._description");
+            }
+        }
+
+        /// <summary>
+        /// Update state of the string
+        /// </summary>
+        public NodeState State
+        {
+            get => _state;
+            protected set
+            {
+                if(value == _state)
+                {
+                    BlankChange();
+                    return;
+                }
+
+                NodeState oldState = _state;
+
+                BeginChangeGroup("Node.State");
+
+                TrackFieldChange(this, nameof(_state), value, "Node._state");
+                Parent?.EvaluateState(this);
+                NodeStateChanged?.Invoke(this, new(oldState, value));
+
+                EndChangeGroup();
+            }
+        }
+
+        /// <summary>
+        /// Parent Node containing this node
+        /// </summary>
+        public virtual ParentNode? Parent
+            => _parent;
+
+        /// <summary>
+        /// Format that the node belongs to
+        /// </summary>
+        public virtual Format? Format
+            => _parent?.Format;
+
+        #endregion
+
+        /// <summary>
+        /// Create a node with a name and a descripton
+        /// </summary>
+        /// <param name="name">The name of the node</param>
+        /// <param name="description">The description of the node</param>
+        protected Node(string name, string? description, NodeState defaultState)
+        {
+            _name = name.Trim();
+
+            description = description?.Trim();
+            _description = description?.Length > 0 ? description : null;
+            _state = defaultState;
+        }
+
+        /// <summary>
+        /// Returns a validated name for the node
+        /// </summary>
+        /// <param name="name">The name to validate</param>
+        /// <returns></returns>
+        protected virtual string ValidateName(string name)
+        {
+            return name.Trim();
+        }
+
+        /// <summary>
+        /// Called before the name change event is invoked
+        /// </summary>
+        /// <param name="oldName"></param>
+        protected virtual void InternalOnNameChanged(string oldName) { }
+
+
+        public void SetParent(ParentNode? parent)
+        {
+            if(parent == _parent)
+            {
+                BlankChange("Node.SetParent");
+                return;
+            }
+
+            if(parent != null)
+            {
+                parent.AddChildNode(this);
+            }
+            else
+            {
+                _parent?.RemoveChildNode(this);
+            }
+        }
+
+        /// <summary>
+        /// Internal parent setter
+        /// </summary>
+        /// <param name="newParent"></param>
+        internal void InternalSetParent(ParentNode? newParent, bool updateVersionIndex, int oldParentIndex, int newParentIndex)
+        {
+            BeginChangeGroup("Node.InternalSetParent");
+
+            ParentNode? oldParent = _parent;
+            TrackFieldChange(this, nameof(_parent), newParent, "Node._parent");
+
+            if(oldParent?.Format != newParent?.Format)
+            {
+                oldParent?.Format?.RemoveBranchStringNodes(this);
+                newParent?.Format?.AddBranchStringNodes(this, updateVersionIndex);
+                InvokeHeaderChanged(new(oldParent?.Format, newParent?.Format));
+            }
+
+            ParentChanged?.Invoke(this, new(oldParent, newParent));
+
+            oldParent?.InvokeChildrenChanged(oldParentIndex, -1);
+            newParent?.InvokeChildrenChanged(-1, newParentIndex);
+
+            EndChangeGroup();
+        }
+
+        /// <summary>
+        /// Used for relaying the parents header changed event back to this node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="args"></param>
+        internal virtual void InvokeHeaderChanged(NodeHeaderChangedEventArgs args)
+        {
+            HeaderChanged?.Invoke(this, args);
+        }
+
+
+        public StringNode[] GetStringNodes()
+        {
+            if(this is ParentNode parent)
+            {
+                return parent.OfType<StringNode>().ToArray();
+            }
+            else if(this is StringNode stringNode)
+            {
+                return [stringNode];
+            }
+
+            throw new ArgumentException($"Node \"{Name}\" is not of valid type!");
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+}

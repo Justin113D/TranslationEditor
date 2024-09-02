@@ -1,0 +1,208 @@
+<ResourceDictionary 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.NodeTree"
+	xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
+	x:ClassModifier="internal">
+
+	<local:NodeStateToColorConverter x:Key="NodeStateToColorConverter"/>
+	
+	<ControlTheme
+		x:Key="{x:Type local:NodeTreeView}"
+		TargetType="local:NodeTreeView"
+		BasedOn="{StaticResource {x:Type TreeView}}"/>
+
+	<ControlTheme x:Key="NodeTreeViewExpandCollapseChevron" TargetType="ToggleButton">
+		<Setter Property="Background" Value="Transparent"/>
+		
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border
+					Background="{TemplateBinding Background}"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Padding="{TemplateBinding Padding}"
+					CornerRadius="2">
+
+					<Panel Width="12" Height="12" HorizontalAlignment="Left" Margin="24 0 6 0">
+						<Path
+							x:Name="ChevronPath"
+							Data="{StaticResource TreeViewItemCollapsedChevronPathData}"
+							Fill="{DynamicResource ForegroundColor1}"
+							Stretch="Uniform"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"/>
+					</Panel>
+
+				</Border>
+			</ControlTemplate>
+		</Setter>
+
+		<Style Selector="^:pointerover">
+			<Setter Property="Background" Value="{DynamicResource HighlightedColor}" />
+		</Style>
+
+		<Style Selector="^:pressed">
+			<Setter Property="Background" Value="{DynamicResource PressedColor}" />
+		</Style>
+
+		<Style Selector="^:checked /template/ Path#ChevronPath">
+			<Setter Property="Data" Value="{StaticResource TreeViewItemExpandedChevronPathData}" />
+		</Style>
+
+		<Style Selector="^:disabled /template/ Path#ChevronPath">
+			<Setter Property="Fill" Value="{DynamicResource ForegroundColor4}" />
+		</Style>
+	</ControlTheme>
+
+	<ControlTheme 
+		x:Key="{x:Type local:NodeTreeViewItem}" 
+		TargetType="local:NodeTreeViewItem" 
+		x:DataType="vm:NodeViewModel">
+
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="MinHeight" Value="32" />
+		<Setter Property="CornerRadius" Value="2"/>
+		<Setter Property="Padding" Value="2 0 0 0"/>
+
+		<Setter Property="IsExpanded" Value="{Binding Expanded, Mode=TwoWay}"/>
+		<Setter Property="CanExpand" Value="{Binding CanExpand}"/>
+		<Setter Property="ItemsSource" Value="{Binding ChildNodes}"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+		<Setter Property="Template">
+			<ControlTemplate>
+				<StackPanel>
+					<Border
+						Name="PART_LayoutRoot"
+						Classes="TreeViewItemLayoutRoot"
+						Focusable="True"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						MinHeight="{TemplateBinding MinHeight}"
+						TemplatedControl.IsTemplateFocusTarget="True">
+
+						<Grid ColumnDefinitions="auto, *">
+							<Border 
+								Name="HighlightedBorder"
+								Opacity="0.2"
+								Background="{DynamicResource HighlightedColor}"
+								IsVisible="False"
+								Grid.ColumnSpan="2" />
+
+							<Grid 
+								ColumnDefinitions="auto,auto,auto,*" 
+								Width="{Binding $parent[local:NodeTreeView].NameWidth}">
+								
+								<ToggleButton
+									Grid.ColumnSpan="4"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch"
+									Name="PART_ExpandCollapseChevron"
+									IsVisible="False"
+									Theme="{StaticResource NodeTreeViewExpandCollapseChevron}"
+									Focusable="False"
+									IsEnabled="{TemplateBinding IsEnabled}"
+									IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+									Padding="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeViewItemLeftMarginConverter}}"
+									
+									ToolTip.Tip="A group of translations. Click to expand.
+									&#10;
+									&#10;The Colored block represents the content's state:
+									&#10;    - Red: Not yet translated
+									&#10;    - Yellow: Needs re-translation
+									&#10;    - Green: All Translated"/>
+								
+								<Panel Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeViewItemLeftMarginConverter}}"/>
+
+								<Border 
+									Grid.Column="1" 
+									Name="StateMarker"
+									Background="{Binding State, Converter={StaticResource NodeStateToColorConverter}}" 
+									Width="10" 
+									Margin="6 4" 
+									CornerRadius="3" 
+									VerticalAlignment="Stretch" 
+									HorizontalAlignment="Left"
+									ToolTip.Tip="State of the tarnslation:
+									&#10;    - Red: Not yet translated
+									&#10;    - Yellow: Needs re-translation
+									&#10;    - Green: Translated"/>								
+								
+								<Panel
+									Name="ButtonSpacer"
+									Grid.Column="2" 
+									Margin="2 0 6 0"
+									Width="12" 
+									IsVisible="False"/>
+
+								<Border 
+									Grid.Column="3" 
+									Background="Transparent"
+									Name="NamePanel"
+									ToolTip.Tip="Identifier by which the developer accesses the translation"
+									VerticalAlignment="Stretch"
+									HorizontalAlignment="Stretch">
+									
+									<SelectableTextBlock 
+										Name="NameBlock"
+										Text="{Binding Name}"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+										ToolTip.Tip="Identifier by which the developer accesses the translation"/>
+								</Border>
+								
+								
+							</Grid>
+							
+							<ContentPresenter
+								Name="PART_HeaderPresenter"
+								Grid.Column="1"
+								Focusable="False"
+								Background="Transparent"
+								Content="{TemplateBinding Header}"
+								ContentTemplate="{TemplateBinding HeaderTemplate}"
+								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalAlignment}"
+								Margin="{TemplateBinding Padding}" />
+						</Grid>
+					</Border>
+
+					<ItemsPresenter
+						Name="PART_ItemsPresenter"
+						IsVisible="{TemplateBinding IsExpanded}"
+						ItemsPanel="{TemplateBinding ItemsPanel}" />
+				</StackPanel>
+			</ControlTemplate>
+		</Setter>
+
+		<!--  When empty/cannot expand -->
+		<Style Selector="^:canexpand, ^:not(:empty)">
+			<Style Selector="^ /template/ ToggleButton#PART_ExpandCollapseChevron">
+				<Setter Property="IsVisible" Value="True" />
+			</Style>
+			<Style Selector="^ /template/ Panel#ButtonSpacer">
+				<Setter Property="IsVisible" Value="True" />
+			</Style>
+			<Style Selector="^ /template/ Border#StateMarker">
+				<Setter Property="IsHitTestVisible" Value="False" />
+			</Style>
+			<Style Selector="^ /template/ SelectableTextBlock#NameBlock">
+				<Setter Property="IsHitTestVisible" Value="False" />
+			</Style>
+			<Style Selector="^ /template/ Border#NamePanel">
+				<Setter Property="IsHitTestVisible" Value="False" />
+			</Style>
+		</Style>
+
+		<!--  Highlighted state  -->
+		<Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover Border#HighlightedBorder">
+			<Setter Property="IsVisible" Value="True" />
+		</Style>
+		
+	</ControlTheme>
+
+</ResourceDictionary>

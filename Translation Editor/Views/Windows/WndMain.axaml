@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
+		xmlns:toolbar="using:J113D.TranslationEditor.ProjectApp.Views.Toolbar"
+		xmlns:node="using:J113D.TranslationEditor.ProjectApp.Views.NodeTree"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="J113D.TranslationEditor.ProjectApp.Views.Windows.WndMain"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/Icon.ico"
+        Title="Translation Editor">
+
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+
+		<toolbar:UcToolbar x:Name="Toolbar" Grid.Row="0"/>
+
+		<node:UcNodeTree 
+			Grid.Row="1"
+			DataContext="{Binding Format}"
+			Margin="0 8 0 4"/>
+		
+		<toolbar:UcInfoBar Grid.Row="2" />
+	</Grid>
+
+
+</Window>

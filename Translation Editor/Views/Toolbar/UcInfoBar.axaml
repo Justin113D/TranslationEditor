@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="J113D.TranslationEditor.ProjectApp.Views.Toolbar.UcInfoBar"
+			 x:DataType="vm:MainViewModel">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="auto"/>
+		</Grid.ColumnDefinitions>
+
+		<Border 
+			Background="Transparent" 
+			Classes.Success="{Binding MessageType, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static vm:ToolbarMessageType.Success}}"
+			Classes.Error="{Binding MessageType, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static vm:ToolbarMessageType.Error}}"
+			CornerRadius="3" 
+			Padding="8 4">
+			
+			<Border.Styles>
+				<Style Selector="Border.Success">
+					<Style.Animations>
+						<Animation Duration="0:0:0.2" FillMode="Forward">
+							<KeyFrame Cue="0%">
+								<Setter Property="Background" Value="#c9f0ad"/>
+							</KeyFrame>
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource GreenColor}"/>
+							</KeyFrame>
+						</Animation>
+						
+						<Animation Duration="0:0:2" Delay="0:0:2" FillMode="Forward" Easing="QuadraticEaseIn">
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource TransparentGreenColor}"/>
+							</KeyFrame>
+						</Animation>
+					</Style.Animations>
+				</Style>
+
+				<Style Selector="Border.Error">
+					<Style.Animations>
+						<Animation Duration="0:0:0.2" FillMode="Forward">
+							<KeyFrame Cue="0%">
+								<Setter Property="Background" Value="#ffb5be"/>
+							</KeyFrame>
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource RedColor}"/>
+							</KeyFrame>
+						</Animation>
+
+						<Animation Duration="0:0:2" Delay="0:0:2" FillMode="Forward" Easing="QuadraticEaseIn">
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource TransparentRedColor}"/>
+							</KeyFrame>
+						</Animation>
+					</Style.Animations>
+				</Style>
+			</Border.Styles>
+		
+			<TextBlock Text="{Binding Message}" FontWeight="Medium" VerticalAlignment="Center"/>
+		</Border>
+		
+		<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10 3" DataContext="{Binding Format}">
+
+			<TextBlock Text="{Binding UntranslatedNodes, FallbackValue=0}" Foreground="{DynamicResource RedColor}"/>
+			<TextBlock Text=" / " />
+			<TextBlock Text="{Binding OutdatedNodes, FallbackValue=0}" Foreground="{DynamicResource YellowColor}"/>
+			<TextBlock Text=" / " />
+			<TextBlock Text="{Binding TranslatedNodes, FallbackValue=0}" Foreground="{DynamicResource GreenColor}"/>
+		</StackPanel>
+	</Grid>
+	
+</UserControl>

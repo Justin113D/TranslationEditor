@@ -1,0 +1,101 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:converters="using:J113D.Avalonia.Converters"
+		xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Windows"
+		xmlns:config="using:J113D.TranslationEditor.ProjectApp.Config"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        x:Class="J113D.TranslationEditor.ProjectApp.Views.Windows.WndSettings"
+        Title="Settings"
+		MinWidth="400"
+		MaxWidth="600"
+		SizeToContent="WidthAndHeight"
+		x:DataType="config:SettingsViewModel">
+
+	<Border Background="{DynamicResource BackgroundColor1}" Padding="8" CornerRadius="3">
+		<StackPanel Spacing="8" Grid.IsSharedSizeScope="True">
+
+			<StackPanel.Styles>
+				<Style Selector="HeaderedContentControl">
+					<Setter Property="VerticalContentAlignment" Value="Center"/>
+					
+					<Setter Property="Template">
+						<ControlTemplate>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto" SharedSizeGroup="Header"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+
+								<ContentPresenter
+									Name="PART_HeaderPresenter"
+									Content="{TemplateBinding Header}"
+									RecognizesAccessKey="True"
+									ContentTemplate="{TemplateBinding HeaderTemplate}"
+									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+									Grid.Column="0"
+									Margin="0 8 8 8"/>
+
+								<ContentPresenter
+									Name="PART_ContentPresenter"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									Content="{TemplateBinding Content}"
+									RecognizesAccessKey="True"
+									VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									Grid.Column="1" />
+							</Grid>
+						</ControlTemplate>
+					</Setter>
+				</Style>
+				
+			</StackPanel.Styles>
+
+			<HeaderedContentControl Header="Theme">
+				<ComboBox 
+					PlaceholderText="Dark" 
+					MinWidth="150"
+					ItemsSource="{Binding Themes}"
+					SelectedItem="{Binding Theme}"
+					ToolTip.Tip="Visual display variant of the application"/>
+			</HeaderedContentControl>
+
+			<HeaderedContentControl Header="Font Size">
+				<TextBox 
+					Watermark="14"
+					Text="{Binding FontSizeText}"
+					ToolTip.Tip="Font size across the entire application"/>
+			</HeaderedContentControl>
+
+			<HeaderedContentControl Header="Undo/Redo limit">
+				<TextBox
+					Watermark="100"
+					Text="{Binding UndoRedoLimitText}"
+					ToolTip.Tip="Number of changes that get recorded by Undo/Redo.&#13;If the number of changes exceeds the number of this setting, the oldest change will be discarded.&#13;!! Changing this number will discard any previously recorded changes."/>
+			</HeaderedContentControl>
+
+			<HeaderedContentControl Header="Startup Format File">
+				<Grid ColumnDefinitions="*,auto" MinWidth="200">
+					<TextBox 
+						Grid.Column="0"
+						Watermark="Format.json"
+						Text="{Binding StartupFormatFile}"
+						ToolTip.Tip="Path to the format that will be automatically loaded when the application is started"/>
+
+					<Button
+						Grid.Column="1"
+						Margin="8 0 0 0"
+						Click="OnFileButtonClicked">
+						<Button.Content>
+							<Image Source="avares://J113D.Avalonia/Icons/OpenFolder.png"/>
+						</Button.Content>
+					</Button>
+					
+				</Grid>
+			</HeaderedContentControl>
+		</StackPanel>
+	</Border>
+	
+</Window>
