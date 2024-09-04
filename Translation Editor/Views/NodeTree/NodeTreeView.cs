@@ -9,10 +9,10 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
     {
 
         public static readonly StyledProperty<double> NameWidthProperty =
-            AvaloniaProperty.Register<TreeViewItem, double>(nameof(NameWidth));
+            AvaloniaProperty.Register<NodeTreeView, double>(nameof(NameWidth));
 
         public static readonly StyledProperty<double> ContentWidthProperty =
-            AvaloniaProperty.Register<TreeViewItem, double>(nameof(ContentWidth));
+            AvaloniaProperty.Register<NodeTreeView, double>(nameof(ContentWidth));
 
         public double NameWidth
         {

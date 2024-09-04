@@ -62,9 +62,9 @@
 		<!-- Header -->
 		
 		<Label Grid.Column="0" Content="Name" x:Name="NameHeader"/>
-		<GridSplitter Grid.Column="1"/>
+		<GridSplitter Grid.Column="1" IsTabStop="False"/>
 		<Label Grid.Column="2" Content="Translation &amp; Use Default" x:Name="ContentHeader"/>
-		<GridSplitter Grid.Column="3"/>
+		<GridSplitter Grid.Column="3" IsTabStop="False"/>
 		<Label Grid.Column="4" Content="Description &amp; Default Value"/>
 
 		<!-- Tree -->

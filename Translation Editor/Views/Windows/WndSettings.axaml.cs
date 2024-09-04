@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace J113D.TranslationEditor.ProjectApp.Views.Windows
 {
     [DoNotNotify]
-    public partial class WndSettings : Window
+    public partial class WndSettings : J113D.Avalonia.Controls.Window
     {
         public WndSettings()
         {
@@ -43,6 +43,11 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Windows
 
                 ((SettingsViewModel)DataContext!).StartupFormatFile = files[0].Path.AbsolutePath;
             });
+        }
+
+        private void OnCloseClicked(object? sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

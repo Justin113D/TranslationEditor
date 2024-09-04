@@ -10,7 +10,7 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
     internal class NodeTreeViewItem : TreeViewItem
     {
         public static readonly StyledProperty<bool> CanExpandProperty =
-            AvaloniaProperty.Register<TreeViewItem, bool>(nameof(CanExpand));
+            AvaloniaProperty.Register<NodeTreeViewItem, bool>(nameof(CanExpand));
 
         public bool CanExpand
         {

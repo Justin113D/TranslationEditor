@@ -1,17 +1,21 @@
-<Window xmlns="https://github.com/avaloniaui"
+<controls:Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:converters="using:J113D.Avalonia.Converters"
 		xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Windows"
 		xmlns:config="using:J113D.TranslationEditor.ProjectApp.Config"
+		xmlns:controls="using:J113D.Avalonia.Controls"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
         x:Class="J113D.TranslationEditor.ProjectApp.Views.Windows.WndSettings"
         Title="Settings"
 		MinWidth="400"
 		MaxWidth="600"
 		SizeToContent="WidthAndHeight"
-		x:DataType="config:SettingsViewModel">
+		x:DataType="config:SettingsViewModel"
+		HideMinimizeButton="True"
+		HideRestoreButton="True"
+		CanResize="False">
 
 	<Border Background="{DynamicResource BackgroundColor1}" Padding="8" CornerRadius="3">
 		<StackPanel Spacing="8" Grid.IsSharedSizeScope="True">
@@ -19,7 +23,7 @@
 			<StackPanel.Styles>
 				<Style Selector="HeaderedContentControl">
 					<Setter Property="VerticalContentAlignment" Value="Center"/>
-					
+
 					<Setter Property="Template">
 						<ControlTemplate>
 							<Grid>
@@ -50,12 +54,12 @@
 						</ControlTemplate>
 					</Setter>
 				</Style>
-				
+
 			</StackPanel.Styles>
 
 			<HeaderedContentControl Header="Theme">
-				<ComboBox 
-					PlaceholderText="Dark" 
+				<ComboBox
+					PlaceholderText="Dark"
 					MinWidth="150"
 					ItemsSource="{Binding Themes}"
 					SelectedItem="{Binding Theme}"
@@ -63,7 +67,7 @@
 			</HeaderedContentControl>
 
 			<HeaderedContentControl Header="Font Size">
-				<TextBox 
+				<TextBox
 					Watermark="14"
 					Text="{Binding FontSizeText}"
 					ToolTip.Tip="Font size across the entire application"/>
@@ -78,7 +82,7 @@
 
 			<HeaderedContentControl Header="Startup Format File">
 				<Grid ColumnDefinitions="*,auto" MinWidth="200">
-					<TextBox 
+					<TextBox
 						Grid.Column="0"
 						Watermark="Format.json"
 						Text="{Binding StartupFormatFile}"
@@ -92,10 +96,14 @@
 							<Image Source="avares://J113D.Avalonia/Icons/OpenFolder.png"/>
 						</Button.Content>
 					</Button>
-					
+
 				</Grid>
 			</HeaderedContentControl>
+
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 20 0 0">
+				<Button Content="Close" MinWidth="80" Click="OnCloseClicked"/>
+			</StackPanel>
 		</StackPanel>
 	</Border>
-	
-</Window>
+
+</controls:Window>
