@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
+using HarfBuzzSharp;
 using J113D.TranslationEditor.ProjectApp.ViewModels;
 using PropertyChanged;
 using System;
@@ -13,7 +14,7 @@ using System.Linq;
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {
     [DoNotNotify]
-    internal class NodeTreeViewItem : TreeViewItem, ICustomKeyboardNavigation
+    internal class NodeTreeViewItem : TreeViewItem
     {
         private TextBox? _nodeValueTextBox;
         private CheckBox? _defaultValueCheckBox;
@@ -29,69 +30,15 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
             }
         }
 
-        public (bool handled, IInputElement? next) GetNext(IInputElement element, NavigationDirection direction)
+
+        public IInputElement? GetInitialControl(NavigationDirection direction)
         {
-            IInputElement? result = GetNextItem(element, direction);
-
-            if(result != null)
-            {
-                return (true, result);
-            }
-
-            NodeTreeView tree = this.FindAncestorOfType<NodeTreeView>()!;
-            return ((ICustomKeyboardNavigation)tree).GetNext(this, direction);
+            return direction == NavigationDirection.Next && _nodeValueTextBox!.IsEnabled
+                    ? _nodeValueTextBox
+                    : _defaultValueCheckBox;
         }
 
-        private IInputElement? GetNextItem(IInputElement element, NavigationDirection direction)
-        {
-            if(this != element && !this.IsVisualAncestorOf((Visual)element))
-            {
-                return null;
-            }
-
-            if(DataContext is StringNodeViewModel)
-            {
-                IInputElement? stringNodeResult = GetStringNodeControl(element, direction);
-                if(stringNodeResult != null)
-                {
-                    return stringNodeResult;
-                }
-            }
-
-            NodeTreeViewItem? resultItem;
-
-            if(direction == NavigationDirection.Previous)
-            {
-                resultItem = GetPreviousSibling(this);
-            }
-            else if(ItemCount == 0)
-            {
-                resultItem = GetNextSibling(this);
-            }
-            else
-            {
-                if(!IsExpanded)
-                {
-                    IsExpanded = true;
-                    UpdateLayout();
-                }
-
-                resultItem = (NodeTreeViewItem)ContainerFromIndex(0)!;
-            }
-
-            IInputElement? result = resultItem;
-
-            if(resultItem?.DataContext is StringNodeViewModel)
-            {
-                result = direction == NavigationDirection.Next && resultItem._nodeValueTextBox!.IsEnabled 
-                    ? resultItem._nodeValueTextBox 
-                    : resultItem._defaultValueCheckBox;
-            }
-
-            return result;
-        }
-
-        private IInputElement? GetStringNodeControl(IInputElement element, NavigationDirection direction)
+        public IInputElement? GetStringNodeControl(IInputElement element, NavigationDirection direction)
         {
             Visual visual = (Visual)element;
 
@@ -117,18 +64,18 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
                 }
             }
             
-            
             return null;
         }
 
-        private static NodeTreeViewItem? GetPreviousSibling(NodeTreeViewItem item)
+
+        public NodeTreeViewItem? GetPreviousSibling()
         {
-            NodeTreeViewItem[] siblings = item.GetLogicalSiblings().OfType<NodeTreeViewItem>().ToArray();
-            int index = Array.IndexOf(siblings, item);
+            NodeTreeViewItem[] siblings = this.GetLogicalSiblings().OfType<NodeTreeViewItem>().ToArray();
+            int index = Array.IndexOf(siblings, this);
 
             if(index == 0)
             {
-                return item.GetLogicalParent<NodeTreeViewItem>();
+                return this.GetLogicalParent<NodeTreeViewItem>();
             }
 
             NodeTreeViewItem? result = siblings[index - 1];
@@ -147,18 +94,18 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
             return result;
         }
 
-        private static NodeTreeViewItem? GetNextSibling(NodeTreeViewItem item)
+        public NodeTreeViewItem? GetNextSibling()
         {
-            NodeTreeViewItem[] siblings = item.GetLogicalSiblings().OfType<NodeTreeViewItem>().ToArray();
-            int index = Array.IndexOf(siblings, item);
+            NodeTreeViewItem[] siblings = this.GetLogicalSiblings().OfType<NodeTreeViewItem>().ToArray();
+            int index = Array.IndexOf(siblings, this);
 
             if(index < siblings.Length - 1)
             {
                 return siblings[index + 1];
             }
 
-            NodeTreeViewItem? parent = item.GetLogicalParent<NodeTreeViewItem>();
-            return parent == null ? null : GetNextSibling(parent);
+            NodeTreeViewItem? parent = this.GetLogicalParent<NodeTreeViewItem>();
+            return parent?.GetNextSibling();
         }
     }
 }
