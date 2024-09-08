@@ -1,6 +1,5 @@
 ﻿using J113D.TranslationEditor.Data;
 using J113D.UndoRedo;
-using System.IO;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {

@@ -6,6 +6,14 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
     public class StringNodeViewModel : NodeViewModel
     {
+        #region private fields
+#pragma warning disable IDE0044
+
+        private string _realNodeValue;
+
+#pragma warning restore IDE0044
+        #endregion
+
         private StringNode StringNode
             => (StringNode)_node;
 
@@ -14,15 +22,16 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
         public string NodeValue
         {
-            get => StringNode.NodeValue;
+            get => _realNodeValue;
             set
             {
-                if(StringNode.NodeValue == value)
+                if(_realNodeValue == value)
                 {
                     return;
                 }
 
                 BeginChangeGroup();
+                TrackFieldChange(this, nameof(_realNodeValue), value);
                 StringNode.NodeValue = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
                 this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
@@ -42,6 +51,11 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
                 BeginChangeGroup();
                 StringNode.KeepDefault = value;
+                if(value)
+                {
+                    TrackFieldChange(this, nameof(_realNodeValue), StringNode.NodeValue);
+                }
+
                 this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
                 this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
                 EndChangeGroup();
@@ -50,12 +64,20 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
 
         public StringNodeViewModel(FormatViewModel project, StringNode node) 
-            : base(project, node) { }
+            : base(project, node)
+        {
+            _realNodeValue = node.NodeValue;
+        }
 
 
         public void ResetValue()
         {
+            BeginChangeGroup();
             StringNode.ResetValue();
+            TrackFieldChange(this, nameof(_realNodeValue), StringNode.NodeValue);
+            this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
+            this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
+            EndChangeGroup();
         }
 
         protected override void OnStateChanged(Node node, NodeStateChangedEventArgs args)
