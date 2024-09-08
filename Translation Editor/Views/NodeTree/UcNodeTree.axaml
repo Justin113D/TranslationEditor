@@ -15,7 +15,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<MergeResourceInclude Source="avares://TranslationEditor/Views/NodeTree/NodeTreeView.axaml" />
+				<MergeResourceInclude Source="avares://TranslationEditor/Views/NodeTree/NodeTreeViewItem.axaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 		

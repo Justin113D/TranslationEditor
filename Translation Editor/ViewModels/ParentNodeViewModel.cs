@@ -1,17 +1,17 @@
 ﻿using J113D.TranslationEditor.Data;
+using System.Collections.ObjectModel;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
     public class ParentNodeViewModel : NodeViewModel
     {
+        private bool _expanded;
+
         private ParentNode ParentNode
             => (ParentNode)_node;
 
-        private bool _expanded;
+        public ReadOnlyCollection<NodeViewModel>? ChildNodes { get; protected set; }
 
-        /// <summary>
-        /// Whether the node is expanded or collapsed
-        /// </summary>
         public override bool Expanded
         {
             get => _expanded;
@@ -24,27 +24,27 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
                 _expanded = value;
 
-                if(_expanded && ChildNodes == null)
+                if(_expanded && ChildNodes != null && ChildNodes[0] == this)
                 {
                     ChildNodes = CreateNodeViewModels(_project, ParentNode);
                 }
             }
         }
 
-        /// <summary>
-        /// Whether the node can be expanded at all
-        /// </summary>
-        public override bool CanExpand
-            => ParentNode.ChildNodes.Count > 0;
-
 
         public ParentNodeViewModel(FormatViewModel project, ParentNode node)
-            : base(project, node) { }
+            : base(project, node)
+        {
+            if(ParentNode.ChildNodes.Count > 0)
+            {
+                ChildNodes = new([this]);
+            }
+        }
 
 
         public override void RefreshNodeValues()
         {
-            if(ChildNodes == null)
+            if(ChildNodes == null || ChildNodes[0] == this)
             {
                 return;
             }
@@ -70,7 +70,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
         public void CollapseAll()
         {
-            if(ChildNodes == null)
+            if(ChildNodes == null || ChildNodes[0] == this)
             {
                 return;
             }

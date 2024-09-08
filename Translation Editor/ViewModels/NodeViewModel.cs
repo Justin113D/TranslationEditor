@@ -19,13 +19,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         public NodeState State
             => _node.State;
 
-        public ReadOnlyCollection<NodeViewModel>? ChildNodes { get; protected set; }
-
-        public virtual bool CanExpand
-            => false;
-
         public virtual bool Expanded { get; set; }
-
 
         protected NodeViewModel(FormatViewModel project, Node node)
         {

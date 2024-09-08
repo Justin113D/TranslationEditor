@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using PropertyChanged;
+using System;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {
@@ -14,6 +15,8 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
         public static readonly StyledProperty<double> ContentWidthProperty =
             AvaloniaProperty.Register<NodeTreeView, double>(nameof(ContentWidth));
 
+        protected override Type StyleKeyOverride => typeof(TreeView);
+
         public double NameWidth
         {
             get => GetValue(NameWidthProperty);
@@ -24,16 +27,6 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
         {
             get => GetValue(ContentWidthProperty);
             set => SetValue(ContentWidthProperty, value);
-        }
-
-        protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
-        {
-            return new NodeTreeViewItem();
-        }
-
-        protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
-        {
-            return NeedsContainer<NodeTreeViewItem>(item, out recycleKey);
         }
     }
 }

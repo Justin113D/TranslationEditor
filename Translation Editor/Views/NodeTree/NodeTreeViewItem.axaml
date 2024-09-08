@@ -7,11 +7,6 @@
 
 	<local:NodeStateToColorConverter x:Key="NodeStateToColorConverter"/>
 	
-	<ControlTheme
-		x:Key="{x:Type local:NodeTreeView}"
-		TargetType="local:NodeTreeView"
-		BasedOn="{StaticResource {x:Type TreeView}}"/>
-
 	<ControlTheme x:Key="NodeTreeViewExpandCollapseChevron" TargetType="ToggleButton">
 		<Setter Property="Background" Value="Transparent"/>
 		
@@ -56,8 +51,8 @@
 	</ControlTheme>
 
 	<ControlTheme 
-		x:Key="{x:Type local:NodeTreeViewItem}" 
-		TargetType="local:NodeTreeViewItem" 
+		x:Key="{x:Type TreeViewItem}" 
+		TargetType="TreeViewItem" 
 		x:DataType="vm:NodeViewModel">
 
 		<Setter Property="Background" Value="Transparent" />
@@ -66,8 +61,6 @@
 		<Setter Property="Padding" Value="2 0 0 0"/>
 
 		<Setter Property="IsExpanded" Value="{Binding Expanded, Mode=TwoWay}"/>
-		<Setter Property="CanExpand" Value="{Binding CanExpand}"/>
-		<Setter Property="ItemsSource" Value="{Binding ChildNodes}"/>
 		<Setter Property="VerticalAlignment" Value="Stretch"/>
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 
@@ -180,7 +173,7 @@
 		</Setter>
 
 		<!--  When empty/cannot expand -->
-		<Style Selector="^:canexpand, ^:not(:empty)">
+		<Style Selector="^:not(:empty)">
 			<Style Selector="^ /template/ ToggleButton#PART_ExpandCollapseChevron">
 				<Setter Property="IsVisible" Value="True" />
 			</Style>
