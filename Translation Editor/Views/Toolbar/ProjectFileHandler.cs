@@ -2,7 +2,6 @@
 using Avalonia.Platform.Storage;
 using J113D.Avalonia.Utilities.IO;
 using J113D.TranslationEditor.ProjectApp.ViewModels;
-using J113D.UndoRedo;
 using System;
 using System.Collections.Generic;
 

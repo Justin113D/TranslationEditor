@@ -51,8 +51,8 @@
 	</ControlTheme>
 
 	<ControlTheme 
-		x:Key="{x:Type TreeViewItem}" 
-		TargetType="TreeViewItem" 
+		x:Key="{x:Type local:NodeTreeViewItem}" 
+		TargetType="local:NodeTreeViewItem" 
 		x:DataType="vm:NodeViewModel">
 
 		<Setter Property="Background" Value="Transparent" />
@@ -70,13 +70,15 @@
 					<Border
 						Name="PART_LayoutRoot"
 						Classes="TreeViewItemLayoutRoot"
-						Focusable="True"
 						Background="{TemplateBinding Background}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						CornerRadius="{TemplateBinding CornerRadius}"
 						MinHeight="{TemplateBinding MinHeight}"
-						TemplatedControl.IsTemplateFocusTarget="True">
+						TemplatedControl.IsTemplateFocusTarget="True"
+						Focusable="False"
+						IsTabStop="False"
+						KeyboardNavigation.TabNavigation="Continue">
 
 						<Grid ColumnDefinitions="auto, *">
 							<Border 
@@ -107,7 +109,8 @@
 									&#10;The Colored block represents the content's state:
 									&#10;    - Red: Not yet translated
 									&#10;    - Yellow: Needs re-translation
-									&#10;    - Green: All Translated"/>
+									&#10;    - Green: All Translated"
+									IsTabStop="False"/>
 								
 								<Panel Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeViewItemLeftMarginConverter}}"/>
 
@@ -145,7 +148,8 @@
 										Text="{Binding Name}"
 										VerticalAlignment="Center"
 										HorizontalAlignment="Left"
-										ToolTip.Tip="Identifier by which the developer accesses the translation"/>
+										ToolTip.Tip="Identifier by which the developer accesses the translation"
+										IsTabStop="False"/>
 								</Border>
 								
 								
@@ -167,7 +171,7 @@
 					<ItemsPresenter
 						Name="PART_ItemsPresenter"
 						IsVisible="{TemplateBinding IsExpanded}"
-						ItemsPanel="{TemplateBinding ItemsPanel}" />
+						ItemsPanel="{TemplateBinding ItemsPanel}"/>
 				</StackPanel>
 			</ControlTemplate>
 		</Setter>

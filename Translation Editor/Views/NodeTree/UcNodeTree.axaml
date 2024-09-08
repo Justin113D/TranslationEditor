@@ -68,7 +68,7 @@
 		<Label Grid.Column="4" Content="Description &amp; Default Value"/>
 
 		<!-- Tree -->
-		
+
 		<local:NodeTreeView
 			Grid.Row="1"
 			Grid.ColumnSpan="5"
@@ -78,7 +78,7 @@
 			ContentWidth="{Binding #ContentHeader.Bounds.Width}"
 			HorizontalAlignment="Stretch"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-			
+
 			<local:NodeTreeView.ItemTemplate>
 				<ds:TreeDataTemplateSelector>
 					<TreeDataTemplate x:DataType="vm:ParentNodeViewModel" ItemsSource="{Binding ChildNodes}">
@@ -89,7 +89,7 @@
 								Margin="6"
 								Grid.Column="1"
 								Text="{Binding Description}"
-								TextWrapping="Wrap" 
+								TextWrapping="Wrap"
 								VerticalAlignment="Center"/>
 						</Grid>
 					</TreeDataTemplate>
@@ -97,26 +97,31 @@
 					<TreeDataTemplate x:DataType="vm:StringNodeViewModel">
 						<Grid ColumnDefinitions="auto, *">
 
-							<Grid 
-								ColumnDefinitions="*, auto" 
+							<Grid
+								ColumnDefinitions="*, auto"
 								Width="{Binding $parent[local:NodeTreeView].ContentWidth}">
 
 								<TextBox
+									x:Name="NodeValueTextBox"
 									IsUndoEnabled="False"
 									Text="{Binding NodeValue, Mode=TwoWay, Converter={StaticResource NullToStringConverter}, UpdateSourceTrigger=LostFocus}"
 									AcceptsReturn="True"
 									VerticalContentAlignment="Top"
 									Margin="0 2"
-									IsEnabled="{Binding KeepDefault, Converter={x:Static converters:BoolConverters.Not}}"/>
-							
-								<CheckBox 
-									Grid.Column="1" 
-									Padding="0" 
+									IsEnabled="{Binding KeepDefault, Converter={x:Static converters:BoolConverters.Not}}"
+									IsTabStop="True"/>
+
+								<CheckBox
+									Grid.Column="1"
+									x:Name="DefaultValueCheckBox"
+									Padding="0"
 									Margin="4 8"
 									IsChecked="{Binding KeepDefault}"
-									ToolTip.Tip="Whether to use the default value, instead of translating it"/>
+									ToolTip.Tip="Whether to use the default value, instead of translating it"
+									IsTabStop="True"
+									VerticalAlignment="Center"/>
 							</Grid>
-							
+
 
 							<StackPanel
 								Grid.Column="1"
