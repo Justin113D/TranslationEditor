@@ -100,9 +100,10 @@
 				</Grid>
 			</HeaderedContentControl>
 
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 20 0 0">
-				<Button Content="Close" MinWidth="80" Click="OnCloseClicked"/>
-			</StackPanel>
+			<Grid ColumnDefinitions="*,auto">
+				<TextBlock Padding="4 0 0 4" Text="@Justin113D" VerticalAlignment="Bottom" Foreground="{DynamicResource ForegroundColor3}"/>
+				<Button Grid.Column="1" Content="Close" MinWidth="80" Click="OnCloseClicked"/>
+			</Grid>
 		</StackPanel>
 	</Border>
 

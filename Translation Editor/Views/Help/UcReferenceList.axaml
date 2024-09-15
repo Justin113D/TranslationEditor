@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="J113D.TranslationEditor.ProjectApp.Views.Help.UcReferenceList">
+	
+	<Border Background="{DynamicResource BackgroundColor1}" CornerRadius="3">
+		<StackPanel>
+			<StackPanel.Styles>
+				<Style Selector="TextBlock">
+					<Setter Property="Padding" Value="4"/>
+					<Setter Property="TextWrapping" Value="Wrap"/>
+				</Style>
+
+				<Style Selector="Border">
+					<Setter Property="Background" Value="{DynamicResource ForegroundColor2}"/>
+					<Setter Property="Opacity" Value="0.08"/>
+				</Style>
+			</StackPanel.Styles>
+
+			<TextBlock>
+				<Span FontWeight="Bold">1. Node name:</Span> The name of the node, by which the developer accesses the text. Every textnode has a unique, lowercase, spaceless name.
+			</TextBlock>
+
+			<Panel>
+				<Border/>
+				<TextBlock xml:space="preserve"><Span FontWeight="Bold">2. Node state:</Span> Every node has a state of translation:
+	- <Span FontWeight="Bold" Foreground="{DynamicResource RedColor}">Red</Span>: Not yet translated
+	- <Span FontWeight="Bold" Foreground="{DynamicResource GreenColor}">Green</Span>: Translated
+	- <Span FontWeight="Bold" Foreground="{DynamicResource YellowColor}">Yellow</Span>: Default value was changed between format versions and may need to be retranslated</TextBlock>
+
+			</Panel>
+
+			<TextBlock>
+				<Span FontWeight="Bold">3. Textnode value:</Span> This is where the translated text needs to be entered. <LineBreak/>
+				Note that spaces and newlines at the start or end get ignored.
+			</TextBlock>
+
+			<Panel>
+				<Border/>
+				<TextBlock>
+					<Span FontWeight="Bold">4. Use Default checkbox:</Span> If the text does not need translation (like for character names), then check this checkbox to indicate that a translation isnt needed.
+				</TextBlock>
+			</Panel>
+
+			<TextBlock>
+				<Span FontWeight="Bold">5. Description:</Span> A description of the node to give some context on the node that needs to be translated.
+			</TextBlock>
+
+			<Panel>
+				<Border/>
+				<TextBlock>
+					<Span FontWeight="Bold">6. Default Value:</Span> The default value (for reference).
+				</TextBlock>
+			</Panel>
+
+			<TextBlock>
+				<Span FontWeight="Bold">7. Node Group:</Span> A collection of nodes to help organize the format that you can collapse and expand.
+				<LineBreak/>They too have a state, which is the minimum state of work required among its children (e.g.: If any of the child nodes is red, it too is red).
+			</TextBlock>
+		</StackPanel>
+	</Border>
+	
+</UserControl>

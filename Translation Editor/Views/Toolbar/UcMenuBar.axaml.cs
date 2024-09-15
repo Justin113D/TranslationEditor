@@ -20,7 +20,7 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
         private readonly ProjectFileHandler _projectFileHandler;
         private readonly ImportProjectFileHandler _importProjectFileHandler;
         private readonly ExportFileHandler _exportFileHandler;
-        private readonly ExportFileHandler _importExportHandler;
+        public WndHelp? HelpWindow { get; private set; }
 
         private MainViewModel ViewModel
             => (MainViewModel)DataContext!;
@@ -194,7 +194,21 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 
         private void OnOpenHelp(object sender, RoutedEventArgs e)
         {
+            if(HelpWindow != null)
+            {
+                HelpWindow.Focus();
+                return;
+            }
 
+            Window topLevel = (Window)TopLevel.GetTopLevel(this)!;
+            HelpWindow = new();
+            HelpWindow.Show();
+            HelpWindow.Closed += OnCloseHelp;
+        }
+
+        private void OnCloseHelp(object? sender, EventArgs e)
+        {
+            HelpWindow = null;
         }
     }
 }

@@ -1,0 +1,140 @@
+<controls:Window
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="using:J113D.Avalonia.Controls"
+	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Windows"
+	xmlns:help="using:J113D.TranslationEditor.ProjectApp.Views.Help"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1700"
+    x:Class="J113D.TranslationEditor.ProjectApp.Views.Windows.WndHelp"
+    Title="Help"
+	Icon="avares://J113D.Avalonia/Utilities/MessageBox/Icons/Question.png"
+	HideRestoreButton="True"
+	Width="800"
+	MinWidth="600">
+
+	<controls:Window.Resources>
+		<help:FontSizeMultiplicatorConverter x:Key="TitleFontSizeConverter" Factor="1.5"/>
+		<help:FontSizeMultiplicatorConverter x:Key="CodeFontSizeConverter" Factor="1"/>
+	</controls:Window.Resources>
+
+	<controls:Window.Styles>
+		<Style Selector="TextBlock.Title">
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="FontSize" Value="{Binding $parent[controls:Window], Converter={StaticResource TitleFontSizeConverter}}"/>
+		</Style>
+
+		<Style Selector="Separator:not(.Vertical)">
+			<Setter Property="Margin" Value="8, 10"/>
+		</Style>
+		
+		<Style Selector="Button.Link">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Foreground" Value="{DynamicResource BlueColor}"/>
+			<Setter Property="BorderThickness" Value="0 0 0 1"/>
+			<Setter Property="CornerRadius" Value="0"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource BlueColor}"/>
+
+			<Style Selector="^:pointerover">
+				<Setter Property="Foreground" Value="{DynamicResource HighlightedBlueColor}"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource HighlightedBlueColor}"/>
+			</Style>
+
+			<Style Selector="^:pressed">
+				<Setter Property="Foreground" Value="{DynamicResource PressedBlueColor}"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource PressedBlueColor}"/>
+			</Style>
+		</Style>
+
+		<Style Selector="Span.Code">
+			<Setter Property="Background" Value="{DynamicResource BackgroundColor3}"/>
+			<Setter Property="FontFamily" Value="Consolas"/>
+			<Setter Property="FontSize" Value="{Binding $parent[controls:Window], Converter={StaticResource CodeFontSizeConverter}}"/>
+		</Style>
+
+		<Style Selector="Border.TextBlock">
+			<Setter Property="Background" Value="{DynamicResource BackgroundColor1}"/>
+			<Setter Property="CornerRadius" Value="3"/>
+			<Setter Property="Padding" Value="4"/>
+		</Style>
+	</controls:Window.Styles>
+	
+	<ScrollViewer AllowAutoHide="False" Margin="2">
+		<StackPanel Margin="2" Spacing="8">
+			
+			<!-- ////////// 1. Introduction ////////// -->
+			<TextBlock Classes="Title" Text="1. Introduction"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					Welcome to the translation editor! This help window should give you all info necessary to start translating! <LineBreak/>
+					If you encounter any bugs or other issues, please open an issue on github: <InlineUIContainer>
+						<Button Classes="Link" Click="OnLinkClicked">https://github.com/Justin113D/TranslationEditor</Button>
+					</InlineUIContainer>
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 2. Getting started ////////// -->
+			<TextBlock Classes="Title" Text="2. Getting started"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					This program won't be able to do anything by itself; The developer of the project you intend on translating for will provide a "Language Format" file, which you have to open using <Span xml:space="preserve" Classes="Code"> File > Load Format </Span>. This will read the format and create a node-tree with all the texts described in the format. <LineBreak/>
+					<LineBreak/>
+					Alternatively, you can open the settings and enter the path to the language format file in the <Span xml:space="preserve" Classes="Code"> Startup Format File </Span> text field, which will automatically open the file when starting the application. This is useful for when translating takes longer than one or two sessions.
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 3. The Node Tree ////////// -->
+			<TextBlock Classes="Title" Text="3. The Node Tree"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					Once a language format file has been loaded, you will be greeted by a node tree like below. This annotated node tree serves as a reference regarding the functionality of each of its elements.
+				</TextBlock>
+			</Border>
+			<help:UcReferenceNodeTree/>
+			<help:UcReferenceList/>
+			<Separator/>
+
+			<!-- ////////// 4. Format versions ////////// -->
+			<TextBlock Classes="Title" Text="4. Format versions"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					Every format stores its version history and when each textnode has been added or last edited. Your language format provider may have made changes to an already existing text node after you have translated it. When loading the newer format with the change, and then loading your project, the app will tell you that a node has change by coloring the status yellow.
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 5. Collaboration ////////// -->
+			<TextBlock Classes="Title" Text="5. Collaboration"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					It is possible to split up work between multiple people! After splitting up work and having multiple project files, you can merge them together by using <Span xml:space="preserve" Classes="Code"> File > Import Project Values </Span> and selecting the file from your collaborator. This will read the project and all all translated texts to your currently active project. <LineBreak/>
+					When the active project and imported project both translate a same textnode, then the app will import whichever translation is from a newer version. If both are from the same version, then the imported text is used.
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 6. Tips & Tricks ////////// -->
+			<TextBlock Classes="Title" Text="6. Tips &amp; Tricks"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					- You can use the <Span xml:space="preserve" Classes="Code"> Tab </Span> key to quickly iterate over texts. This allows you to translate without ever needing to touch your mouse. <LineBreak/>
+					- Pressing <Span xml:space="preserve" Classes="Code"> CTRL + R </Span> while editing a text will reset it to it's default value. <LineBreak/>
+					- Definitely check out the settings!
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 7. Handing in your work ////////// -->
+			<TextBlock Classes="Title" Text="7. Handing in your work"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					Once you are done and have translated the entire format, you export the language file by using <Span xml:space="preserve" Classes="Code"> File > Export Language File </Span> and sending the exported file to your language format provider.
+				</TextBlock>
+			</Border>
+		</StackPanel>
+	</ScrollViewer>
+</controls:Window>

@@ -31,6 +31,12 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Windows
             base.OnClosing(e);
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            Toolbar.MenuBar.HelpWindow?.Close();
+            base.OnClosed(e);
+        }
+
         protected override void OnLoaded(RoutedEventArgs e)
         {
             base.OnLoaded(e);

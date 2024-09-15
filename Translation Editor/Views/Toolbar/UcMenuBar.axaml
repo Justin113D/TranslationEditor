@@ -84,7 +84,7 @@
 			</MenuItem>
 		</MenuItem>
 		<MenuItem Header="Settings" Click="OnSettingsOpen"/>
-		<!--<MenuItem Header="Help" Click="OnOpenHelp"/>-->
+		<MenuItem Header="Help" Click="OnOpenHelp"/>
 	</Menu>
 	
 </UserControl>

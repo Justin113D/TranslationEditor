@@ -1,0 +1,260 @@
+<UserControl
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="using:J113D.Avalonia.Controls"
+	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Help"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="J113D.TranslationEditor.ProjectApp.Views.Help.UcReferenceNodeTree">
+
+	<Panel>
+		<Border Background="{DynamicResource BorderColor2}" Padding="3" CornerRadius="5">
+			<Border.Styles>
+				<Style Selector="TextBlock">
+					<Setter Property="TextWrapping" Value="Wrap"/>
+				</Style>
+
+				<Style Selector="Grid > Label">
+					<Setter Property="VerticalContentAlignment" Value="Center"/>
+					<Setter Property="HorizontalContentAlignment" Value="Center"/>
+					<Setter Property="VerticalAlignment" Value="Stretch"/>
+					<Setter Property="HorizontalAlignment" Value="Stretch"/>
+					<Setter Property="FontWeight" Value="Medium"/>
+					<Setter Property="Padding" Value="8 4"/>
+				</Style>
+
+				<Style Selector="Border.State">
+					<Setter Property="Width" Value="10"/>
+					<Setter Property="Margin" Value="6 4"/>
+					<Setter Property="Background" Value="{DynamicResource RedColor}"/>
+					<Setter Property="CornerRadius" Value="3"/>
+				</Style>
+
+				<Style Selector="TextBlock.NodeName">
+					<Setter Property="VerticalAlignment" Value="Center"/>
+					<Setter Property="HorizontalAlignment" Value="Left"/>
+				</Style>
+			</Border.Styles>
+
+			<Grid ColumnDefinitions="2*,2,3*,2,3*" RowDefinitions="auto, auto, auto, auto, auto, *">
+
+				<Panel x:Name="PanelNodeGroup" Grid.Row="3" Grid.ColumnSpan="5"/>
+
+				<Border
+					Grid.ColumnSpan="5"
+					Background="{DynamicResource DefaultColor}"
+					CornerRadius="3 3 0 0"/>
+
+				<Border
+					Background="{DynamicResource BackgroundColor1}"
+					Grid.Row="1"
+					Grid.RowSpan="10"
+					Grid.ColumnSpan="5"
+					CornerRadius="0 0 3 3"/>
+
+				<Border
+					Background="{DynamicResource BackgroundColor2}"
+					Grid.Row="1"
+					Grid.Column="1"
+					Grid.ColumnSpan="3"
+					Grid.RowSpan="10"
+					Opacity="0.5"/>
+
+				<Label Grid.Column="0" Content="Name" x:Name="NameHeader"/>
+				<Border Grid.Column="1" Background="{DynamicResource BorderColor1}" />
+				<Label Grid.Column="2" Content="Translation &amp; Use Default" x:Name="ContentHeader"/>
+				<Border Grid.Column="3" Background="{DynamicResource BorderColor1}"/>
+				<Label Grid.Column="4" Content="Description &amp; Default Value"/>
+
+				<!-- Node group -->
+
+				<Grid Grid.Row="3" Grid.Column="0" ColumnDefinitions="auto, auto, *" MinHeight="32">
+					<Border Classes="State" />
+
+					<Panel Grid.Column="1" Width="12" Height="12" HorizontalAlignment="Left" Margin="0 0 6 0">
+						<Path
+							Data="{StaticResource TreeViewItemExpandedChevronPathData}"
+							Fill="{DynamicResource ForegroundColor1}"
+							Stretch="Uniform"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"/>
+					</Panel>
+
+					<TextBlock Grid.Column="2" Text="Node Group" Classes="NodeName"/>
+
+				</Grid>
+
+				<TextBlock
+					Margin="6"
+					Grid.Row="3"
+					Grid.Column="4"
+					Text="This is a node group. It is used for organisatory purposes and contains more nodes."
+					TextWrapping="Wrap"
+					VerticalAlignment="Center"/>
+
+				<!-- text_node_2 -->
+
+				<Grid Grid.Row="4" Grid.Column="0" ColumnDefinitions="16, auto, *" MinHeight="32">
+					<Border Grid.Column="1" Classes="State" />
+					<TextBlock Grid.Column="2" Text="text_node_3" Classes="NodeName"/>
+				</Grid>
+
+				<Grid Grid.Row="4" Grid.Column="2" ColumnDefinitions="*, auto">
+					<Border Background="{DynamicResource FieldColor}" CornerRadius="2" Padding="6" Margin="0 2">
+						<TextBlock Text="This is the default text."/>
+					</Border>
+					<Border Grid.Column="1" Background="{DynamicResource FieldColor}" CornerRadius="2" Margin="6 0 4 0" Width="24" Height="24"/>
+				</Grid>
+
+				<StackPanel
+					Grid.Row="4"
+					Grid.Column="4"
+					Margin="6"
+					VerticalAlignment="Center">
+
+					<TextBlock
+						Grid.Row="0"
+						Text="The first text node."/>
+
+					<Border
+						Grid.Row="1"
+						Background="{DynamicResource ForegroundColor4}"
+						Height="1"
+						Margin="4"/>
+
+					<TextBlock
+						Grid.Row="2"
+						Foreground="{DynamicResource ForegroundColor3}"
+						Text="This is the default text."/>
+
+				</StackPanel>
+
+				<!-- text_node_1 -->
+
+				<Grid Grid.Row="1" Grid.Column="0" ColumnDefinitions="0, auto, *" MinHeight="32">
+					<Border x:Name="NodeState" Grid.Column="1" Classes="State" Background="{DynamicResource GreenColor}" />
+					<TextBlock x:Name="NodeName" Grid.Column="2" Text="text_node_1" Classes="NodeName" Margin="4 0 0 0" />
+
+				</Grid>
+
+				<Grid Grid.Row="1" Grid.Column="2" ColumnDefinitions="*, auto">
+					<Border x:Name="NodeValue" Background="{DynamicResource FieldColor}" CornerRadius="2" Padding="6" Margin="0 2">
+						<TextBlock Text="This Text is edited!"/>
+					</Border>
+					<Border x:Name="UseDefault" Grid.Column="1" Background="{DynamicResource FieldColor}" CornerRadius="2" Margin="12 0 4 0" Width="24" Height="24"/>
+				</Grid>
+
+				<StackPanel
+					Grid.Row="1"
+					Grid.Column="4"
+					Margin="6"
+					VerticalAlignment="Center">
+
+					<TextBlock
+						Grid.Row="0"
+						Text="The second text node."
+						x:Name="NodeDescription"/>
+
+					<Border
+						Grid.Row="1"
+						Background="{DynamicResource ForegroundColor4}"
+						Height="1"
+						Margin="4"/>
+
+					<TextBlock
+						Grid.Row="2"
+						Foreground="{DynamicResource ForegroundColor3}"
+						Text="This is the default text."
+						x:Name="NodeDefaultValue"/>
+
+				</StackPanel>
+
+				<!-- text_node_2 -->
+
+				<Grid Grid.Row="2" Grid.Column="0" ColumnDefinitions="0, auto, *" MinHeight="32">
+					<Border Grid.Column="1" Classes="State" Background="{DynamicResource YellowColor}" />
+					<TextBlock Grid.Column="2" Text="text_node_2" Classes="NodeName" />
+				</Grid>
+
+				<Grid Grid.Row="2" Grid.Column="2" ColumnDefinitions="*, auto">
+					<Border Background="{DynamicResource FieldColor}" CornerRadius="2" Padding="6" Margin="0 2">
+						<TextBlock Text="This text has been edited, but the original text has been changed in a newer format version and may need retranslating."/>
+					</Border>
+					<Border Grid.Column="1" Background="{DynamicResource FieldColor}" CornerRadius="2" Margin="6 0 4 0" Width="24" Height="24"/>
+				</Grid>
+
+				<StackPanel
+					Grid.Row="2"
+					Grid.Column="4"
+					Margin="6"
+					VerticalAlignment="Center">
+
+					<TextBlock
+						Grid.Row="0"
+						Text="The first text node.&#13;Note from format provider: this text changed, please retranslate! ;)"/>
+
+					<Border
+						Grid.Row="1"
+						Background="{DynamicResource ForegroundColor4}"
+						Height="1"
+						Margin="4"/>
+
+					<TextBlock
+						Grid.Row="2"
+						Foreground="{DynamicResource ForegroundColor3}"
+						Text="This is the default text. Again."/>
+
+				</StackPanel>
+
+			</Grid>
+		</Border>
+
+		<Canvas>
+			<Canvas.Styles>
+				<Style Selector="local|HelpRectangle">
+					<Setter Property="BorderBrush" Value="Red"/>
+					<Setter Property="BorderThickness" Value="2"/>
+					<Setter Property="CornerRadius" Value="3"/>
+
+					<Style Selector="^ > TextBlock">
+						<Setter Property="Foreground" Value="Red"/>
+						<Setter Property="HorizontalAlignment" Value="Center"/>
+						<Setter Property="VerticalAlignment" Value="Center"/>
+						<Setter Property="FontWeight" Value="Medium"/>
+					</Style>
+
+				</Style>
+			</Canvas.Styles>
+
+			<local:HelpRectangle TargetElement="{Binding #NodeName}" HelpMargin="3 3 24 3">
+				<TextBlock Text="1" HorizontalAlignment="Right" Margin="8 0"/>
+			</local:HelpRectangle>
+
+			<local:HelpRectangle TargetElement="{Binding #NodeState}" HelpMargin="4">
+				<TextBlock Text="2" />
+			</local:HelpRectangle>
+
+			<local:HelpRectangle TargetElement="{Binding #NodeValue}" HelpMargin="4">
+				<TextBlock Text="3" HorizontalAlignment="Right" Margin="8 0"/>
+			</local:HelpRectangle>
+
+			<local:HelpRectangle TargetElement="{Binding #UseDefault}" HelpMargin="4">
+				<TextBlock Text="4"/>
+			</local:HelpRectangle>
+
+			<local:HelpRectangle TargetElement="{Binding #NodeDescription}" HelpMargin="2">
+				<TextBlock Text="5" HorizontalAlignment="Right" Margin="8 0"/>
+			</local:HelpRectangle>
+
+			<local:HelpRectangle TargetElement="{Binding #NodeDefaultValue}" HelpMargin="2">
+				<TextBlock Text="6" HorizontalAlignment="Right" Margin="8 0"/>
+			</local:HelpRectangle>
+
+			<local:HelpRectangle TargetElement="{Binding #PanelNodeGroup}" HelpMargin="1">
+				<TextBlock Text="7"/>
+			</local:HelpRectangle>
+		</Canvas>
+	</Panel>
+
+</UserControl>
