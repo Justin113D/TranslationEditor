@@ -18,6 +18,8 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
         private ChangeTracker.Pin? _fileChangePin;
         private readonly FormatFileHandler _formatFileHandler;
         private readonly ProjectFileHandler _projectFileHandler;
+        private readonly ImportProjectFileHandler _importProjectFileHandler;
+        private readonly ExportFileHandler _exportFileHandler;
         private readonly ExportFileHandler _importExportHandler;
 
         private MainViewModel ViewModel
@@ -31,7 +33,8 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 
             _formatFileHandler = new(this);
             _projectFileHandler = new(this);
-            _importExportHandler = new(this);
+            _importProjectFileHandler = new(this);
+            _exportFileHandler = new(this);
         }
 
 
@@ -122,14 +125,24 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
             Dispatcher.UIThread.Post(async () => await _projectFileHandler.Save(true));
         }
 
-        public void OnExportLanguageFiles(object sender, RoutedEventArgs e)
+        public void OnImportProjectValues(object sender, RoutedEventArgs e)
         {
             if(ViewModel.Format == null)
             {
                 return;
             }
 
-            Dispatcher.UIThread.Post(async () => await _importExportHandler.Save(true));
+            Dispatcher.UIThread.Post(async () => await _importProjectFileHandler.Open());
+        }
+
+        public void OnExportLanguageFile(object sender, RoutedEventArgs e)
+        {
+            if(ViewModel.Format == null)
+            {
+                return;
+            }
+
+            Dispatcher.UIThread.Post(async () => await _exportFileHandler.Save(true));
         }
 
 
@@ -171,7 +184,8 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 
         private void OnSettingsOpen(object sender, RoutedEventArgs e)
         {
-            Dispatcher.UIThread.Post(async () => {
+            Dispatcher.UIThread.Post(async () =>
+            {
                 Window topLevel = (Window)TopLevel.GetTopLevel(this)!;
                 WndSettings window = new();
                 await window.ShowDialog(topLevel);

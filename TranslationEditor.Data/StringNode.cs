@@ -1,4 +1,5 @@
-﻿using System;
+﻿using J113D.TranslationEditor.Data.Events;
+using System;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.Data
@@ -19,6 +20,12 @@ namespace J113D.TranslationEditor.Data
 
 #pragma warning restore IDE0044
         #endregion
+
+        /// <summary>
+        /// On changing <see cref="Value"/> <br/>
+        /// Does not get invoked on undo/redo!
+        /// </summary>
+        public event NodeValueChangedEventHandler? ValueChanged;
 
         #region Properties
 
@@ -113,6 +120,7 @@ namespace J113D.TranslationEditor.Data
 
                 BeginChangeGroup("StringNode.NodeValue");
 
+                string oldNodeValue = _nodeValue;
                 TrackNodeValueChange(value);
 
                 if(KeepDefault)
@@ -121,6 +129,7 @@ namespace J113D.TranslationEditor.Data
                 }
 
                 ValueVersionIndex = value == DefaultValue ? -1 : VersionIndex;
+                ValueChanged?.Invoke(this, new(oldNodeValue, _nodeValue));
 
                 EndChangeGroup();
             }
@@ -139,6 +148,8 @@ namespace J113D.TranslationEditor.Data
 
                 BeginChangeGroup("StringNode.NodeValuKeepDefault");
 
+                string oldNodeValue = _nodeValue;
+
                 if(value)
                 {
                     TrackNodeValueChange(DefaultValue);
@@ -150,6 +161,11 @@ namespace J113D.TranslationEditor.Data
                 if(!value)
                 {
                     ValueVersionIndex = -1;
+                }
+
+                if(value && oldNodeValue != _nodeValue)
+                {
+                    ValueChanged?.Invoke(this, new(oldNodeValue, _nodeValue));
                 }
 
                 EndChangeGroup();
@@ -181,9 +197,16 @@ namespace J113D.TranslationEditor.Data
         {
             BeginChangeGroup("StringNode.ImportValue");
 
+            string oldNodeValue = _nodeValue;
+
             TrackNodeValueChange(value);
             TrackKeepDefaultChange(keepDefault);
             ValueVersionIndex = changedVersionIndex;
+
+            if(oldNodeValue != _nodeValue)
+            {
+                ValueChanged?.Invoke(this, new(oldNodeValue, _nodeValue));
+            }
 
             EndChangeGroup();
         }
@@ -195,9 +218,18 @@ namespace J113D.TranslationEditor.Data
         public void ResetValue()
         {
             BeginChangeGroup("StringNode.ResetValue");
+            
+            string oldNodeValue = _nodeValue;
+
+            TrackKeepDefaultChange(false);
             TrackNodeValueChange(DefaultValue);
             ValueVersionIndex = -1;
-            TrackKeepDefaultChange(false);
+
+            if(oldNodeValue != _nodeValue)
+            {
+                ValueChanged?.Invoke(this, new(oldNodeValue, _nodeValue));
+            }
+
             EndChangeGroup();
         }
 

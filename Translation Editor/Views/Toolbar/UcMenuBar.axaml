@@ -16,63 +16,68 @@
 				<Setter Property="Width" Value="16"/>
 			</Style>
 
-			<Style Selector="MenuItem.FormatItem">
+			<Style Selector="MenuItem">
 				<Setter Property="IsEnabled" Value="{Binding Format, Converter={x:Static ObjectConverters.IsNotNull}}"/>
 			</Style>
 		</Menu.Styles>
 
 		<MenuItem Header="File">
-			<MenuItem Header="Load Format" Click="OnLoadFormat" InputGesture="Ctrl+Shift+O" HotKey="Ctrl+Shift+O">
+			<MenuItem IsEnabled="True" Header="Load Format" Click="OnLoadFormat" InputGesture="Ctrl+Shift+O" HotKey="Ctrl+Shift+O">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/OpenFile.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
 			<Separator/>
-			<MenuItem Classes="FormatItem" Header="New Project" Click="OnNewProject" InputGesture="Ctrl+N" HotKey="Ctrl+N">
+			<MenuItem Header="New Project" Click="OnNewProject" InputGesture="Ctrl+N" HotKey="Ctrl+N">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/NewFile.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Classes="FormatItem" Header="Open Project" Click="OnOpenProject" InputGesture="Ctrl+O" HotKey="Ctrl+O">
+			<MenuItem Header="Open Project" Click="OnOpenProject" InputGesture="Ctrl+O" HotKey="Ctrl+O">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/OpenFile.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Classes="FormatItem" Header="Save Project" Click="OnSaveProject" InputGesture="Ctrl+S" HotKey="Ctrl+S">
+			<MenuItem Header="Save Project" Click="OnSaveProject" InputGesture="Ctrl+S" HotKey="Ctrl+S">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/Save.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Classes="FormatItem" Header="Save Project As" Click="OnSaveProjectAs" InputGesture="Ctrl+Shift+S" HotKey="Ctrl+Shift+S">
+			<MenuItem Header="Save Project As" Click="OnSaveProjectAs" InputGesture="Ctrl+Shift+S" HotKey="Ctrl+Shift+S">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/SaveAs.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
 			<Separator/>
-			<MenuItem Classes="FormatItem" Header="Export Language Files" Click="OnExportLanguageFiles" InputGesture="Ctrl+Shift+E" HotKey="Ctrl+Shift+E">
+			<MenuItem Header="Import Project Values" Click="OnImportProjectValues" InputGesture="Ctrl+Shift+I" HotKey="Ctrl+Shift+I">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/ImportFile.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Export Language File" Click="OnExportLanguageFile" InputGesture="Ctrl+Shift+E" HotKey="Ctrl+Shift+E">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/ExportFile.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
 		</MenuItem>
 		<MenuItem Header="Edit">
-			<MenuItem Classes="FormatItem" Header="Undo" Click="OnUndo" InputGesture="Ctrl+Z" HotKey="Ctrl+Z">
+			<MenuItem Header="Undo" Click="OnUndo" InputGesture="Ctrl+Z" HotKey="Ctrl+Z">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/Undo.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Classes="FormatItem" Header="Redo" Click="OnRedo" InputGesture="Ctrl+Y" HotKey="Ctrl+Y">
+			<MenuItem Header="Redo" Click="OnRedo" InputGesture="Ctrl+Y" HotKey="Ctrl+Y">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/Redo.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
 			<Separator/>
-			<MenuItem Classes="FormatItem" Header="Expand All" Click="OnExpandAll">
+			<MenuItem Header="Expand All" Click="OnExpandAll">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/ExpandAll.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Classes="FormatItem" Header="Collapse All" Click="OnCollapseAll">
+			<MenuItem Header="Collapse All" Click="OnCollapseAll">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/ExpandAll.png"/>
 				</MenuItem.Icon>

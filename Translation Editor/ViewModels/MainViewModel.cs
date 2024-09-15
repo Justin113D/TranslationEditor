@@ -95,12 +95,12 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             }
             catch
             {
-                ProjectTracker.EndGroup(true);
-                SetMessage("Failed to load Project", true);
+                ProjectTracker.EndGroup(discard: true);
+                SetMessage("Failed to read Project", true);
                 throw;
             }
 
-            SetMessage("Loaded Project", false);
+            SetMessage("Read Project", false);
             ProjectTracker.EndGroup();
             ProjectTracker.Reset();
             Format.RefreshNodeValues();
@@ -139,6 +139,31 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             SetMessage("Reset Project", false);
         }
 
+
+        public void ImportProjectValues(string data)
+        {
+            if(Format == null)
+            {
+                return;
+            }
+
+            ProjectTracker.BeginGroup();
+
+            try
+            {
+                Format.Format.ImportProjectValuesFromString(data);
+            }
+            catch
+            {
+                ProjectTracker.EndGroup(discard: true);
+                SetMessage("Failed to read Project", true);
+                throw;
+            }
+
+            SetMessage("Imported Project", false);
+            Format.RefreshNodeValues();
+            ProjectTracker.EndGroup();
+        }
 
         public string ExportLanguage()
         {

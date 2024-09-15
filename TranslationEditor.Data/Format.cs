@@ -137,42 +137,11 @@ namespace J113D.TranslationEditor.Data
                 usedVersions[node.VersionIndex] = true;
             }
 
-            if(usedVersions.All(x => x))
-            {
-                return;
-            }
-            else if(usedVersions.Count(x => !x) == 1 && !usedVersions[^1])
-            {
-                _versions.RemoveAt(_versions.Count - 1);
-                return;
-            }
-
-            int[] mapping = new int[usedVersions.Length];
-            for(int i = 0, v = 0; i < mapping.Length; i++)
-            {
-                if(usedVersions[i])
-                {
-                    mapping[i] = v;
-                    v++;
-                }
-            }
-
             BeginChangeGroup("Format.RemoveUnusedVersions");
 
-            foreach(StringNode node in StringNodes.Values)
+            for(int i = Versions.Count - 1; i >= 0 && !usedVersions[i]; i-- )
             {
-                if(mapping[node.VersionIndex] != node.VersionIndex)
-                {
-                    node.VersionIndex = mapping[node.VersionIndex];
-                }
-            }
-
-            for(int i = usedVersions.Length + 1; i >= 0; i--)
-            {
-                if(!usedVersions[i])
-                {
-                    _versions.RemoveAt(i);
-                }
+                _versions.RemoveAt(i);
             }
 
             EndChangeGroup();
@@ -394,53 +363,10 @@ namespace J113D.TranslationEditor.Data
             }
         }
 
-        private void ReadProjectMetadata(StreamReader reader, out int versionIndex)
-        {
-            string[] metaData = new string[4];
-
-            for(int i = 0; i < 4; i++)
-            {
-                string? metaLine = reader.ReadLine() ?? throw new InvalidDataException("Meta data invalid!");
-
-                metaData[i] = metaLine;
-            }
-
-            if(metaData[0] != Name)
-            {
-                throw new InvalidDataException($"Formats dont match! Format Name: {Name}, Project specified for: {metaData[0]}");
-            }
-
-            Version version = new(metaData[1]);
-            versionIndex = _versions.FindIndex(x => x.Equals(version));
-
-            if(versionIndex == -1)
-            {
-                throw new InvalidDataException($"Version invalid! The projects version does not match any version inside the format!");
-            }
-
-            Language = metaData[2];
-            Author = metaData[3];
-        }
 
         public void ReadProject(Stream stream)
         {
-            JsonSerializerOptions options = new();
-            options.Converters.Add(new JsonProjectConverter());
-            options.Converters.Add(new JsonProjectValueConverter());
-
-            JsonProject project = JsonSerializer.Deserialize<JsonProject>(stream, options)!;
-
-            if(project.Name != Name)
-            {
-                throw new InvalidDataException($"Formats dont match! Format Name: {Name}, Project specified for: {project.Name}");
-            }
-
-            int versionIndex = _versions.FindIndex(x => x.Equals(project.Version));
-
-            if(versionIndex == -1)
-            {
-                throw new InvalidDataException($"Version invalid! The projects version does not match any version inside the format!");
-            }
+            JsonProject project = ReadJsonProject(stream);
 
             BeginChangeGroup("ReadProject");
 
@@ -463,6 +389,68 @@ namespace J113D.TranslationEditor.Data
             }
 
             EndChangeGroup();
+        }
+
+
+        public void ImportProjectValuesFromFile(string filepath)
+        {
+            using(FileStream stream = File.OpenRead(filepath))
+            {
+                ImportProjectValues(stream);
+            }
+        }
+
+        public void ImportProjectValuesFromString(string project)
+        {
+            using(MemoryStream stream = new(Encoding.UTF8.GetBytes(project)))
+            {
+                ImportProjectValues(stream);
+            }
+        }
+
+        public void ImportProjectValues(Stream stream)
+        {
+            JsonProject project = ReadJsonProject(stream);
+
+            BeginChangeGroup("ImportProjectValues");
+
+            foreach(KeyValuePair<string, JsonProjectValue> projectValue in project.Values)
+            {
+                if(StringNodes.TryGetValue(projectValue.Key, out StringNode? node) 
+                    && projectValue.Value.ValueVersionIndex >= node.ValueVersionIndex)
+                {
+                    node.ImportValue(
+                            projectValue.Value.Value,
+                            projectValue.Value.ValueVersionIndex,
+                            projectValue.Value.KeepDefault);
+                }
+            }
+
+            EndChangeGroup();
+        }
+
+
+        private JsonProject ReadJsonProject(Stream stream)
+        {
+            JsonSerializerOptions options = new();
+            options.Converters.Add(new JsonProjectConverter());
+            options.Converters.Add(new JsonProjectValueConverter());
+
+            JsonProject project = JsonSerializer.Deserialize<JsonProject>(stream, options)!;
+
+            if(project.Name != Name)
+            {
+                throw new InvalidDataException($"Formats dont match! Format Name: {Name}, Project specified for: {project.Name}");
+            }
+
+            int versionIndex = _versions.FindIndex(x => x.Equals(project.Version));
+
+            if(versionIndex == -1)
+            {
+                throw new InvalidDataException($"Version invalid! The projects version does not match any version inside the format!");
+            }
+
+            return project;
         }
 
         #endregion

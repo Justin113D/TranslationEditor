@@ -6,7 +6,6 @@ using Avalonia.VisualTree;
 using J113D.TranslationEditor.ProjectApp.ViewModels;
 using PropertyChanged;
 using System;
-using System.Linq;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {

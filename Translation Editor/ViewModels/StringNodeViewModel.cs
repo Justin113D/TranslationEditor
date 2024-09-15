@@ -10,6 +10,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 #pragma warning disable IDE0044
 
         private string _realNodeValue;
+        private bool _changingValue;
 
 #pragma warning restore IDE0044
         #endregion
@@ -31,10 +32,16 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
                 }
 
                 BeginChangeGroup();
+
                 TrackFieldChange(this, nameof(_realNodeValue), value);
+
+                _changingValue = true;
                 StringNode.NodeValue = value;
+                _changingValue = false;
+
                 this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
                 this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
+
                 EndChangeGroup();
             }
         }
@@ -67,14 +74,21 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             : base(project, node)
         {
             _realNodeValue = node.NodeValue;
+            node.ValueChanged += OnValueChanged;
         }
 
+        private void OnValueChanged(Node source, NodeValueChangedEventArgs args)
+        {
+            if(!_changingValue)
+            {
+                TrackFieldChange(this, nameof(_realNodeValue), StringNode.NodeValue);
+            }
+        }
 
         public void ResetValue()
         {
             BeginChangeGroup();
             StringNode.ResetValue();
-            TrackFieldChange(this, nameof(_realNodeValue), StringNode.NodeValue);
             this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
             this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
             EndChangeGroup();

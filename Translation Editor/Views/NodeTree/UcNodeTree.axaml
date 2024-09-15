@@ -10,7 +10,8 @@
 	xmlns:scrconverters="using:J113D.Avalonia.Converters"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.NodeTree.UcNodeTree"
-	x:DataType="vm:FormatViewModel">
+	x:DataType="vm:FormatViewModel"
+	x:Name="NodeTree">
 
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -109,13 +110,26 @@
 									VerticalContentAlignment="Top"
 									Margin="0 2"
 									IsEnabled="{Binding KeepDefault, Converter={x:Static converters:BoolConverters.Not}}"
-									IsTabStop="True"/>
+									IsTabStop="True"
+									TextWrapping="Wrap">
+									
+									<TextBox.KeyBindings>
+										<KeyBinding Gesture="Ctrl+R" Command="{Binding #NodeTree.OnNodeValueTextReset}" CommandParameter="{Binding #NodeValueTextBox}"/>
+										<KeyBinding Gesture="Ctrl+Z" Command="{Binding #NodeTree.OnNodeValueTextUndo}" CommandParameter="{Binding #NodeValueTextBox}"/>
+									</TextBox.KeyBindings>
+									
+									<TextBox.ContextMenu>
+										<ContextMenu>
+											<MenuItem Header="Reset" HotKey="Ctrl+R" Command="{Binding ResetValue}"/>
+										</ContextMenu>
+									</TextBox.ContextMenu>
+								</TextBox>
 
 								<CheckBox
 									Grid.Column="1"
 									x:Name="DefaultValueCheckBox"
 									Padding="0"
-									Margin="4 8"
+									Margin="2 8 0 8"
 									IsChecked="{Binding KeepDefault}"
 									ToolTip.Tip="Whether to use the default value, instead of translating it"
 									IsTabStop="True"

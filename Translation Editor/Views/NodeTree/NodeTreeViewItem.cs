@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
-using HarfBuzzSharp;
 using J113D.TranslationEditor.ProjectApp.ViewModels;
 using PropertyChanged;
 using System;
