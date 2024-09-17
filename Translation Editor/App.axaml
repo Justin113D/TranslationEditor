@@ -1,7 +1,7 @@
 <Application 
 	xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:scra="using:J113D.Avalonia.Theme"
+    xmlns:j113da="using:J113D.Avalonia.Theme"
 	xmlns:local="using:J113D.TranslationEditor.ProjectApp"
     x:Class="J113D.TranslationEditor.ProjectApp.App"
     RequestedThemeVariant="Default">
@@ -11,7 +11,7 @@
 	</Application.Resources>
 	
     <Application.Styles>
-		<scra:SCRTheme/>
+		<j113da:J113DTheme/>
 
 		<Style Selector="Window">
 			<Setter Property="FontSize" Value="{DynamicResource AppFontSize}"/>

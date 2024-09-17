@@ -8,9 +8,9 @@ namespace J113D.TranslationEditor.ProjectApp.Config
 {
     public class Settings : BaseSettings
     {
-        public SCRThemeVariant Theme
+        public J113DThemeVariant Theme
         {
-            get => (SCRThemeVariant)this[nameof(Theme)];
+            get => (J113DThemeVariant)this[nameof(Theme)];
             set => this[nameof(Theme)] = value;
         }
 
@@ -36,7 +36,7 @@ namespace J113D.TranslationEditor.ProjectApp.Config
 
         public override void Reset()
         {
-            Theme = SCRThemeVariant.Dark;
+            Theme = J113DThemeVariant.Dark;
             FontSize = 14;
             StartupFormatFile = string.Empty;
             UndoRedoLimit = 100;
@@ -46,7 +46,7 @@ namespace J113D.TranslationEditor.ProjectApp.Config
         {
             return name switch
             {
-                nameof(Theme) => Enum.Parse<SCRThemeVariant>(value.GetString()!),
+                nameof(Theme) => Enum.Parse<J113DThemeVariant>(value.GetString()!),
                 nameof(FontSize) => value.GetInt32(),
                 nameof(UndoRedoLimit) => value.GetInt32(),
                 nameof(StartupFormatFile) => value.GetString()!,

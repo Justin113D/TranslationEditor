@@ -12,9 +12,9 @@ namespace J113D.TranslationEditor.ProjectApp.Config
         private string _undoRedoLimitText;
         private readonly Settings _settings;
 
-        public ObservableCollection<SCRThemeVariant> Themes { get; }
+        public ObservableCollection<J113DThemeVariant> Themes { get; }
 
-        public SCRThemeVariant Theme
+        public J113DThemeVariant Theme
         {
             get => _settings.Theme;
             set =>_settings.Theme = value;
@@ -115,7 +115,7 @@ namespace J113D.TranslationEditor.ProjectApp.Config
         public SettingsViewModel()
         {
             _settings = new();
-            Themes = new(Enum.GetValues<SCRThemeVariant>());
+            Themes = new(Enum.GetValues<J113DThemeVariant>());
 
             _settings.Reset();
             _fontSizeText = _settings.FontSize.ToString();
