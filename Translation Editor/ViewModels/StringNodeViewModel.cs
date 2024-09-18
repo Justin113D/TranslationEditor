@@ -1,5 +1,6 @@
 ﻿using J113D.TranslationEditor.Data;
 using J113D.TranslationEditor.Data.Events;
+using PropertyChanged;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
@@ -77,6 +78,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             node.ValueChanged += OnValueChanged;
         }
 
+        [SuppressPropertyChangedWarnings]
         private void OnValueChanged(Node source, NodeValueChangedEventArgs args)
         {
             if(!_changingValue)
@@ -94,6 +96,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             EndChangeGroup();
         }
 
+        [SuppressPropertyChangedWarnings]
         protected override void OnStateChanged(Node node, NodeStateChangedEventArgs args)
         {
             BeginChangeGroup();

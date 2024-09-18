@@ -11,6 +11,7 @@ namespace J113D.TranslationEditor.Data
     {
         #region private fields
 #pragma warning disable IDE0044
+#pragma warning disable CS0649
 
         private string _nodeValue;
         private string _defaultValue;
@@ -18,6 +19,7 @@ namespace J113D.TranslationEditor.Data
         private int _valueVersionIndex;
         private bool _keepDefault;
 
+#pragma warning restore CS0649
 #pragma warning restore IDE0044
         #endregion
 

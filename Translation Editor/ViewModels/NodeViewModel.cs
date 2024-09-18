@@ -2,6 +2,7 @@
 using J113D.TranslationEditor.Data;
 using System.Collections.ObjectModel;
 using static J113D.UndoRedo.GlobalChangeTracker;
+using PropertyChanged;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
@@ -34,7 +35,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             _node.NodeStateChanged -= OnStateChanged;
         }
 
-
+        [SuppressPropertyChangedWarnings]
         protected virtual void OnStateChanged(Node node, NodeStateChangedEventArgs args)
         {
             this.AddChangeGroupInvokePropertyChanged(nameof(State));
