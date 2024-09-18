@@ -34,7 +34,7 @@
 		<Separator Classes="Vertical"/>
 		
 		<TextBlock Classes="Header" Text="Language:"/>
-		<TextBox Watermark="English" Text="{Binding Language}" />
+		<TextBox Watermark="{Binding DefaultLanguage}" Text="{Binding Language}" />
 		
 		<Separator Classes="Vertical"/>
 		

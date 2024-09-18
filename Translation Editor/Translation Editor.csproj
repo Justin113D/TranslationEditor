@@ -3,8 +3,6 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
 
 		<ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
 		<RootNamespace>J113D.TranslationEditor.ProjectApp</RootNamespace>

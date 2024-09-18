@@ -102,8 +102,8 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
             SetMessage("Read Project", false);
             ProjectTracker.EndGroup();
+            Format.Refresh();
             ProjectTracker.Reset();
-            Format.RefreshNodeValues();
         }
 
         public string WriteProject()
@@ -133,8 +133,10 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
                 return;
             }
 
+            Format.Author = string.Empty;
+            Format.Language = Format.DefaultLanguage;
             Format.Format.ResetAllStrings();
-            Format.RefreshNodeValues();
+            Format.Refresh();
             ProjectTracker.Reset();
             SetMessage("Reset Project", false);
         }
@@ -161,7 +163,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             }
 
             SetMessage("Imported Project", false);
-            Format.RefreshNodeValues();
+            Format.Refresh();
             ProjectTracker.EndGroup();
         }
 

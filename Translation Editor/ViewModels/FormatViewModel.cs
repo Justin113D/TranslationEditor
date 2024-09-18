@@ -1,4 +1,5 @@
 ﻿using J113D.TranslationEditor.Data;
+using J113D.UndoRedo;
 using System;
 using System.Collections.ObjectModel;
 using static J113D.UndoRedo.GlobalChangeTracker;
@@ -15,6 +16,8 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
         public int TranslatedNodes { get; private set; }
 
+
+        public string DefaultLanguage { get; }
 
         public string Author
         {
@@ -52,12 +55,13 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         public FormatViewModel(Format data)
         {
             Format = data;
+            DefaultLanguage = data.Language;
             Nodes = NodeViewModel.CreateNodeViewModels(this, Format.RootNode);
-            CountNodes();
+            CountNodes(false);
         }
 
 
-        private void CountNodes()
+        private void CountNodes(bool track)
         {
             int translatedNodes = 0, outdatedNodes = 0, untranslatedNodes = 0;
 
@@ -77,9 +81,18 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
                 }
             }
 
-            TranslatedNodes = translatedNodes;
-            OutdatedNodes = outdatedNodes;
-            UntranslatedNodes = untranslatedNodes;
+            if(track)
+            {
+                TrackPropertyChange(this, nameof(TranslatedNodes), translatedNodes);
+                TrackPropertyChange(this, nameof(OutdatedNodes), outdatedNodes);
+                TrackPropertyChange(this, nameof(UntranslatedNodes), untranslatedNodes);
+            }
+            else
+            {
+                TranslatedNodes = translatedNodes;
+                OutdatedNodes = outdatedNodes;
+                UntranslatedNodes = untranslatedNodes;
+            }
         }
 
 
@@ -120,13 +133,20 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         }
 
 
-        public void RefreshNodeValues()
+        public void Refresh()
         {
             BeginChangeGroup();
+
             foreach(NodeViewModel node in Nodes)
             {
                 node.RefreshNodeValues();
             }
+
+            CountNodes(true);
+            this.AddChangeGroupInvokePropertyChanged(nameof(Author));
+            this.AddChangeGroupInvokePropertyChanged(nameof(Language));
+            this.AddChangeGroupInvokePropertyChanged(nameof(Name));
+            this.AddChangeGroupInvokePropertyChanged(nameof(Version));
 
             EndChangeGroup();
         }
