@@ -4,13 +4,10 @@ using J113D.Avalonia.Utilities.IO;
 using J113D.TranslationEditor.ProjectApp.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 {
-    internal class ImportProjectFileHandler : TextFileHandler
+    internal sealed class ImportProjectFileHandler : TextFileHandler
     {
         private readonly UcMenuBar _control;
 

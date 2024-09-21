@@ -1,12 +1,11 @@
 ﻿using J113D.TranslationEditor.Data;
 using J113D.UndoRedo;
 using System;
-using System.Collections.ObjectModel;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
-    public class FormatViewModel : ViewModelBase
+    internal sealed class FormatViewModel : ViewModelBase
     {
         public Format Format { get; }
 
@@ -49,14 +48,17 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         public string Version
             => Format.Version.ToString();
 
-        public ReadOnlyCollection<NodeViewModel> Nodes { get; }
+        public ParentNodeViewModel RootNode { get; }
 
 
         public FormatViewModel(Format data)
         {
             Format = data;
             DefaultLanguage = data.Language;
-            Nodes = NodeViewModel.CreateNodeViewModels(this, Format.RootNode);
+            RootNode = new(this, Format.RootNode)
+            {
+                Expanded = true
+            };
             CountNodes(false);
         }
 
@@ -137,11 +139,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         {
             BeginChangeGroup();
 
-            foreach(NodeViewModel node in Nodes)
-            {
-                node.RefreshNodeValues();
-            }
-
+            RootNode.RefreshNodeValues();
             CountNodes(true);
             this.AddChangeGroupInvokePropertyChanged(nameof(Author));
             this.AddChangeGroupInvokePropertyChanged(nameof(Language));
@@ -149,28 +147,6 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             this.AddChangeGroupInvokePropertyChanged(nameof(Version));
 
             EndChangeGroup();
-        }
-
-        public void ExpandAll()
-        {
-            foreach(NodeViewModel node in Nodes)
-            {
-                if(node is ParentNodeViewModel parent)
-                {
-                    parent.ExpandAll();
-                }
-            }
-        }
-
-        public void CollapseAll()
-        {
-            foreach(NodeViewModel node in Nodes)
-            {
-                if(node is ParentNodeViewModel parent)
-                {
-                    parent.CollapseAll();
-                }
-            }
         }
     }
 }

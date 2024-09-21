@@ -6,7 +6,7 @@ using System.IO;
 
 namespace J113D.TranslationEditor.ProjectApp.Config
 {
-    public class SettingsViewModel : ViewModelBase
+    internal sealed class SettingsViewModel : ViewModelBase
     {
         private string _fontSizeText;
         private string _undoRedoLimitText;

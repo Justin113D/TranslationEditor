@@ -10,7 +10,7 @@ using J113D.TranslationEditor.ProjectApp.Views.Windows;
 namespace J113D.TranslationEditor.ProjectApp
 {
     [DoNotNotify]
-    public partial class App : Application
+    internal partial class App : Application
     {
         public SettingsViewModel Settings { get; }
 

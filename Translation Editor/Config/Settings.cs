@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace J113D.TranslationEditor.ProjectApp.Config
 {
-    public class Settings : BaseSettings
+    internal sealed class Settings : BaseSettings
     {
         public J113DThemeVariant Theme
         {

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
-    public class ViewModelBase : IInvokeNotifyPropertyChanged
+    internal abstract class ViewModelBase : IInvokeNotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -6,7 +6,7 @@ using PropertyChanged;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
-    public abstract class NodeViewModel : ViewModelBase
+    internal abstract class NodeViewModel : ViewModelBase
     {
         protected readonly Node _node;
         protected readonly FormatViewModel _project;

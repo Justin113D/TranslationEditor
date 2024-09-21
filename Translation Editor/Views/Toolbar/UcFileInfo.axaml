@@ -6,6 +6,7 @@
 	xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.Toolbar.UcFileInfo"
+	x:ClassModifier="internal"
 	x:DataType="vm:FormatViewModel"
 	FontSize="15">
 

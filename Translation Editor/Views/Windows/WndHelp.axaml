@@ -8,6 +8,7 @@
 	xmlns:help="using:J113D.TranslationEditor.ProjectApp.Views.Help"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1700"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.Windows.WndHelp"
+	x:ClassModifier="internal"
     Title="Help"
 	Icon="avares://J113D.Avalonia/Utilities/MessageBox/Icons/Question.png"
 	HideRestoreButton="True"

@@ -7,6 +7,7 @@
 	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Toolbar"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.Toolbar.UcToolbar"
+	x:ClassModifier="internal"
 	x:DataType="vm:MainViewModel">
 
 	<Grid>

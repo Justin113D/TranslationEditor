@@ -4,6 +4,7 @@
     xmlns:j113da="using:J113D.Avalonia.Theme"
 	xmlns:local="using:J113D.TranslationEditor.ProjectApp"
     x:Class="J113D.TranslationEditor.ProjectApp.App"
+	x:ClassModifier="internal"
     RequestedThemeVariant="Default">
 
 	<Application.Resources>

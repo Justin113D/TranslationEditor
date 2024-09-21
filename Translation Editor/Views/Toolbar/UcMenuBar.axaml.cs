@@ -13,7 +13,7 @@ using J113D.UndoRedo;
 namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 {
     [DoNotNotify]
-    public partial class UcMenuBar : UserControl, IFileChangeTracker
+    internal partial class UcMenuBar : UserControl, IFileChangeTracker
     {
         private ChangeTracker.Pin? _fileChangePin;
         private readonly FormatFileHandler _formatFileHandler;
@@ -172,13 +172,13 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
                     return;
                 }
 
-                ViewModel.ExpandAll();
+                ViewModel.Format!.RootNode.ExpandAll();
             });
         }
 
         private void OnCollapseAll(object sender, RoutedEventArgs e)
         {
-            ViewModel.CollapseAll();
+            ViewModel.Format!.RootNode.CollapseAll();
         }
 
 

@@ -10,7 +10,7 @@ using System;
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {
     [DoNotNotify]
-    internal class NodeTreeView : TreeView, ICustomKeyboardNavigation
+    internal sealed class NodeTreeView : TreeView, ICustomKeyboardNavigation
     {
 
         public static readonly StyledProperty<double> NameWidthProperty =

@@ -6,7 +6,7 @@ using PropertyChanged;
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {
     [DoNotNotify]
-    public partial class UcNodeTree : UserControl
+    internal partial class UcNodeTree : UserControl
     {
         public UcNodeTree()
         {

@@ -7,7 +7,7 @@ using PropertyChanged;
 namespace J113D.TranslationEditor.ProjectApp.Views.Help
 {
     [DoNotNotify]
-    internal class HelpRectangle : Border
+    internal sealed class HelpRectangle : Border
     {
         private Layoutable? _currentTargetElement;
 

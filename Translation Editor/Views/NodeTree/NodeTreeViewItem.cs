@@ -13,7 +13,7 @@ using System.Linq;
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {
     [DoNotNotify]
-    internal class NodeTreeViewItem : TreeViewItem
+    internal sealed class NodeTreeViewItem : TreeViewItem
     {
         private TextBox? _nodeValueTextBox;
         private CheckBox? _defaultValueCheckBox;

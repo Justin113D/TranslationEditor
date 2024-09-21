@@ -7,7 +7,7 @@ using System;
 namespace J113D.TranslationEditor.ProjectApp.Views.Windows
 {
     [DoNotNotify]
-    public partial class WndMain : J113D.Avalonia.Controls.Window
+    internal partial class WndMain : J113D.Avalonia.Controls.Window
     {
         private bool _ignoreResetConfirmation;
 

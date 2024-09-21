@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
-    public class ParentNodeViewModel : NodeViewModel
+    internal sealed class ParentNodeViewModel : NodeViewModel
     {
         private bool _expanded;
 

@@ -1,6 +1,6 @@
 ﻿namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
-    public enum ToolbarMessageType
+    internal enum ToolbarMessageType
     {
         None,
         Success,

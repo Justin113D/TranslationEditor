@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.Help
 {
-    internal class FontSizeMultiplicatorConverter : IValueConverter
+    internal sealed class FontSizeMultiplicatorConverter : IValueConverter
     {
         public double Factor { get; set; }
 

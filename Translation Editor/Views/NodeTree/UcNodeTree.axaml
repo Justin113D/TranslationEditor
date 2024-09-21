@@ -10,6 +10,7 @@
 	xmlns:scrconverters="using:J113D.Avalonia.Converters"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.NodeTree.UcNodeTree"
+	x:ClassModifier="internal"
 	x:DataType="vm:FormatViewModel"
 	x:Name="NodeTree">
 
@@ -74,7 +75,7 @@
 			Grid.Row="1"
 			Grid.ColumnSpan="5"
 			
-			ItemsSource="{Binding Nodes}"
+			ItemsSource="{Binding RootNode.ChildNodes}"
 			NameWidth="{Binding #NameHeader.Bounds.Width}"
 			ContentWidth="{Binding #ContentHeader.Bounds.Width}"
 			HorizontalAlignment="Stretch"

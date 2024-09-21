@@ -7,7 +7,7 @@ using Colors = J113D.Avalonia.Theme.Accents.Colors;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {
-    internal class NodeStateToColorConverter : IValueConverter
+    internal sealed class NodeStateToColorConverter : IValueConverter
     {
         private static readonly SolidColorBrush _green = new(Colors.Green);
         private static readonly SolidColorBrush _yellow = new(Colors.Yellow);

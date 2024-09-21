@@ -3,7 +3,7 @@ using J113D.UndoRedo;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    internal sealed class MainViewModel : ViewModelBase
     {
         public ChangeTracker ProjectTracker { get; }
 
@@ -47,17 +47,6 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             {
                 SetMessage("Performed Redo", false);
             }
-        }
-
-
-        public void ExpandAll()
-        {
-            Format?.ExpandAll();
-        }
-
-        public void CollapseAll()
-        {
-            Format?.CollapseAll();
         }
 
 

@@ -5,7 +5,7 @@ using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
-    public class StringNodeViewModel : NodeViewModel
+    internal sealed class StringNodeViewModel : NodeViewModel
     {
         #region private fields
 #pragma warning disable IDE0044

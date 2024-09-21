@@ -4,7 +4,7 @@ using PropertyChanged;
 namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 {
     [DoNotNotify]
-    public partial class UcInfoBar : UserControl
+    internal partial class UcInfoBar : UserControl
     {
         public UcInfoBar()
         {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 {
-    internal class FormatFileHandler : TextFileHandler
+    internal sealed class FormatFileHandler : TextFileHandler
     {
         private readonly UcMenuBar _control;
 
