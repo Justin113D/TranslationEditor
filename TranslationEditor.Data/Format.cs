@@ -127,8 +127,7 @@ namespace J113D.TranslationEditor.Data
             StringNodes = new(_stringNodes);
         }
 
-
-        private void RemoveUnusedVersions()
+        public int GetMostRecentUsedVersionIndex()
         {
             bool[] usedVersions = new bool[Versions.Count];
 
@@ -137,9 +136,26 @@ namespace J113D.TranslationEditor.Data
                 usedVersions[node.VersionIndex] = true;
             }
 
+            int resultIndex = Versions.Count - 1;
+            while(resultIndex >= 0 && !usedVersions[resultIndex])
+            {
+                resultIndex--;
+            }
+
+            return resultIndex;
+        }
+
+        private void RemoveUnusedVersions()
+        {
+            int newestVersionIndex = GetMostRecentUsedVersionIndex();
+            if(newestVersionIndex == Versions.Count - 1)
+            {
+                return;
+            }
+
             BeginChangeGroup("Format.RemoveUnusedVersions");
 
-            for(int i = Versions.Count - 1; i >= 0 && !usedVersions[i]; i-- )
+            for(int i = Versions.Count - 1; i > newestVersionIndex; i-- )
             {
                 _versions.RemoveAt(i);
             }
