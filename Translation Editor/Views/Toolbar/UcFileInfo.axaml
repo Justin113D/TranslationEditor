@@ -17,7 +17,7 @@
 
 		<Style Selector="TextBox">
 			<Setter Property="VerticalAlignment" Value="Center"/>
-			<Setter Property="Margin" Value="8 0 0 0"/>
+			<Setter Property="Margin" Value="4 0 0 0"/>
 			<Setter Property="MinWidth" Value="50"/>
 		</Style>
 	</UserControl.Styles>
@@ -46,7 +46,7 @@
 		<Separator Classes="Vertical"/>
 		
 		<TextBlock Classes="Header" Text="Format Version:"/>
-		<TextBlock Text="{Binding Version}" Margin="0 0 8 0"/>
+		<TextBlock Text="{Binding Version}" Margin="0 0 4 0"/>
 		
 	</StackPanel>
 	
