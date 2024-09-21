@@ -200,7 +200,6 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
                 return;
             }
 
-            Window topLevel = (Window)TopLevel.GetTopLevel(this)!;
             HelpWindow = new();
             HelpWindow.Show();
             HelpWindow.Closed += OnCloseHelp;

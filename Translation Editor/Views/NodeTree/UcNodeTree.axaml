@@ -8,6 +8,7 @@
 	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.NodeTree"
 	xmlns:converters="using:Avalonia.Data.Converters"
 	xmlns:scrconverters="using:J113D.Avalonia.Converters"
+	xmlns:views="using:J113D.TranslationEditor.ProjectApp.Views"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.NodeTree.UcNodeTree"
 	x:ClassModifier="internal"
@@ -103,7 +104,7 @@
 								ColumnDefinitions="*, auto"
 								Width="{Binding $parent[local:NodeTreeView].ContentWidth}">
 
-								<TextBox
+								<views:UndoRedoTextBox
 									x:Name="NodeValueTextBox"
 									IsUndoEnabled="False"
 									Text="{Binding NodeValue, Mode=TwoWay, Converter={StaticResource NullToStringConverter}, UpdateSourceTrigger=LostFocus}"
@@ -116,7 +117,6 @@
 									
 									<TextBox.KeyBindings>
 										<KeyBinding Gesture="Ctrl+R" Command="{Binding #NodeTree.OnNodeValueTextReset}" CommandParameter="{Binding #NodeValueTextBox}"/>
-										<KeyBinding Gesture="Ctrl+Z" Command="{Binding #NodeTree.OnNodeValueTextUndo}" CommandParameter="{Binding #NodeValueTextBox}"/>
 									</TextBox.KeyBindings>
 									
 									<TextBox.ContextMenu>
@@ -124,7 +124,7 @@
 											<MenuItem Header="Reset" HotKey="Ctrl+R" Command="{Binding ResetValue}"/>
 										</ContextMenu>
 									</TextBox.ContextMenu>
-								</TextBox>
+								</views:UndoRedoTextBox>
 
 								<CheckBox
 									Grid.Column="1"

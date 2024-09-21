@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
+	xmlns:views="using:J113D.TranslationEditor.ProjectApp.Views"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="45"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.Toolbar.UcFileInfo"
 	x:ClassModifier="internal"
@@ -17,6 +18,7 @@
 		<Style Selector="TextBox">
 			<Setter Property="VerticalAlignment" Value="Center"/>
 			<Setter Property="Margin" Value="8 0 0 0"/>
+			<Setter Property="MinWidth" Value="50"/>
 		</Style>
 	</UserControl.Styles>
 
@@ -29,22 +31,22 @@
 		<Separator Classes="Vertical"/>
 
 		<TextBlock Classes="Header" Text="Author:"/>
-		<TextBox Watermark="YourName" Text="{Binding Author}" />
+		<views:UndoRedoTextBox Watermark="YourName" Text="{Binding Author, UpdateSourceTrigger=LostFocus}" />
 		
 		<Separator Classes="Vertical"/>
 		
 		<TextBlock Classes="Header" Text="Language:"/>
-		<TextBox Watermark="{Binding DefaultLanguage}" Text="{Binding Language}" />
+		<views:UndoRedoTextBox Watermark="{Binding DefaultLanguage}" Text="{Binding Language, UpdateSourceTrigger=LostFocus}" />
 		
 		<Separator Classes="Vertical"/>
 		
 		<TextBlock Classes="Header" Text="Target Name:"/>
-		<TextBlock Text="{Binding Name }"/>
+		<TextBlock Text="{Binding Name}"/>
 		
 		<Separator Classes="Vertical"/>
 		
 		<TextBlock Classes="Header" Text="Format Version:"/>
-		<TextBlock Text="{Binding Version }" Margin="0 0 8 0"/>
+		<TextBlock Text="{Binding Version}" Margin="0 0 8 0"/>
 		
 	</StackPanel>
 	

@@ -14,10 +14,6 @@
         Icon="/Assets/Icon.ico"
         Title="Translation Editor">
 
-	<Design.DataContext>
-		<vm:MainViewModel/>
-	</Design.DataContext>
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="auto"/>
