@@ -10,7 +10,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         private ParentNode ParentNode
             => (ParentNode)_node;
 
-        public ReadOnlyCollection<NodeViewModel>? ChildNodes { get; protected set; }
+        public ReadOnlyCollection<NodeViewModel>? ChildNodes { get; private set; }
 
         public override bool Expanded
         {

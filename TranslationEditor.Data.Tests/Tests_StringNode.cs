@@ -1,5 +1,4 @@
-﻿using J113D.UndoRedo;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.Data.Tests

@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Toolbar"
 	xmlns:vm="using:J113D.TranslationEditor.ProjectApp.ViewModels"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="45"
     x:Class="J113D.TranslationEditor.ProjectApp.Views.Toolbar.UcMenuBar"
 	x:ClassModifier="internal"
 	x:DataType="vm:MainViewModel">
