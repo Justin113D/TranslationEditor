@@ -80,7 +80,8 @@
 			NameWidth="{Binding #NameHeader.Bounds.Width}"
 			ContentWidth="{Binding #ContentHeader.Bounds.Width}"
 			HorizontalAlignment="Stretch"
-			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.AllowAutoHide="False">
 
 			<local:NodeTreeView.Template>
 				<ControlTemplate>
@@ -99,6 +100,12 @@
 							BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
 
 							<StackPanel>
+								<Border
+									x:Name="PART_InsertAtRootMarker"
+									Background="Transparent"
+									Height="3"
+									Margin="0 2"/>
+								
 								<ItemsPresenter
 									Name="PART_ItemsPresenter"
 									ItemsPanel="{TemplateBinding ItemsPanel}"

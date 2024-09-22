@@ -74,14 +74,21 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public ParentNodeViewModel RootNode { get; }
 
+        public HashSet<NodeViewModel> SelectedNodes { get; }
+
+        public HashSet<NodeViewModel> SequenceSelectedNodes { get; }
+
+        public NodeViewModel? LastSelectedNode { get; set; }
 
         public FormatViewModel(Format data)
         {
             Format = data;
             _internalNodeTable = [];
+            SelectedNodes = [];
+            SequenceSelectedNodes = [];
             RootNode = new(this, Format.RootNode, true);
+            _internalNodeTable.Add(Format.RootNode, RootNode);
         }
-
 
         public NodeViewModel GetNodeViewModel(Node node)
         {

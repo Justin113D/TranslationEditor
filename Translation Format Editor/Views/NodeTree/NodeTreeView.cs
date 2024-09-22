@@ -1,19 +1,28 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Primitives;
 using PropertyChanged;
 using System;
 
 namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
 {
     [DoNotNotify]
+    [TemplatePart("PART_InsertAtRootMarker", typeof(Border), IsRequired = true)]
     internal sealed class NodeTreeView : TreeView
     {
+        private NodeTreeViewItem? _movingItem;
 
         public static readonly StyledProperty<double> NameWidthProperty =
             AvaloniaProperty.Register<NodeTreeView, double>(nameof(NameWidth));
 
         public static readonly StyledProperty<double> ContentWidthProperty =
             AvaloniaProperty.Register<NodeTreeView, double>(nameof(ContentWidth));
+
+        public static readonly DirectProperty<NodeTreeView, NodeTreeViewItem?> MovingItemProperty =
+            AvaloniaProperty.RegisterDirect<NodeTreeView, NodeTreeViewItem?>(
+                nameof(MovingItem), 
+                o => o.MovingItem);
 
         protected override Type StyleKeyOverride => typeof(TreeView);
 
@@ -27,6 +36,21 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
         {
             get => GetValue(ContentWidthProperty);
             set => SetValue(ContentWidthProperty, value);
+        }
+
+        public NodeTreeViewItem? MovingItem
+        {
+            get => _movingItem;
+            set => SetAndRaise(MovingItemProperty, ref _movingItem, value);
+        }
+
+        public Border? InsertAtRootMarker { get; private set; }
+
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+            InsertAtRootMarker = e.NameScope.Get<Border>("PART_InsertAtRootMarker");
         }
 
         protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)

@@ -1,6 +1,8 @@
 ﻿using J113D.TranslationEditor.Data.Events;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.Data
@@ -228,6 +230,58 @@ namespace J113D.TranslationEditor.Data
             HeaderChanged?.Invoke(this, args);
         }
 
+
+        public static ParentNode? GetCommonAncestor(Node a, Node b, out bool aIsAboveB)
+        {
+            if(a.Format != b.Format)
+            {
+                throw new ArgumentException("Nodes are from different formats!");
+            }
+            else if(a == b)
+            {
+                aIsAboveB = false;
+                return null;
+            }
+
+            List<Node> hierarchyOfA = [];
+            Node? current = a;
+            while(current != null)
+            {
+                hierarchyOfA.Add(current);
+                current = current.Parent;
+            }
+
+            Node? previous = null;
+            Node? result = b;
+            while(result != null && !hierarchyOfA.Contains(result))
+            {
+                previous = result;
+                result = result.Parent;
+            }
+
+            int index = hierarchyOfA.IndexOf(result!);
+
+            if(previous == null)
+            {
+                aIsAboveB = false;
+            }
+            else if(index == 0)
+            {
+                aIsAboveB = true;
+            }
+            else
+            {
+                Node sibling = hierarchyOfA[index - 1];
+                    
+                int indexOfA = ((ParentNode)result!).ChildNodes.IndexOf(sibling);
+                int indexOfB = ((ParentNode)result!).ChildNodes.IndexOf(previous);
+
+                aIsAboveB = indexOfA < indexOfB;
+            }
+            
+
+            return (ParentNode)result!;
+        }
 
         public StringNode[] GetStringNodes()
         {
