@@ -82,10 +82,45 @@
 			HorizontalAlignment="Stretch"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
+			<local:NodeTreeView.Template>
+				<ControlTemplate>
+					<Border
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+
+						<ScrollViewer
+							Background="{TemplateBinding Background}"
+							HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+							VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+							IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+							IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
+							AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+							BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+
+							<StackPanel>
+								<ItemsPresenter
+									Name="PART_ItemsPresenter"
+									ItemsPanel="{TemplateBinding ItemsPanel}"
+									Margin="{TemplateBinding Padding}" />
+								
+								<Grid ColumnDefinitions="* auto auto *">
+									<Button Grid.Column="1" Command="{Binding RootNode.AddNewParentNode}" Classes="Green" Content="New Group" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
+									<Button Grid.Column="2" Command="{Binding RootNode.AddNewStringNode}" Classes="Blue" Content="New String" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
+								</Grid>
+							</StackPanel>
+						</ScrollViewer>
+					</Border>
+				</ControlTemplate>
+			</local:NodeTreeView.Template>
+			
 			<local:NodeTreeView.ItemTemplate>
 				<ds:TreeDataTemplateSelector>
 					<TreeDataTemplate x:DataType="vm:ParentNodeViewModel" ItemsSource="{Binding ChildNodes}">
-						<Panel/>
+						<StackPanel Orientation="Horizontal">
+							<Button Command="{Binding AddNewParentNode}" Classes="Green" Content="New Group" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
+							<Button Command="{Binding AddNewStringNode}" Classes="Blue" Content="New String" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
+						</StackPanel>
 					</TreeDataTemplate>
 
 					<TreeDataTemplate x:DataType="vm:StringNodeViewModel">

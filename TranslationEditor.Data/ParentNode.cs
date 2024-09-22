@@ -36,7 +36,7 @@ namespace J113D.TranslationEditor.Data
                 item._parent = this;
             }
 
-            EvaluateState();
+            EvaluateState(false);
         }
 
 
@@ -147,7 +147,7 @@ namespace J113D.TranslationEditor.Data
         private void InternalRemoveNode(int index)
         {
             _childNodes.RemoveAt(index);
-            EvaluateState();
+            EvaluateState(true);
         }
 
 
@@ -159,18 +159,24 @@ namespace J113D.TranslationEditor.Data
             }
             else if(changedNode.State < State)
             {
-                EvaluateState();
+                EvaluateState(true);
             }
         }
 
-        /// <summary>
-        /// Evaluates the state of the parent node
-        /// </summary>
-        internal void EvaluateState()
+        internal void EvaluateState(bool track)
         {
-            State = _childNodes.Count > 0
+            NodeState state = _childNodes.Count > 0
                 ? ChildNodes.Max(x => x.State)
                 : NodeState.None;
+
+            if(track)
+            {
+                State = state;
+            }
+            else
+            {
+                _state = state;
+            }
         }
 
 

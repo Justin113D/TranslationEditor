@@ -15,7 +15,7 @@ namespace J113D.TranslationEditor.Data
 
         private string _name;
         private string? _description;
-        private NodeState _state;
+        protected internal NodeState _state;
         internal ParentNode? _parent;
 
 #pragma warning restore IDE0044

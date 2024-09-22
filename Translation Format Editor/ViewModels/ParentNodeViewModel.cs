@@ -9,8 +9,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
     internal sealed class ParentNodeViewModel : NodeViewModel
     {
         private bool _expanded;
-        private readonly TrackList<NodeViewModel> _childNodes;
-        private readonly ReadOnlyObservableCollection<NodeViewModel> _observableChildNodes;
+        private TrackList<NodeViewModel>? _childNodes;
 
         private ParentNode ParentNode
             => (ParentNode)_node;
@@ -29,9 +28,10 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
                 _expanded = value;
 
-                if(_expanded && ChildNodes != null && ChildNodes[0] == this)
+                if(_expanded && ChildNodes != null && _childNodes == null)
                 {
-                    _format.CreateNodeViewModels(ParentNode, _childNodes);
+                    _format.CreateNodeViewModels(ParentNode, out _childNodes, out ReadOnlyObservableCollection<NodeViewModel> observableNodes);
+                    ChildNodes = observableNodes;
                 }
             }
         }
@@ -39,23 +39,18 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public ParentNodeViewModel(FormatViewModel format, ParentNode node, bool expanded) : base(format, node)
         {
-            ObservableCollection<NodeViewModel> internalChildren = [];
-            
-            if(expanded && node.ChildNodes.Count > 0)
-            {
-                format.CreateNodeViewModels(node, internalChildren);
-            }
-            else
-            {
-                internalChildren.Add(this);
-            }
-
-            _childNodes = new(internalChildren);
-            _observableChildNodes = new(internalChildren);
-
             if(ParentNode.ChildNodes.Count > 0)
             {
-                ChildNodes = _observableChildNodes;
+                if(expanded)
+                {
+                    _format.CreateNodeViewModels(ParentNode, out _childNodes, out ReadOnlyObservableCollection<NodeViewModel>? observableNodes);
+                    ChildNodes = observableNodes;
+                }
+                else
+                {
+                    ChildNodes = new([this]);
+
+                }
             }
 
             node.ChildrenChanged += OnChildrenChanged;
@@ -65,52 +60,54 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         [SuppressPropertyChangedWarnings]
         private void OnChildrenChanged(ParentNode source, Data.Events.NodeChildrenChangedEventArgs args)
         {
-            BeginChangeGroup();
+            BeginChangeGroup("ParentNodeViewModel.OnChildrenChanged");
 
-            // If it is null, then the only change that could have occured is the insertion of a node
-            bool canExpandBefore = ChildNodes != null;
-            if(!canExpandBefore)
+            bool canExpandBefore = ChildNodes!.Count > 0;
+
+            if(args.FromIndex > -1)
             {
-                TrackPropertyChange(this, nameof(ChildNodes), _observableChildNodes);
+                _childNodes!.RemoveAt(args.FromIndex);
             }
 
-            if(ParentNode.ChildNodes.Count > 0 && ChildNodes![0] == this)
+            if(args.ToIndex > -1)
             {
-                Expanded = true;
+                NodeViewModel vmNode = _format.GetNodeViewModel(ParentNode.ChildNodes[args.ToIndex]);
+                _childNodes!.Insert(args.ToIndex, vmNode);
             }
-            else
-            {
-                if(args.FromIndex > -1)
-                {
-                    _childNodes!.RemoveAt(args.FromIndex);
-                }
 
-                if(args.ToIndex > -1)
-                {
-                    NodeViewModel vmNode = _format.GetNodeViewModel(ParentNode.ChildNodes[args.ToIndex]);
-                    _childNodes!.Insert(args.ToIndex, vmNode);
-                }
+            bool canExpandAfter = ChildNodes!.Count > 0;
 
-                if(_childNodes!.Count == 0)
-                {
-                    TrackPropertyChange(this, nameof(ChildNodes), null);
-                }
-            }
+            TrackCallbackChange(
+                () => Expanded = canExpandAfter, 
+                () => Expanded = canExpandBefore
+            );
 
             EndChangeGroup();
         }
 
+        private void AddNewNode(Node node)
+        {
+            if(ChildNodes == null)
+            {
+                _format.CreateNodeViewModels(ParentNode, out _childNodes, out ReadOnlyObservableCollection<NodeViewModel>? observableNodes);
+                ChildNodes = observableNodes;
+            }
+            else if(_childNodes == null)
+            {
+                Expanded = true;
+            }
+
+            ParentNode.AddChildNode(node);
+        }
 
         public void AddNewStringNode()
         {
-            ParentNode.AddChildNode(new StringNode("String", ""));
-            Expanded = true;
+            AddNewNode(new StringNode("String", ""));
         }
 
         public void AddNewParentNode()
         {
-            ParentNode.AddChildNode(new ParentNode("Category"));
-            Expanded = true;
+            AddNewNode(new ParentNode("Category"));
         }
 
         public void ExpandAll()

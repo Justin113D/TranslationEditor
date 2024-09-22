@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using PropertyChanged;
 
 namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
@@ -6,14 +7,9 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
     [DoNotNotify]
     internal sealed class NodeTreeViewItem : TreeViewItem
     {
-        protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
+        protected override void OnHeaderDoubleTapped(TappedEventArgs e)
         {
-            return new NodeTreeViewItem();
-        }
-
-        protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
-        {
-            return NeedsContainer<NodeTreeViewItem>(item, out recycleKey);
+            return;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public string DefaultValue
         {
-            get => StringNode.DefaultValue;
+            get => _realDefaultValue;
             set
             {
                 if(_realDefaultValue == value)
@@ -30,6 +30,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                 BeginChangeGroup();
                 TrackFieldChange(this, nameof(_realDefaultValue), value);
                 StringNode.DefaultValue = value;
+                this.AddChangeGroupInvokePropertyChanged(nameof(DefaultValue));
                 EndChangeGroup();
             }
         }

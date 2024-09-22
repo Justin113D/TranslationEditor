@@ -3,6 +3,7 @@ using J113D.UndoRedo;
 using J113D.UndoRedo.Collections;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
@@ -19,7 +20,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             get => Format.Author;
             set
             {
-                BeginChangeGroup();
+                BeginChangeGroup("FormatViewModel.Author");
                 Format.Author = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Author));
                 EndChangeGroup();
@@ -31,7 +32,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             get => Format.Language;
             set
             {
-                BeginChangeGroup();
+                BeginChangeGroup("FormatViewModel.Language");
                 Format.Language = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Language));
                 EndChangeGroup();
@@ -43,7 +44,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             get => Format.Name;
             set
             {
-                BeginChangeGroup();
+                BeginChangeGroup("FormatViewModel.Name");
                 Format.Name = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Name));
                 EndChangeGroup();
@@ -64,7 +65,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                     throw new ArgumentException("New version must be greater most recent used version!");
                 }
 
-                BeginChangeGroup();
+                BeginChangeGroup("FormatViewModel.Version");
                 Format.Version = newVersion;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Version));
                 EndChangeGroup();
@@ -99,17 +100,11 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             return result;
         }
 
-        public void CreateNodeViewModels(ParentNode parentNode, IList<NodeViewModel> nodeList)
+        public void CreateNodeViewModels(ParentNode parentNode, out TrackList<NodeViewModel> trackList, out ReadOnlyObservableCollection<NodeViewModel> observableList)
         {
-            BeginChangeGroup();
-            nodeList.Clear();
-
-            foreach(Node node in parentNode.ChildNodes)
-            {
-                nodeList.Add(GetNodeViewModel(node));
-            }
-
-            EndChangeGroup();
+            ObservableCollection<NodeViewModel> nodes = new(parentNode.ChildNodes.Select(GetNodeViewModel));
+            trackList = new(nodes);
+            observableList = new(nodes);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                     return;
                 }
 
-                BeginChangeGroup();
+                BeginChangeGroup("NodeViewModel.Name");
 
                 _node.Name = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Name));
@@ -37,7 +37,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                     return;
                 }
 
-                BeginChangeGroup();
+                BeginChangeGroup("NodeViewModel.Description");
 
                 _node.Description = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Description));
