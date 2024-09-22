@@ -56,5 +56,9 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         }
 
 
+        public void Remove()
+        {
+            _node.Parent!.RemoveChildNode(_node);
+        }
     }
 }

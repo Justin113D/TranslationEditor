@@ -92,6 +92,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             EndChangeGroup();
         }
 
+
         private void AddNewNode(Node node)
         {
             if(ChildNodes == null)
@@ -116,6 +117,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         {
             AddNewNode(new ParentNode("Category"));
         }
+
 
         public void ExpandUpward()
         {
