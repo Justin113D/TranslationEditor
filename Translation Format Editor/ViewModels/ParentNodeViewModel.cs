@@ -1,6 +1,7 @@
 ﻿using J113D.TranslationEditor.Data;
 using J113D.UndoRedo.Collections;
 using PropertyChanged;
+using System;
 using System.Collections.ObjectModel;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
@@ -77,10 +78,16 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
             bool canExpandAfter = ChildNodes!.Count > 0;
 
-            TrackCallbackChange(
-                () => Expanded = canExpandAfter, 
-                () => Expanded = canExpandBefore
-            );
+            ParentNodeViewModel? parent = ParentNode.Parent == null ? null : (ParentNodeViewModel)_format.GetNodeViewModel(ParentNode.Parent);
+
+            if(parent != null || canExpandAfter || canExpandBefore)
+            {
+                Action? parentExpandUpward = parent == null ? null : parent.ExpandUpward;
+                TrackCallbackChange(
+                    canExpandAfter ? ExpandUpward : parentExpandUpward,
+                    canExpandBefore ? ExpandUpward : parentExpandUpward
+                );
+            }
 
             EndChangeGroup();
         }
@@ -108,6 +115,15 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         public void AddNewParentNode()
         {
             AddNewNode(new ParentNode("Category"));
+        }
+
+        public void ExpandUpward()
+        {
+            Expanded = true;
+            if(ParentNode.Parent != null)
+            {
+                ((ParentNodeViewModel)_format.GetNodeViewModel(ParentNode.Parent)).ExpandUpward();
+            }
         }
 
         public void ExpandAll()
