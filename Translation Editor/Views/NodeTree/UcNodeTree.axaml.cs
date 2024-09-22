@@ -19,12 +19,5 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
             binding.UpdateSource();
             ((StringNodeViewModel)textbox.DataContext!).ResetValue();
         }
-
-        public void OnNodeValueTextUndo(TextBox textbox)
-        {
-            BindingExpressionBase binding = BindingOperations.GetBindingExpressionBase(textbox, TextBox.TextProperty)!;
-            binding.UpdateSource();
-            ((MainViewModel)TopLevel.GetTopLevel(this)!.DataContext!).Undo();
-        }
     }
 }
