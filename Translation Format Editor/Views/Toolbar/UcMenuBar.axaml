@@ -1,0 +1,70 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="using:J113D.TranslationEditor.FormatApp.Views.Toolbar"
+	xmlns:vm="using:J113D.TranslationEditor.FormatApp.ViewModels"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="45"
+    x:Class="J113D.TranslationEditor.FormatApp.Views.Toolbar.UcMenuBar"
+	x:ClassModifier="internal"
+	x:DataType="vm:MainViewModel">
+
+	<Menu>
+		<Menu.Styles>
+			<Style Selector="Image">
+				<Setter Property="Height" Value="16"/>
+				<Setter Property="Width" Value="16"/>
+			</Style>
+		</Menu.Styles>
+
+		<MenuItem Header="File" IsEnabled="True">
+			<MenuItem Header="New Format" Click="OnNewFormat" InputGesture="Ctrl+N" HotKey="Ctrl+N">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/NewFile.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Open Format" Click="OnOpenFormat" InputGesture="Ctrl+O" HotKey="Ctrl+O">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/OpenFile.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Save Format" Click="OnSaveFormat" InputGesture="Ctrl+S" HotKey="Ctrl+S">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/Save.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Save Format As" Click="OnSaveFormatAs" InputGesture="Ctrl+Shift+S" HotKey="Ctrl+Shift+S">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/SaveAs.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+		</MenuItem>
+		<MenuItem Header="Edit">
+			<MenuItem Header="Undo" Click="OnUndo" InputGesture="Ctrl+Z" HotKey="Ctrl+Z">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/Undo.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Redo" Click="OnRedo" InputGesture="Ctrl+Y" HotKey="Ctrl+Y">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/Redo.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator/>
+			<MenuItem Header="Expand All" Click="OnExpandAll">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/ExpandAll.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Collapse All" Click="OnCollapseAll">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/ExpandAll.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+		</MenuItem>
+		<MenuItem Header="Settings" Click="OnSettingsOpen"/>
+		<MenuItem Header="Help" Click="OnOpenHelp"/>
+	</Menu>
+	
+</UserControl>

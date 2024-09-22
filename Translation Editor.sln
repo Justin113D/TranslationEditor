@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Translation Format Editor", "Translation Format Editor\Translation Format Editor.csproj", "{CAF695EC-46BC-40BF-8688-F3205A1C4623}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{B07DA799-6157-4C42-A67B-2503E090B55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B07DA799-6157-4C42-A67B-2503E090B55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B07DA799-6157-4C42-A67B-2503E090B55F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAF695EC-46BC-40BF-8688-F3205A1C4623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAF695EC-46BC-40BF-8688-F3205A1C4623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAF695EC-46BC-40BF-8688-F3205A1C4623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAF695EC-46BC-40BF-8688-F3205A1C4623}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

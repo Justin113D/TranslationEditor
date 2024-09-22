@@ -1,0 +1,21 @@
+<Application 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:j113da="using:J113D.Avalonia.Theme"
+	xmlns:local="using:J113D.TranslationEditor.FormatApp"
+    x:Class="J113D.TranslationEditor.FormatApp.App"
+	x:ClassModifier="internal"
+    RequestedThemeVariant="Default">
+
+	<Application.Resources>
+		<x:Double x:Key="AppFontSize">14</x:Double>
+	</Application.Resources>
+	
+    <Application.Styles>
+		<j113da:J113DTheme/>
+
+		<Style Selector="Window">
+			<Setter Property="FontSize" Value="{DynamicResource AppFontSize}"/>
+		</Style>
+    </Application.Styles>
+</Application>

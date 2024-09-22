@@ -1,0 +1,53 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:J113D.TranslationEditor.FormatApp.ViewModels"
+	xmlns:views="using:J113D.TranslationEditor.FormatApp.Views"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="45"
+    x:Class="J113D.TranslationEditor.FormatApp.Views.Toolbar.UcFileInfo"
+	x:ClassModifier="internal"
+	x:DataType="vm:FormatViewModel">
+	
+	<UserControl.Styles>
+		<Style Selector="TextBlock">
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+
+		<Style Selector="TextBox">
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Margin" Value="4 0 0 0"/>
+			<Setter Property="MinWidth" Value="50"/>
+		</Style>
+	</UserControl.Styles>
+
+	<StackPanel 
+		Orientation="Horizontal" 
+		HorizontalAlignment="Right" 
+		VerticalAlignment="Stretch"
+		Spacing="4">
+
+		<Separator Classes="Vertical"/>
+
+		<TextBlock Classes="Header" Text="Author:"/>
+		<views:UndoRedoTextBox Watermark="YourName" Text="{Binding Author, UpdateSourceTrigger=LostFocus}" />
+		
+		<Separator Classes="Vertical"/>
+		
+		<TextBlock Classes="Header" Text="Language:"/>
+		<views:UndoRedoTextBox Watermark="English" Text="{Binding Language, UpdateSourceTrigger=LostFocus}" />
+		
+		<Separator Classes="Vertical"/>
+		
+		<TextBlock Classes="Header" Text="Target Name:"/>
+		<views:UndoRedoTextBox Watermark="MyFormat" Text="{Binding Name, UpdateSourceTrigger=LostFocus}"/>
+		
+		<Separator Classes="Vertical"/>
+		
+		<TextBlock Classes="Header" Text="Format Version:"/>
+		<views:UndoRedoTextBox Watermark="1.0.0" Text="{Binding Version, UpdateSourceTrigger=LostFocus}" Margin="4 0"/>
+		
+	</StackPanel>
+	
+</UserControl>
