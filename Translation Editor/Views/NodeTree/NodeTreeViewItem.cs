@@ -106,5 +106,10 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
             NodeTreeViewItem? parent = this.GetLogicalParent<NodeTreeViewItem>();
             return parent?.GetNextSibling();
         }
+
+        protected override void OnHeaderDoubleTapped(TappedEventArgs e)
+        {
+            return;
+        }
     }
 }
