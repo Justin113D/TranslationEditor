@@ -131,8 +131,8 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                 return;
             }
 
-            _currentDropZone?.ToggleDropArea(false);
-            insertRegion?.ToggleDropArea(true);
+            _tree!.InsertMarker!.Background = Brushes.Transparent;
+            insertRegion?.ToggleDropArea();
             _currentDropZone = insertRegion;
         }
 
@@ -162,7 +162,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                 return;
             }
 
-            _currentDropZone?.ToggleDropArea(false);
+            _tree!.InsertMarker!.Background = Brushes.Transparent;
             _currentDropZone = null;
             _tree!.MovingItem = null;
         }

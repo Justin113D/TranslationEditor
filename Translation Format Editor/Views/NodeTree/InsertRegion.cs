@@ -61,7 +61,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
             return matrix.M32 + (from.Bounds.Size.Height * matrix.M22);
         }
 
-        public void ToggleDropArea(bool show)
+        public void ToggleDropArea()
         {
             NodeTreeViewItem? insertParent = GetDropParent(out NodeTreeViewItem? insertAfter);
             Border insertMarker = Tree!.InsertMarker!;
@@ -95,20 +95,9 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                 insertMarker.Height = double.NaN;
             }
 
-            if(!show)
-            {
-                insertMarker.BorderBrush= Brushes.Transparent;
-            }
-            else if(insertParent == null)
-            {
-                insertMarker.BorderBrush = InsertMarkerBrushValid;
-            }
-            else
-            {
-                insertMarker.BorderBrush = insertParent.ViewModel.PartOfSelectedBranch
-                    ? InsertMarkerBrushError
-                    : InsertMarkerBrushValid;
-            }
+            insertMarker.BorderBrush = insertParent?.ViewModel.PartOfSelectedBranch == true
+                ? InsertMarkerBrushError
+                : InsertMarkerBrushValid;
         }
 
         public NodeTreeViewItem? GetDropParent(out NodeTreeViewItem? after)
