@@ -1,4 +1,5 @@
 ﻿using J113D.TranslationEditor.Data;
+using System;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.FormatApp.ViewModels
@@ -50,23 +51,12 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public bool Selected { get; private set; }
 
-        public bool PartOfSelectedBranch
-        {
-            get
-            {
-                if(Selected)
-                {
-                    return true;
-                }
+        public bool PartOfSelectedBranch 
+            => Selected || Parent?.PartOfSelectedBranch == true;
 
-                if(_node.Parent == null)
-                {
-                    return false;
-                }
+        public ParentNodeViewModel? Parent
+            => _node.Parent == null ? null : (ParentNodeViewModel)_format.GetNodeViewModel(_node.Parent);
 
-                return _format.GetNodeViewModel(_node.Parent).PartOfSelectedBranch;
-            }
-        }
 
         protected NodeViewModel(FormatViewModel format, Node node)
         {
@@ -173,6 +163,33 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                 current = currentParent.ChildNodes[siblingIndex + 1];
             }
 
+        }
+
+
+        public void MoveToParent(ParentNodeViewModel parent, int index)
+        {
+            if(parent.ChildNodes == null || parent.ChildNodes[0] == parent)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if(index < parent.ChildNodes.Count - 1 && parent.ChildNodes[index] == this)
+            {
+                return;
+            }
+
+            BeginChangeGroup("NodeViewModel.MoveToParent");
+
+            if(_node.Parent == parent._node)
+            {
+                _node.Parent.MoveChildNode(_node.Parent.ChildNodes.IndexOf(_node), index);
+            }
+            else
+            {
+                ((ParentNode)parent._node).InsertChildNodeAt(_node, index);
+            }
+
+            EndChangeGroup();
         }
     }
 }

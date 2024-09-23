@@ -85,6 +85,12 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
             _grab.PointerMoved += OnGrabMoved;
         }
 
+
+        private void OnGrabPressed(object? sender, PointerPressedEventArgs e)
+        {
+            _dragStartPosition = e.GetPosition(_tree);
+        }
+
         private void OnGrabMoved(object? sender, PointerEventArgs e)
         {
             Point position = e.GetPosition(_tree);
@@ -131,7 +137,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                 return;
             }
 
-            _tree!.InsertMarker!.Background = Brushes.Transparent;
+            _tree!.InsertMarker!.IsVisible = false;
             insertRegion?.ToggleDropArea();
             _currentDropZone = insertRegion;
         }
@@ -162,14 +168,26 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                 return;
             }
 
-            _tree!.InsertMarker!.Background = Brushes.Transparent;
+            _tree!.InsertMarker!.IsVisible = false;
+
+            if(_currentDropZone != null)
+            {
+                ParentNodeViewModel insertTarget = _currentDropZone.GetInsertTarget(out NodeViewModel? insertAfter);
+                FormatViewModel format = (FormatViewModel)_tree.DataContext!;
+
+                if(insertAfter != null)
+                {
+                    format.InsertSelectedNodesAt(insertAfter.Parent!, insertAfter);
+                }
+                else
+                {
+                    format.InsertSelectedNodesAt(insertTarget, null);
+                }
+            }
+
             _currentDropZone = null;
             _tree!.MovingItem = null;
         }
 
-        private void OnGrabPressed(object? sender, PointerPressedEventArgs e)
-        {
-            _dragStartPosition = e.GetPosition(_tree);
-        }
     }
 }

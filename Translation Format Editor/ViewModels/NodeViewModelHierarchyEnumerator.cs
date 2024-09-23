@@ -1,23 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace J113D.TranslationEditor.Data
+namespace J113D.TranslationEditor.FormatApp.ViewModels
 {
-    internal class NodeHierarchyEnumerator : IEnumerable<Node>, IEnumerator<Node>
+    internal class NodeViewModelHierarchyEnumerator : IEnumerable<NodeViewModel>, IEnumerator<NodeViewModel>
     {
-        private readonly Node[] _init;
+        private readonly NodeViewModel[] _init;
 
-        private readonly Stack<(IList<Node> children, int index)> _treeStack;
+        private readonly Stack<(IList<NodeViewModel> children, int index)> _treeStack;
 
-        private IList<Node>? _currentChildren;
+        private IList<NodeViewModel>? _currentChildren;
 
         private int _currentIndex;
 
-        public Node Current => _currentChildren?[_currentIndex] ?? _init[0];
+        public NodeViewModel Current => _currentChildren?[_currentIndex] ?? _init[0];
 
         object IEnumerator.Current => Current;
 
-        public NodeHierarchyEnumerator(ParentNode parent)
+        public NodeViewModelHierarchyEnumerator(ParentNodeViewModel parent)
         {
             _init = [parent];
             _currentChildren = _init;
@@ -36,7 +36,7 @@ namespace J113D.TranslationEditor.Data
                 return false;
             }
 
-            if(_currentChildren[_currentIndex] is ParentNode parent && parent.ChildNodes.Count > 0)
+            if(_currentChildren[_currentIndex] is ParentNodeViewModel parent && parent.ChildNodes?.Count > 0)
             {
                 _treeStack.Push((_currentChildren, _currentIndex + 1));
                 _currentChildren = parent.ChildNodes;
@@ -65,7 +65,7 @@ namespace J113D.TranslationEditor.Data
             _treeStack.Clear();
         }
 
-        public IEnumerator<Node> GetEnumerator()
+        public IEnumerator<NodeViewModel> GetEnumerator()
         {
             return this;
         }

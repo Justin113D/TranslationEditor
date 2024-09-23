@@ -113,5 +113,74 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             trackList = new(nodes);
             observableList = new(nodes);
         }
+    
+        private NodeViewModel[] GetSelectedNodeRoots()
+        {
+            HashSet<NodeViewModel> rootNodes = [];
+
+            foreach(NodeViewModel node in SelectedNodes)
+            {
+                NodeViewModel? current = node;
+                NodeViewModel selectionRoot = node;
+                while(current != null)
+                {
+                    if(current.Selected)
+                    {
+                        selectionRoot = current;
+                    }
+
+                    current = current.Parent;
+                }
+
+                rootNodes.Add(selectionRoot);
+            }
+
+            // Sorting the nodes in hierarchy order
+            List<NodeViewModel> result = [];
+            NodeViewModelHierarchyEnumerator enumerator = new(RootNode);
+
+            foreach(NodeViewModel node in enumerator)
+            {
+                if(rootNodes.Contains(node))
+                {
+                    result.Add(node);
+                }
+            }
+
+            return [..result];
+        }
+
+        public void InsertSelectedNodesAt(ParentNodeViewModel target, NodeViewModel? targetSibling)
+        {
+            if(target.PartOfSelectedBranch)
+            {
+                return;
+            }
+
+            NodeViewModel[] selectedNodeRoots = GetSelectedNodeRoots();
+
+            int index = targetSibling == null ? -1 : target.ChildNodes!.IndexOf(targetSibling);
+            while(index >= 0 && target.ChildNodes![index].Selected)
+            {
+                index--;
+            }
+
+            targetSibling = index == -1 ? null : target.ChildNodes![index];
+
+            BeginChangeGroup("FormatViewModel.InsertSelectedNodesInside");
+
+            int targetIndex = 0;
+            foreach(NodeViewModel node in selectedNodeRoots)
+            {
+                int baseIndex = targetSibling == null ? 0 : target.ChildNodes!.IndexOf(targetSibling) + 1;
+                node.MoveToParent(target, baseIndex + targetIndex);
+                targetIndex++;
+            }
+
+            EndChangeGroup();
+
+            SequenceSelectedNodes.Clear();
+        }
+
     }
 }

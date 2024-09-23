@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using J113D.TranslationEditor.FormatApp.ViewModels;
 using PropertyChanged;
 using System;
 using System.Linq;
@@ -63,15 +64,19 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
 
         public void ToggleDropArea()
         {
-            NodeTreeViewItem? insertParent = GetDropParent(out NodeTreeViewItem? insertAfter);
+            ParentNodeViewModel insertTarget = GetInsertTarget(out NodeViewModel? insertAfter);
+
+            NodeTreeViewItem? insertTargetContainer = insertTarget.Parent == null ? null : (NodeTreeViewItem)Tree!.ContainerFromItem(insertTarget)!;
+            NodeTreeViewItem? insertAfterContainer = insertAfter == null ? null : (NodeTreeViewItem)Tree!.ContainerFromItem(insertAfter)!;
+
             Border insertMarker = Tree!.InsertMarker!;
             Panel markerArea = insertMarker.GetLogicalParent<Panel>()!;
 
-            double indent = ((insertParent?.Level ?? 0) * 16) + 10;
-            double insertAfterEnd = GetEndOffset(insertAfter, markerArea);
-            double insertParentEnd = GetEndOffset(insertParent?.ItemArea, markerArea);
+            double indent = ((insertTargetContainer?.Level ?? 0) * 16) + 10;
+            double insertAfterEnd = GetEndOffset(insertAfterContainer, markerArea);
+            double insertParentEnd = GetEndOffset(insertTargetContainer?.ItemArea, markerArea);
 
-            if(insertParent != null)
+            if(insertTargetContainer != null)
             {
                 insertMarker.Margin = new(indent, insertParentEnd, 0, 0);
 
@@ -84,39 +89,39 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                     insertMarker.Height = 5;
                 }
             }
-            else if(insertAfter != null)
+            else if(insertAfterContainer != null)
             {
                 insertMarker.Margin = new(indent, insertAfterEnd - 5, 0, 0);
                 insertMarker.Height = double.NaN;
             }
             else
             {
-                insertMarker.Margin = new(0, 2, 0, 0);
+                insertMarker.Margin = new(indent, 2, 0, 0);
                 insertMarker.Height = double.NaN;
             }
 
-            insertMarker.BorderBrush = insertParent?.ViewModel.PartOfSelectedBranch == true
+            insertMarker!.IsVisible = true;
+            insertMarker.BorderBrush = insertTarget.PartOfSelectedBranch == true
                 ? InsertMarkerBrushError
                 : InsertMarkerBrushValid;
         }
 
-        public NodeTreeViewItem? GetDropParent(out NodeTreeViewItem? after)
+        public ParentNodeViewModel GetInsertTarget(out NodeViewModel? after)
         {
-            NodeTreeViewItem? dropParent = Item.FindLogicalAncestorOfType<NodeTreeViewItem>();
+            ParentNodeViewModel insertParent = Item!.ViewModel.Parent!;
             after = null;
 
             switch(InsertRegionType)
             {
                 case InsertRegionType.Above:
-                    NodeTreeViewItem[] siblings = Item!.GetLogicalSiblings().OfType<NodeTreeViewItem>().ToArray();
-                    int index = Array.IndexOf(siblings, Item);
-
+                    int index = insertParent.ChildNodes!.IndexOf(Item.ViewModel);
                     if(index > 0)
                     {
-                        after = siblings[index - 1];
+                        after = insertParent.ChildNodes[index - 1];
                     }
 
                     break;
+
                 case InsertRegionType.After:
                     if(Item!.IsExpanded)
                     {
@@ -126,17 +131,20 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                     {
                         goto case InsertRegionType.Below;
                     }
+
                 case InsertRegionType.Inside:
-                    dropParent = Item;
+                    insertParent = (ParentNodeViewModel)Item.ViewModel;
                     break;
+
                 case InsertRegionType.Below:
-                    after = Item;
+                    after = Item.ViewModel;
                     break;
+
                 default:
                     throw new InvalidOperationException();
             }
 
-            return dropParent;
+            return insertParent;
         }
     }
 }
