@@ -16,8 +16,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
 {
     [DoNotNotify]
     [TemplatePart("PART_Grab", typeof(Border), IsRequired = true)]
-    [TemplatePart("PART_InsertInsideMarker", typeof(Border), IsRequired = true)]
-    [TemplatePart("PART_InsertBelowMarker", typeof(Border), IsRequired = true)]
+    [TemplatePart("PART_ItemArea", typeof(Panel), IsRequired = true)]
     [PseudoClasses(":nodeselected")]
     internal sealed class NodeTreeViewItem : TreeViewItem
     {
@@ -44,9 +43,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
             set => SetValue(NodeSelectedProperty, value);
         }
 
-        public Border? InsertInsideMarker { get; private set; }
-
-        public Border? InsertBelowMarker { get; private set; }
+        public Panel? ItemArea { get; private set; }
 
         public NodeViewModel ViewModel => (NodeViewModel)DataContext!;
 
@@ -81,9 +78,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
             base.OnApplyTemplate(e);
 
             _grab = e.NameScope.Get<Border>("PART_Grab");
-
-            InsertInsideMarker = e.NameScope.Get<Border>("PART_InsertInsideMarker");
-            InsertBelowMarker = e.NameScope.Get<Border>("PART_InsertBelowMarker");
+            ItemArea = e.NameScope.Get<Panel>("PART_ItemArea");
 
             _grab.PointerPressed += OnGrabPressed;
             _grab.PointerReleased += OnGrabReleased;

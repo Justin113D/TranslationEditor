@@ -99,17 +99,19 @@
 							AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
 							BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
 
-							<StackPanel>
-								<Border
-									x:Name="PART_InsertAtRootMarker"
-									Background="Transparent"
-									Height="3"
-									Margin="0 2"/>
-								
-								<ItemsPresenter
-									Name="PART_ItemsPresenter"
-									ItemsPanel="{TemplateBinding ItemsPanel}"
-									Margin="{TemplateBinding Padding}" />
+							<StackPanel Margin="{TemplateBinding Padding}">
+								<Panel>
+									<ItemsPresenter
+										Name="PART_ItemsPresenter"
+										ItemsPanel="{TemplateBinding ItemsPanel}"
+										Margin="0 7 0 0"/>
+										
+									<Border 
+										IsHitTestVisible="False" 
+										x:Name="PART_InsertMarker"
+										VerticalAlignment="Top"
+										BorderThickness="3 0 0 3"/>
+								</Panel>
 								
 								<Grid ColumnDefinitions="* auto auto *">
 									<Button Grid.Column="1" Command="{Binding RootNode.AddNewParentNode}" Classes="Green" Content="New Group" Margin="3" Padding="8" VerticalContentAlignment="Center"/>

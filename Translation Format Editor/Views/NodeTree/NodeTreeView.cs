@@ -2,13 +2,14 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Shapes;
 using PropertyChanged;
 using System;
 
 namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
 {
     [DoNotNotify]
-    [TemplatePart("PART_InsertAtRootMarker", typeof(Border), IsRequired = true)]
+    [TemplatePart("PART_InsertMarker", typeof(Border), IsRequired = true)]
     internal sealed class NodeTreeView : TreeView
     {
         private NodeTreeViewItem? _movingItem;
@@ -44,13 +45,13 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
             set => SetAndRaise(MovingItemProperty, ref _movingItem, value);
         }
 
-        public Border? InsertAtRootMarker { get; private set; }
+        public Border? InsertMarker { get; private set; }
 
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
-            InsertAtRootMarker = e.NameScope.Get<Border>("PART_InsertAtRootMarker");
+            InsertMarker = e.NameScope.Get<Border>("PART_InsertMarker");
         }
 
         protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)

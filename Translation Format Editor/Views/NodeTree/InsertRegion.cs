@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
+using Avalonia.VisualTree;
 using PropertyChanged;
 using System;
 using System.Linq;
@@ -49,11 +50,71 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
             Tree = this.FindLogicalAncestorOfType<NodeTreeView>();
         }
 
+        private static double GetEndOffset(Visual? from, Visual to)
+        {
+            if(from == null)
+            {
+                return 0;
+            }
+
+            Matrix matrix = from.TransformToVisual(to)!.Value;
+            return matrix.M32 + (from.Bounds.Size.Height * matrix.M22);
+        }
 
         public void ToggleDropArea(bool show)
         {
-            Border dropAreaMarker;
+            NodeTreeViewItem? insertParent = GetDropParent(out NodeTreeViewItem? insertAfter);
+            Border insertMarker = Tree!.InsertMarker!;
+            Panel markerArea = insertMarker.GetLogicalParent<Panel>()!;
+
+            double indent = ((insertParent?.Level ?? 0) * 16) + 10;
+            double insertAfterEnd = GetEndOffset(insertAfter, markerArea);
+            double insertParentEnd = GetEndOffset(insertParent?.ItemArea, markerArea);
+
+            if(insertParent != null)
+            {
+                insertMarker.Margin = new(indent, insertParentEnd, 0, 0);
+
+                if(insertAfter != null)
+                {
+                    insertMarker.Height = insertAfterEnd - insertParentEnd - 2;
+                }
+                else
+                {
+                    insertMarker.Height = 5;
+                }
+            }
+            else if(insertAfter != null)
+            {
+                insertMarker.Margin = new(indent, insertAfterEnd - 5, 0, 0);
+                insertMarker.Height = double.NaN;
+            }
+            else
+            {
+                insertMarker.Margin = new(0, 2, 0, 0);
+                insertMarker.Height = double.NaN;
+            }
+
+            if(!show)
+            {
+                insertMarker.BorderBrush= Brushes.Transparent;
+            }
+            else if(insertParent == null)
+            {
+                insertMarker.BorderBrush = InsertMarkerBrushValid;
+            }
+            else
+            {
+                insertMarker.BorderBrush = insertParent.ViewModel.PartOfSelectedBranch
+                    ? InsertMarkerBrushError
+                    : InsertMarkerBrushValid;
+            }
+        }
+
+        public NodeTreeViewItem? GetDropParent(out NodeTreeViewItem? after)
+        {
             NodeTreeViewItem? dropParent = Item.FindLogicalAncestorOfType<NodeTreeViewItem>();
+            after = null;
 
             switch(InsertRegionType)
             {
@@ -63,17 +124,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
 
                     if(index > 0)
                     {
-                        dropAreaMarker = siblings[index - 1].InsertBelowMarker!;
-
-                    }
-                    else if(dropParent != null)
-                    {
-                        dropAreaMarker = dropParent.InsertInsideMarker!;
-                    }
-                    else
-                    {
-                        dropAreaMarker = Tree!.InsertAtRootMarker!;
-                        dropParent = null;
+                        after = siblings[index - 1];
                     }
 
                     break;
@@ -87,30 +138,16 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
                         goto case InsertRegionType.Below;
                     }
                 case InsertRegionType.Inside:
-                    dropAreaMarker = Item!.InsertInsideMarker!;
                     dropParent = Item;
                     break;
                 case InsertRegionType.Below:
-                    dropAreaMarker = Item!.InsertBelowMarker!;
+                    after = Item;
                     break;
                 default:
-                    return;
+                    throw new InvalidOperationException();
             }
 
-            if(!show)
-            {
-                dropAreaMarker.Background = Brushes.Transparent;
-            }
-            else if(dropParent == null)
-            {
-                dropAreaMarker.Background = InsertMarkerBrushValid;
-            }
-            else
-            {
-                dropAreaMarker.Background = dropParent.ViewModel.PartOfSelectedBranch 
-                    ? InsertMarkerBrushError 
-                    : InsertMarkerBrushValid;
-            }
+            return dropParent;
         }
     }
 }

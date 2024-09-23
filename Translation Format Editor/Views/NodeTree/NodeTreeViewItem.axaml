@@ -68,7 +68,7 @@
 		<Setter Property="Template">
 			<ControlTemplate>
 				<StackPanel>
-					<Panel>
+					<Panel x:Name="PART_ItemArea">
 						
 						<Border
 							Name="PART_LayoutRoot"
@@ -198,15 +198,7 @@
 					
 
 					<StackPanel IsVisible="{TemplateBinding IsExpanded}">
-						<local:InsertRegion Padding="0 2" InsertRegionType="Inside">
-							<Panel Margin="16 0 0 0">
-								<Border
-									x:Name="PART_InsertInsideMarker"
-									Background="Transparent"
-									Height="3"
-									Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeViewItemLeftMarginConverter}}"/>
-							</Panel>
-						</local:InsertRegion>
+						<local:InsertRegion Height="7" InsertRegionType="Inside"/>
 
 						<ItemsPresenter
 							Name="PART_ItemsPresenter"
@@ -214,13 +206,7 @@
 						
 					</StackPanel>
 
-					<local:InsertRegion Padding="0 2" InsertRegionType="Below">
-						<Border 
-							x:Name="PART_InsertBelowMarker"
-							Background="Transparent" 
-							Height="3" 
-							Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeViewItemLeftMarginConverter}}"/>
-					</local:InsertRegion>
+					<local:InsertRegion Height="7" InsertRegionType="Below"/>
 					
 				</StackPanel>
 			</ControlTemplate>
