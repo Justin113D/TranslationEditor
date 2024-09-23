@@ -104,7 +104,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public void AddNewStringNode()
         {
-            AddNewNode(new StringNode("String", ""));
+            AddNewNode(new StringNode("string", ""));
         }
 
         public void AddNewParentNode()
