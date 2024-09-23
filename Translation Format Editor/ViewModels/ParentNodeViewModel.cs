@@ -78,16 +78,10 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
             bool canExpandAfter = ChildNodes!.Count > 0;
 
-            ParentNodeViewModel? parent = ParentNode.Parent == null ? null : (ParentNodeViewModel)_format.GetNodeViewModel(ParentNode.Parent);
-
-            if(parent != null || canExpandAfter || canExpandBefore)
-            {
-                Action? parentExpandUpward = parent == null ? null : parent.ExpandUpward;
-                TrackCallbackChange(
-                    canExpandAfter ? ExpandUpward : parentExpandUpward,
-                    canExpandBefore ? ExpandUpward : parentExpandUpward
-                );
-            }
+            TrackCallbackChange(
+                canExpandAfter ? ExpandUpward : CollapseAndExpandParentUpward,
+                canExpandBefore ? ExpandUpward : CollapseAndExpandParentUpward
+            );
 
             EndChangeGroup();
         }
@@ -118,6 +112,12 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             AddNewNode(new ParentNode("Category"));
         }
 
+
+        public void CollapseAndExpandParentUpward()
+        {
+            Expanded = false;
+            Parent?.ExpandUpward();
+        }
 
         public void ExpandUpward()
         {

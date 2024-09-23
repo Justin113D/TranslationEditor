@@ -66,8 +66,8 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
         {
             ParentNodeViewModel insertTarget = GetInsertTarget(out NodeViewModel? insertAfter);
 
-            NodeTreeViewItem? insertTargetContainer = insertTarget.Parent == null ? null : (NodeTreeViewItem)Tree!.ContainerFromItem(insertTarget)!;
-            NodeTreeViewItem? insertAfterContainer = insertAfter == null ? null : (NodeTreeViewItem)Tree!.ContainerFromItem(insertAfter)!;
+            NodeTreeViewItem? insertTargetContainer = insertTarget.Parent == null ? null : (NodeTreeViewItem)Tree!.TreeContainerFromItem(insertTarget)!;
+            NodeTreeViewItem? insertAfterContainer = insertAfter == null ? null : (NodeTreeViewItem)Tree!.TreeContainerFromItem(insertAfter)!;
 
             Border insertMarker = Tree!.InsertMarker!;
             Panel markerArea = insertMarker.GetLogicalParent<Panel>()!;
@@ -80,7 +80,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
             {
                 insertMarker.Margin = new(indent, insertParentEnd, 0, 0);
 
-                if(insertAfter != null)
+                if(insertAfterContainer != null)
                 {
                     insertMarker.Height = insertAfterEnd - insertParentEnd - 2;
                 }
