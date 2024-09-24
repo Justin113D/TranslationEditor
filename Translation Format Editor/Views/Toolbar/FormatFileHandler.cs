@@ -8,34 +8,9 @@ using System.Collections.Generic;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {
-    internal sealed class FormatFileHandler : TextFileHandler
+    internal sealed class FormatFileHandler : BaseFormatFileHandler
     {
-        private readonly UcMenuBar _control;
-
-        private MainViewModel ViewModel
-            => (MainViewModel)_control.DataContext!;
-
-        protected override Window Window
-            => (Window)TopLevel.GetTopLevel(_control)!;
-
-
-        protected override string FileTypeName
-            => "Language format";
-
-        public override IReadOnlyList<FilePickerFileType>? FileType { get; } =
-        [
-            new("Language Format") {
-                Patterns = ["*.json"]
-            }
-        ];
-
-        protected override IFileChangeTracker? FileChangeTracker => _control;
-
-
-        public FormatFileHandler(UcMenuBar control)
-        {
-            _control = control;
-        }
+        public FormatFileHandler(UcMenuBar control) : base(control) { }
 
 
         protected override void InternalReset()

@@ -26,7 +26,6 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             Format = new(new());
         }
 
-
         private void SetMessage(string message, bool warning)
         {
             if(MessageType != ToolbarMessageType.None)
@@ -87,47 +86,14 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             }
             catch
             {
-                SetMessage("Clipboard contents not formated as pastable nodes!", true);
+                SetMessage("Clipboard contents are not formatted as pastable nodes!", true);
                 return;
             }
 
-            int insertIndex = -1;
-            ParentNode insertTarget = Format.RootNode.ParentNode;
-
-            if(Format.LastSelectedNode?.Selected == true)
-            {
-                if(Format.LastSelectedNode is ParentNodeViewModel selectedParent)
-                {
-                    insertTarget = selectedParent.ParentNode;
-                }
-                else
-                {
-                    insertTarget = Format.LastSelectedNode.Parent!.ParentNode;
-                    insertIndex = insertTarget.ChildNodes.IndexOf(Format.LastSelectedNode.Node) + 1;
-                }
-            }
-
-            Format.GetNodeViewModel(insertTarget).Expanded = true;
-
-            FormatTracker.BeginGroup("MainViewModel.Paste");
-
-            foreach(Node node in nodes)
-            {
-                if(insertIndex >= 0)
-                {
-                    insertTarget.InsertChildNodeAt(node, insertIndex);
-                    insertIndex++;
-                }
-                else
-                {
-                    insertTarget.AddChildNode(node);
-                }
-            }
-
-            FormatTracker.EndGroup();
-
+            Format.InsertNodesAtSelection(nodes);
             SetMessage("Successfully pasted clipboard contents!", false);
         }
+
 
         public void NewFormat()
         {
@@ -136,13 +102,13 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             SetMessage("Created new Format", false);
         }
 
-        public void OpenFormat(string format)
+        public void OpenFormat(string formatJson)
         {
             try
             {
-                Format headerNode = Data.Format.ReadFormatFromString(format);
+                Format format = Data.Format.ReadFormatFromString(formatJson);
 
-                Format = new(headerNode);
+                Format = new(format);
                 FormatTracker.Reset();
 
                 SetMessage("Loaded Format", false);
@@ -160,10 +126,24 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             SetMessage("Saved Format", false);
             return result;
         }
-
-        internal object SaveFormat(App? current)
+    
+        public void AppendFormat(string formatJSON)
         {
-            throw new NotImplementedException();
+            Format format;
+            try
+            {
+                format = Data.Format.ReadFormatFromString(formatJSON);
+            }
+            catch
+            {
+                SetMessage("Error loading Format", true);
+                throw;
+            }
+
+            Format.InsertNodesAtSelection([.. format.RootNode.ChildNodes]);
+
+            SetMessage("Successfully opened and appended format!", false);
         }
+
     }
 }

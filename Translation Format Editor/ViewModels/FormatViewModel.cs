@@ -74,11 +74,13 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public ParentNodeViewModel RootNode { get; }
 
+
         public HashSet<NodeViewModel> SelectedNodes { get; }
 
         public HashSet<NodeViewModel> SequenceSelectedNodes { get; }
 
         public NodeViewModel? LastSelectedNode { get; set; }
+
 
         public FormatViewModel(Format data)
         {
@@ -89,6 +91,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             RootNode = new(this, Format.RootNode, true);
             _internalNodeTable.Add(Format.RootNode, RootNode);
         }
+
 
         public NodeViewModel GetNodeViewModel(Node node)
         {
@@ -182,5 +185,42 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             SequenceSelectedNodes.Clear();
         }
 
+        public void InsertNodesAtSelection(Node[] nodes)
+        {
+            int insertIndex = -1;
+            ParentNode insertTarget = RootNode.ParentNode;
+
+            if(LastSelectedNode?.Selected == true)
+            {
+                if(LastSelectedNode is ParentNodeViewModel selectedParent)
+                {
+                    insertTarget = selectedParent.ParentNode;
+                }
+                else
+                {
+                    insertTarget = LastSelectedNode.Parent!.ParentNode;
+                    insertIndex = insertTarget.ChildNodes.IndexOf(LastSelectedNode.Node) + 1;
+                }
+            }
+
+            GetNodeViewModel(insertTarget).Expanded = true;
+
+            BeginChangeGroup("FormatViewModel.InsertNodesAtSelection");
+
+            foreach(Node node in nodes)
+            {
+                if(insertIndex >= 0)
+                {
+                    insertTarget.InsertChildNodeAt(node, insertIndex);
+                    insertIndex++;
+                }
+                else
+                {
+                    insertTarget.AddChildNode(node);
+                }
+            }
+
+            EndChangeGroup();
+        }
     }
 }

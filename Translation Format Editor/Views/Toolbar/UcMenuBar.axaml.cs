@@ -18,6 +18,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
     {
         private ChangeTracker.Pin? _fileChangePin;
         private readonly FormatFileHandler _formatFileHandler;
+        private readonly FormatFileAppendHandler _formatFileAppendHandler;
         //public WndHelp? HelpWindow { get; private set; }
 
         private MainViewModel ViewModel
@@ -29,6 +30,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
         {
             InitializeComponent();
             _formatFileHandler = new(this);
+            _formatFileAppendHandler = new(this);
         }
 
 
@@ -92,6 +94,16 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
             }
 
             Dispatcher.UIThread.Post(async () => await _formatFileHandler.Save(true));
+        }
+
+        public void OnAppendFormat(object sender, RoutedEventArgs e)
+        {
+            if(ViewModel.Format == null)
+            {
+                return;
+            }
+
+            Dispatcher.UIThread.Post(async () => await _formatFileAppendHandler.Open());
         }
 
 

@@ -39,6 +39,13 @@
 					<Image Source="avares://J113D.Avalonia/Icons/SaveAs.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
+			<Separator/>
+			<MenuItem Header="Append Format" Click="OnAppendFormat" InputGesture="Ctrl+I" HotKey="Ctrl+I">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/OpenFile.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator/>
 		</MenuItem>
 		<MenuItem Header="Edit">
 			<MenuItem Header="Undo" Click="OnUndo" InputGesture="Ctrl+Z" HotKey="Ctrl+Z">
