@@ -94,6 +94,14 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             SetMessage("Successfully pasted clipboard contents!", false);
         }
 
+        public void DeleteSelectedNodes()
+        {
+            if(Format.SelectedNodes.Count > 0)
+            {
+                Format.DeleteSelectedNodes();
+                SetMessage("Deleted selected nodes", false);
+            }
+        }
 
         public void NewFormat()
         {

@@ -119,6 +119,15 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
     
         public NodeViewModel[] GetSelectedNodeRoots()
         {
+            if(SelectedNodes.Count == 0)
+            {
+                return [];
+            }
+            else if(SelectedNodes.Count == 1)
+            {
+                return [SelectedNodes.First()];
+            }
+
             HashSet<NodeViewModel> rootNodes = [];
 
             foreach(NodeViewModel node in SelectedNodes)
@@ -153,9 +162,11 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             return [..result];
         }
 
+
+
         public void InsertSelectedNodesAt(ParentNodeViewModel target, NodeViewModel? targetSibling)
         {
-            if(target.PartOfSelectedBranch)
+            if(target.PartOfSelectedBranch || SelectedNodes.Count == 0)
             {
                 return;
             }
@@ -178,6 +189,27 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                 int baseIndex = targetSibling == null ? 0 : target.ChildNodes!.IndexOf(targetSibling) + 1;
                 node.MoveToParent(target, baseIndex + targetIndex);
                 targetIndex++;
+            }
+
+            EndChangeGroup();
+
+            SequenceSelectedNodes.Clear();
+        }
+
+        public void DeleteSelectedNodes()
+        {
+            if(SelectedNodes.Count == 0)
+            {
+                return;
+            }
+
+            NodeViewModel[] selectedNodeRoots = GetSelectedNodeRoots();
+
+            BeginChangeGroup("FormatViewModel.DeleteSelectedNodes");
+            
+            foreach(NodeViewModel node in selectedNodeRoots)
+            {
+                node.Remove();
             }
 
             EndChangeGroup();
@@ -221,6 +253,10 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             }
 
             EndChangeGroup();
+
+            SequenceSelectedNodes.Clear();
         }
+    
+
     }
 }

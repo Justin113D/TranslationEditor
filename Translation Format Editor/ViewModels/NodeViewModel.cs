@@ -66,9 +66,25 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         }
 
 
-        public void Remove()
+        public virtual void Remove()
         {
             Node.Parent!.RemoveChildNode(Node);
+            UnselectedResursive();
+            _format.SequenceSelectedNodes.Clear();
+        }
+
+        public virtual void UnselectedResursive()
+        {
+            if(Selected)
+            {
+                Selected = false;
+                _format.SelectedNodes.Remove(this);
+
+                if(_format.LastSelectedNode == this)
+                {
+                    _format.LastSelectedNode = null;
+                }
+            }
         }
 
         public void SelectSingle()

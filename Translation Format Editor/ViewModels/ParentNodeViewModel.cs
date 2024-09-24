@@ -89,20 +89,27 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             EndChangeGroup();
         }
 
+        public override void UnselectedResursive()
+        {
+            base.UnselectedResursive();
+            if(_childNodes != null)
+            {
+                foreach(NodeViewModel node in _childNodes)
+                {
+                    node.UnselectedResursive();
+                }
+            }
+        }
 
         private void AddNewNode(Node node)
         {
-            if(ChildNodes == null)
-            {
-                _format.CreateNodeViewModels(ParentNode, out _childNodes, out ReadOnlyObservableCollection<NodeViewModel>? observableNodes);
-                ChildNodes = observableNodes;
-            }
-            else if(_childNodes == null)
+            if(_childNodes == null)
             {
                 Expanded = true;
             }
 
             ParentNode.AddChildNode(node);
+            _format.GetNodeViewModel(node).SelectSingle();
         }
 
         public void AddNewStringNode()

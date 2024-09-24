@@ -58,51 +58,26 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 
         public void OnNewFormat(object sender, RoutedEventArgs e)
         {
-            if(ViewModel.Format == null)
-            {
-                return;
-            }
-
             Dispatcher.UIThread.Post(async () => await _formatFileHandler.Reset());
         }
 
         public void OnOpenFormat(object sender, RoutedEventArgs e)
         {
-            if(ViewModel.Format == null)
-            {
-                return;
-            }
-
             Dispatcher.UIThread.Post(async () => await _formatFileHandler.Open());
         }
 
         public void OnSaveFormat(object sender, RoutedEventArgs e)
         {
-            if(ViewModel.Format == null)
-            {
-                return;
-            }
-
             Dispatcher.UIThread.Post(async () => await _formatFileHandler.Save(false));
         }
 
         public void OnSaveFormatAs(object sender, RoutedEventArgs e)
         {
-            if(ViewModel.Format == null)
-            {
-                return;
-            }
-
             Dispatcher.UIThread.Post(async () => await _formatFileHandler.Save(true));
         }
 
         public void OnAppendFormat(object sender, RoutedEventArgs e)
         {
-            if(ViewModel.Format == null)
-            {
-                return;
-            }
-
             Dispatcher.UIThread.Post(async () => await _formatFileAppendHandler.Open());
         }
 
@@ -133,6 +108,11 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
                 string? clipboard = await TopLevel.GetTopLevel(this)!.Clipboard!.GetTextAsync();
                 ViewModel.Paste(clipboard);
             });
+        }
+
+        public void OnDelete(object sender, RoutedEventArgs e)
+        {
+            ViewModel.DeleteSelectedNodes();
         }
 
 
