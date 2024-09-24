@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace J113D.TranslationEditor.Data.JSON
 {
-    internal class JsonProjectValueConverter : SimpleJsonObjectConverter<JsonProjectValue>
+    public class JsonProjectValueConverter : SimpleJsonObjectConverter<JsonProjectValue>
     {
         private const string _value = nameof(JsonProjectValue.Value);
         private const string _keepDefault = nameof(JsonProjectValue.KeepDefault);

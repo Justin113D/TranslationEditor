@@ -282,14 +282,7 @@ namespace J113D.TranslationEditor.Data
 
         public void WriteFormat(Stream stream, bool indented)
         {
-            JsonSerializerOptions options = new()
-            {
-                WriteIndented = indented
-            };
-
-            options.Converters.Add(new JsonNodeConverter());
-            options.Converters.Add(new JsonFormatConverter());
-
+            JsonSerializerOptions options = JsonConverterHelper.CreateOptions(indented);
             JsonSerializer.Serialize(stream, this, options);
         }
 
@@ -313,10 +306,7 @@ namespace J113D.TranslationEditor.Data
 
         public static Format ReadFormat(Stream stream)
         {
-            JsonSerializerOptions options = new();
-            options.Converters.Add(new JsonNodeConverter());
-            options.Converters.Add(new JsonFormatConverter());
-
+            JsonSerializerOptions options = JsonConverterHelper.CreateOptions(false);
             return JsonSerializer.Deserialize<Format>(stream, options)!;
         }
 

@@ -8,10 +8,13 @@ namespace J113D.TranslationEditor.Data.Events
 
         public int ToIndex { get; }
 
-        public NodeChildrenChangedEventArgs(int fromIndex, int toIndex)
+        public Node Child { get; }
+
+        public NodeChildrenChangedEventArgs(int fromIndex, int toIndex, Node removedNode)
         {
             FromIndex = fromIndex;
             ToIndex = toIndex;
+            Child = removedNode;
         }
     }
 

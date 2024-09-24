@@ -14,7 +14,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         #endregion
 
         private StringNode StringNode
-            => (StringNode)_node;
+            => (StringNode)Node;
 
 
         public string DefaultValue

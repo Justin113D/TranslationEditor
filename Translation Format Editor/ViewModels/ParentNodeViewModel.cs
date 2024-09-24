@@ -2,7 +2,9 @@
 using J113D.UndoRedo.Collections;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.FormatApp.ViewModels
@@ -12,10 +14,10 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         private bool _expanded;
         private TrackList<NodeViewModel>? _childNodes;
 
-        private ParentNode ParentNode
-            => (ParentNode)_node;
+        public ParentNode ParentNode
+            => (ParentNode)Node;
 
-        public ReadOnlyObservableCollection<NodeViewModel>? ChildNodes { get; private set; }
+        public ReadOnlyObservableCollection<NodeViewModel> ChildNodes { get; private set; }
 
         public override bool Expanded
         {
@@ -29,7 +31,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
                 _expanded = value;
 
-                if(_expanded && ChildNodes != null && _childNodes == null)
+                if(_expanded && _childNodes == null)
                 {
                     _format.CreateNodeViewModels(ParentNode, out _childNodes, out ReadOnlyObservableCollection<NodeViewModel> observableNodes);
                     ChildNodes = observableNodes;
@@ -40,18 +42,14 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public ParentNodeViewModel(FormatViewModel format, ParentNode node, bool expanded) : base(format, node)
         {
-            if(ParentNode.ChildNodes.Count > 0)
+            if(ParentNode.ChildNodes.Count > 0 && !expanded)
             {
-                if(expanded)
-                {
-                    _format.CreateNodeViewModels(ParentNode, out _childNodes, out ReadOnlyObservableCollection<NodeViewModel>? observableNodes);
-                    ChildNodes = observableNodes;
-                }
-                else
-                {
-                    ChildNodes = new([this]);
-
-                }
+                ChildNodes = new([this]);
+            }
+            else
+            {
+                _format.CreateNodeViewModels(ParentNode, out _childNodes, out ReadOnlyObservableCollection<NodeViewModel>? observableNodes);
+                ChildNodes = observableNodes;
             }
 
             node.ChildrenChanged += OnChildrenChanged;
@@ -61,6 +59,11 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         [SuppressPropertyChangedWarnings]
         private void OnChildrenChanged(ParentNode source, Data.Events.NodeChildrenChangedEventArgs args)
         {
+            if(_childNodes == null)
+            {
+                throw new InvalidOperationException("Node has to have been extended at least once!");
+            }
+
             BeginChangeGroup("ParentNodeViewModel.OnChildrenChanged");
 
             bool canExpandBefore = ChildNodes!.Count > 0;
@@ -72,7 +75,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
             if(args.ToIndex > -1)
             {
-                NodeViewModel vmNode = _format.GetNodeViewModel(ParentNode.ChildNodes[args.ToIndex]);
+                NodeViewModel vmNode = _format.GetNodeViewModel(args.Child);
                 _childNodes!.Insert(args.ToIndex, vmNode);
             }
 

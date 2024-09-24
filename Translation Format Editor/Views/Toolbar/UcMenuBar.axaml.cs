@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using J113D.Avalonia.Utilities.IO;
 using J113D.UndoRedo;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {
@@ -96,13 +97,32 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 
         private void OnUndo(object? sender, RoutedEventArgs e)
         {
-            ((MainViewModel)DataContext!).Undo();
+            ViewModel.Undo();
         }
 
         private void OnRedo(object? sender, RoutedEventArgs e)
         {
-            ((MainViewModel)DataContext!).Redo();
+            ViewModel.Redo();
         }
+
+        private void OnCopy(object? sender, RoutedEventArgs e)
+        {
+            string? text = ViewModel.Copy();
+            if(text != null)
+            {
+                Dispatcher.UIThread.Post(async () => await TopLevel.GetTopLevel(this)!.Clipboard!.SetTextAsync(text));
+            }
+        }
+
+        private void OnPaste(object? sender, RoutedEventArgs e)
+        {
+            Dispatcher.UIThread.Post(async () =>
+            {
+                string? clipboard = await TopLevel.GetTopLevel(this)!.Clipboard!.GetTextAsync();
+                ViewModel.Paste(clipboard);
+            });
+        }
+
 
         private void OnExpandAll(object sender, RoutedEventArgs e)
         {

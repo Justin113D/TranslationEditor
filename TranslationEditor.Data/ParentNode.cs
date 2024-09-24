@@ -103,7 +103,7 @@ namespace J113D.TranslationEditor.Data
             _childNodes.RemoveAt(fromIndex);
             _childNodes.Insert(toIndex, target);
 
-            InvokeChildrenChanged(fromIndex, toIndex);
+            InvokeChildrenChanged(fromIndex, toIndex, target);
 
             EndChangeGroup();
         }
@@ -190,9 +190,9 @@ namespace J113D.TranslationEditor.Data
             }
         }
 
-        internal void InvokeChildrenChanged(int fromIndex, int toIndex)
+        internal void InvokeChildrenChanged(int fromIndex, int toIndex, Node removedNode)
         {
-            ChildrenChanged?.Invoke(this, new(fromIndex, toIndex));
+            ChildrenChanged?.Invoke(this, new(fromIndex, toIndex, removedNode));
         }
 
         public IEnumerator<Node> GetEnumerator()

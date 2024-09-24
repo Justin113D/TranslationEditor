@@ -52,6 +52,17 @@
 				</MenuItem.Icon>
 			</MenuItem>
 			<Separator/>
+			<MenuItem Header="Copy selected nodes" Click="OnCopy" InputGesture="Ctrl+C" HotKey="Ctrl+C">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/Copy.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Paste to selected node" Click="OnPaste" InputGesture="Ctrl+V" HotKey="Ctrl+V">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/Paste.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator/>
 			<MenuItem Header="Expand All" Click="OnExpandAll">
 				<MenuItem.Icon>
 					<Image Source="avares://J113D.Avalonia/Icons/ExpandAll.png"/>

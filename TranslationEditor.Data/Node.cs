@@ -214,8 +214,8 @@ namespace J113D.TranslationEditor.Data
 
             ParentChanged?.Invoke(this, new(oldParent, newParent));
 
-            oldParent?.InvokeChildrenChanged(oldParentIndex, -1);
-            newParent?.InvokeChildrenChanged(-1, newParentIndex);
+            oldParent?.InvokeChildrenChanged(oldParentIndex, -1, this);
+            newParent?.InvokeChildrenChanged(-1, newParentIndex, this);
 
             EndChangeGroup();
         }

@@ -114,7 +114,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             observableList = new(nodes);
         }
     
-        private NodeViewModel[] GetSelectedNodeRoots()
+        public NodeViewModel[] GetSelectedNodeRoots()
         {
             HashSet<NodeViewModel> rootNodes = [];
 

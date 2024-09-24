@@ -6,22 +6,23 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 {
     internal abstract class NodeViewModel : ViewModelBase
     {
-        protected readonly Node _node;
         protected readonly FormatViewModel _format;
+
+        public Node Node { get; }
 
         public string Name
         {
-            get => _node.Name;
+            get => Node.Name;
             set
             {
-                if(_node.Name == value)
+                if(Node.Name == value)
                 {
                     return;
                 }
 
                 BeginChangeGroup("NodeViewModel.Name");
 
-                _node.Name = value;
+                Node.Name = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Name));
 
                 EndChangeGroup();
@@ -30,17 +31,17 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public string? Description
         {
-            get => _node.Description;
+            get => Node.Description;
             set
             {
-                if(_node.Description == value)
+                if(Node.Description == value)
                 {
                     return;
                 }
 
                 BeginChangeGroup("NodeViewModel.Description");
 
-                _node.Description = value;
+                Node.Description = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Description));
 
                 EndChangeGroup();
@@ -55,23 +56,30 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             => Selected || Parent?.PartOfSelectedBranch == true;
 
         public ParentNodeViewModel? Parent
-            => _node.Parent == null ? null : (ParentNodeViewModel)_format.GetNodeViewModel(_node.Parent);
+            => Node.Parent == null ? null : (ParentNodeViewModel)_format.GetNodeViewModel(Node.Parent);
 
 
         protected NodeViewModel(FormatViewModel format, Node node)
         {
-            _node = node;
+            Node = node;
             _format = format;
         }
 
 
         public void Remove()
         {
-            _node.Parent!.RemoveChildNode(_node);
+            Node.Parent!.RemoveChildNode(Node);
         }
 
         public void SelectSingle()
         {
+            if(Selected && _format.SelectedNodes.Count == 1)
+            {
+                Selected = false;
+                _format.SelectedNodes.Remove(this);
+                return;
+            }
+
             foreach(NodeViewModel node in _format.SelectedNodes)
             {
                 node.Selected = false;
@@ -124,10 +132,10 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                 return;
             }
 
-            _ = Node.GetCommonAncestor(_node, _format.LastSelectedNode._node, out bool thisIsAboveSelected)!;
+            _ = Data.Node.GetCommonAncestor(Node, _format.LastSelectedNode.Node, out bool thisIsAboveSelected)!;
 
-            Node current = thisIsAboveSelected ? _node : _format.LastSelectedNode._node;
-            Node target = thisIsAboveSelected ? _format.LastSelectedNode._node : _node;
+            Node current = thisIsAboveSelected ? Node : _format.LastSelectedNode.Node;
+            Node target = thisIsAboveSelected ? _format.LastSelectedNode.Node : Node;
 
             while(true)
             {
@@ -180,13 +188,13 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
             BeginChangeGroup("NodeViewModel.MoveToParent");
 
-            if(_node.Parent == parent._node)
+            if(Node.Parent == parent.Node)
             {
-                _node.Parent.MoveChildNode(_node.Parent.ChildNodes.IndexOf(_node), index);
+                Node.Parent.MoveChildNode(Node.Parent.ChildNodes.IndexOf(Node), index);
             }
             else
             {
-                ((ParentNode)parent._node).InsertChildNodeAt(_node, index);
+                ((ParentNode)parent.Node).InsertChildNodeAt(Node, index);
             }
 
             EndChangeGroup();

@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace J113D.TranslationEditor.Data.JSON
 {
-    internal class JsonNodeConverter : SimpleJsonObjectConverter<Node>
+    public class JsonNodeConverter : SimpleJsonObjectConverter<Node>
     {
         private const string _name = nameof(Node.Name);
         private const string _description = nameof(Node.Description);

@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace J113D.TranslationEditor.Data.JSON
 {
-    internal class JsonProjectConverter : SimpleJsonObjectConverter<JsonProject>
+    public class JsonProjectConverter : SimpleJsonObjectConverter<JsonProject>
     {
         private const string _name = nameof(JsonProject.Name);
         private const string _author = nameof(JsonProject.Author);

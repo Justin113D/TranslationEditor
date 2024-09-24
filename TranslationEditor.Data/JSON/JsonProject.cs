@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace J113D.TranslationEditor.Data.JSON
 {
-    internal readonly struct JsonProject(string name, string author, string language, Version version, Dictionary<string, JsonProjectValue> values)
+    public readonly struct JsonProject(string name, string author, string language, Version version, Dictionary<string, JsonProjectValue> values)
     {
         public string Name { get; } = name;
         public string Author { get; } = author;
