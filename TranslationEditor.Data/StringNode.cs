@@ -1,5 +1,9 @@
 ﻿using J113D.TranslationEditor.Data.Events;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection.PortableExecutable;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.Data
@@ -130,7 +134,7 @@ namespace J113D.TranslationEditor.Data
                     TrackKeepDefaultChange(false);
                 }
 
-                ValueVersionIndex = value == DefaultValue ? -1 : VersionIndex;
+                ValueVersionIndex = _nodeValue == DefaultValue ? -1 : VersionIndex;
                 ValueChanged?.Invoke(this, new(oldNodeValue, _nodeValue));
 
                 EndChangeGroup();
@@ -236,10 +240,67 @@ namespace J113D.TranslationEditor.Data
         }
 
 
-        protected override string ValidateName(string name)
+        public static string SanitizeName(string name)
         {
-            name = base.ValidateName(name);
-            return Format?.GetFreeStringNodeName(name) ?? name;
+            string result = string.Empty;
+
+            bool prevWasWhitespace = false;
+            foreach(char character in name)
+            {
+                if(char.IsWhiteSpace(character))
+                {
+                    if(!prevWasWhitespace && result.Length > 0)
+                    {
+                        result += '_';
+                        prevWasWhitespace = true;
+                    }
+
+                    continue;
+                }
+
+                if(char.IsAsciiLetterOrDigit(character) || character == '.' || character == '_')
+                {
+                    result += character;
+                }
+                else
+                {
+                    string normalized = character.ToString().Normalize(System.Text.NormalizationForm.FormD);
+
+                    bool added = false;
+                    foreach(char normalizedCharacter in normalized)
+                    {
+                        if(char.IsAsciiLetterOrDigit(normalizedCharacter))
+                        {
+                            result += normalizedCharacter;
+                            added = true;
+                        }
+                    }
+                    
+                    if(!added)
+                    {
+                        continue;
+                    }
+                }
+
+                prevWasWhitespace = false;
+            }
+
+            if(prevWasWhitespace)
+            {
+                result = result[..^1];
+            }
+
+            return result;
+        }
+
+        protected override string GetAdjustedName(string name)
+        {
+            return SanitizeName(name);
+        }
+
+        protected override string? VerifyName(string name)
+        {
+            return Format?.GetFreeStringNodeName(name);
         }
 
         protected override void InternalOnNameChanged(string oldName)

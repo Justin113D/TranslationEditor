@@ -61,7 +61,7 @@ namespace J113D.TranslationEditor.Data
             get => _name;
             set
             {
-                value = ValidateName(value);
+                value = GetAdjustedName(value);
 
                 if(string.IsNullOrWhiteSpace(value))
                 {
@@ -74,6 +74,7 @@ namespace J113D.TranslationEditor.Data
                     return;
                 }
 
+                value = VerifyName(value) ?? value;
                 string oldNodeName = _name;
 
                 BeginChangeGroup("Node.Name");
@@ -153,19 +154,19 @@ namespace J113D.TranslationEditor.Data
         /// <param name="description">The description of the node</param>
         protected Node(string name, string description, NodeState defaultState)
         {
-            _name = ValidateName(name);
+            _name = GetAdjustedName(name);
             _description = description.Trim();
             _state = defaultState;
         }
 
-        /// <summary>
-        /// Returns a validated name for the node
-        /// </summary>
-        /// <param name="name">The name to validate</param>
-        /// <returns></returns>
-        protected virtual string ValidateName(string name)
+        protected virtual string GetAdjustedName(string name)
         {
             return name.Trim();
+        }
+
+        protected virtual string? VerifyName(string name)
+        {
+            return null;
         }
 
         /// <summary>

@@ -7,14 +7,7 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
     internal sealed class StringNodeViewModel : NodeViewModel
     {
-        #region private fields
-#pragma warning disable IDE0044
-
-        private string _realNodeValue;
-        private bool _changingValue;
-
-#pragma warning restore IDE0044
-        #endregion
+        private string? _tmpNodeValue;
 
         private StringNode StringNode
             => (StringNode)_node;
@@ -24,26 +17,28 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
         public string NodeValue
         {
-            get => _realNodeValue;
+            get => _tmpNodeValue ?? StringNode.NodeValue;
             set
             {
-                if(_realNodeValue == value)
+                if(StringNode.NodeValue == value)
                 {
                     return;
                 }
 
                 BeginChangeGroup();
 
-                TrackFieldChange(this, nameof(_realNodeValue), value);
-
-                _changingValue = true;
+                string prevValue = StringNode.NodeValue;
                 StringNode.NodeValue = value;
-                _changingValue = false;
-
-                this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
-                this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
 
                 EndChangeGroup();
+
+                if(prevValue == StringNode.NodeValue && value != StringNode.NodeValue)
+                {
+                    _tmpNodeValue = value;
+                    InvokePropertyChanged(nameof(NodeValue));
+                    _tmpNodeValue = null;
+                    InvokePropertyChanged(nameof(NodeValue));
+                }
             }
         }
 
@@ -59,13 +54,8 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
                 BeginChangeGroup();
                 StringNode.KeepDefault = value;
-                if(value)
-                {
-                    TrackFieldChange(this, nameof(_realNodeValue), StringNode.NodeValue);
-                }
 
                 this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
-                this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
                 EndChangeGroup();
             }
         }
@@ -74,17 +64,13 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
         public StringNodeViewModel(FormatViewModel project, StringNode node) 
             : base(project, node)
         {
-            _realNodeValue = node.NodeValue;
             node.ValueChanged += OnValueChanged;
         }
 
         [SuppressPropertyChangedWarnings]
         private void OnValueChanged(Node source, NodeValueChangedEventArgs args)
         {
-            if(!_changingValue)
-            {
-                TrackFieldChange(this, nameof(_realNodeValue), StringNode.NodeValue);
-            }
+            this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
         }
 
         public void ResetValue()
@@ -92,7 +78,6 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             BeginChangeGroup();
             StringNode.ResetValue();
             this.AddChangeGroupInvokePropertyChanged(nameof(KeepDefault));
-            this.AddChangeGroupInvokePropertyChanged(nameof(NodeValue));
             EndChangeGroup();
         }
 

@@ -186,9 +186,7 @@ namespace J113D.TranslationEditor.Data
 
         public string GetFreeStringNodeName(string name)
         {
-            name = new string(name.Where(c => !char.IsWhiteSpace(c)).ToArray());
-
-            return _stringNodes.FindNextFreeKey(name, true);
+            return _stringNodes.FindNextFreeKey(StringNode.SanitizeName(name), true);
         }
 
 

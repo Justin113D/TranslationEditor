@@ -5,13 +5,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 {
     internal sealed class StringNodeViewModel : NodeViewModel
     {
-        #region private fields
-#pragma warning disable IDE0044
-
-        private string _realDefaultValue;
-
-#pragma warning restore IDE0044
-        #endregion
+        private string? _tmpDefaultValue;
 
         private StringNode StringNode
             => (StringNode)Node;
@@ -19,26 +13,33 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         public string DefaultValue
         {
-            get => _realDefaultValue;
+            get => _tmpDefaultValue ?? StringNode.DefaultValue;
             set
             {
-                if(_realDefaultValue == value)
+                if(StringNode.DefaultValue == value)
                 {
                     return;
                 }
 
                 BeginChangeGroup();
-                TrackFieldChange(this, nameof(_realDefaultValue), value);
+
+                string prevValue = StringNode.DefaultValue;
                 StringNode.DefaultValue = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(DefaultValue));
+
                 EndChangeGroup();
+
+                if(prevValue == StringNode.DefaultValue && value != StringNode.DefaultValue)
+                {
+                    _tmpDefaultValue = value;
+                    InvokePropertyChanged(nameof(DefaultValue));
+                    _tmpDefaultValue = null;
+                    InvokePropertyChanged(nameof(DefaultValue));
+                }
             }
         }
 
         public StringNodeViewModel(FormatViewModel project, StringNode node)
-            : base(project, node)
-        {
-            _realDefaultValue = node.DefaultValue;
-        }
+            : base(project, node) { }
     }
 }

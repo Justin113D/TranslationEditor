@@ -8,19 +8,14 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
     {
         protected readonly FormatViewModel _format;
 
-        #region private fields
-#pragma warning disable IDE0044
-
-        private string _realDescription;
-
-#pragma warning restore IDE0044
-        #endregion
+        private string? _tmpName;
+        private string? _tmpDescription;
 
         public Node Node { get; }
 
         public string Name
         {
-            get => Node.Name;
+            get => _tmpName ?? Node.Name;
             set
             {
                 if(Node.Name == value)
@@ -30,30 +25,47 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
                 BeginChangeGroup("NodeViewModel.Name");
 
+                string prevValue = Node.Name;
                 Node.Name = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Name));
 
                 EndChangeGroup();
+
+                if(prevValue == Node.Name && value != Node.Name)
+                {
+                    _tmpName = value;
+                    InvokePropertyChanged(nameof(Name));
+                    _tmpName = null;
+                    InvokePropertyChanged(nameof(Name));
+                }
             }
         }
 
         public string Description
         {
-            get => _realDescription;
+            get => _tmpDescription ?? Node.Description;
             set
             {
-                if(_realDescription == value)
+                if(Node.Description == value)
                 {
                     return;
                 }
 
                 BeginChangeGroup("NodeViewModel.Description");
 
-                TrackFieldChange(this, nameof(_realDescription), value);
+                string prevValue = Node.Description;
                 Node.Description = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Description));
 
                 EndChangeGroup();
+
+                if(prevValue == Node.Description && value != Node.Description)
+                {
+                    _tmpDescription = value;
+                    InvokePropertyChanged(nameof(Description));
+                    _tmpDescription = null;
+                    InvokePropertyChanged(nameof(Description));
+                }
             }
         }
 
@@ -72,7 +84,6 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         {
             Node = node;
             _format = format;
-            _realDescription = node.Description ?? string.Empty;
         }
 
 
@@ -82,6 +93,33 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             UnselectedResursive();
             _format.SequenceSelectedNodes.Clear();
         }
+        
+        public void MoveToParent(ParentNodeViewModel parent, int index)
+        {
+            if(parent.ChildNodes == null || parent.ChildNodes[0] == parent)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if(index < parent.ChildNodes.Count - 1 && parent.ChildNodes[index] == this)
+            {
+                return;
+            }
+
+            BeginChangeGroup("NodeViewModel.MoveToParent");
+
+            if(Node.Parent == parent.Node)
+            {
+                Node.Parent.MoveChildNode(Node.Parent.ChildNodes.IndexOf(Node), index);
+            }
+            else
+            {
+                ((ParentNode)parent.Node).InsertChildNodeAt(Node, index);
+            }
+
+            EndChangeGroup();
+        }
+
 
         public virtual void UnselectedResursive()
         {
@@ -199,31 +237,5 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
 
         }
 
-
-        public void MoveToParent(ParentNodeViewModel parent, int index)
-        {
-            if(parent.ChildNodes == null || parent.ChildNodes[0] == parent)
-            {
-                throw new InvalidOperationException();
-            }
-
-            if(index < parent.ChildNodes.Count - 1 && parent.ChildNodes[index] == this)
-            {
-                return;
-            }
-
-            BeginChangeGroup("NodeViewModel.MoveToParent");
-
-            if(Node.Parent == parent.Node)
-            {
-                Node.Parent.MoveChildNode(Node.Parent.ChildNodes.IndexOf(Node), index);
-            }
-            else
-            {
-                ((ParentNode)parent.Node).InsertChildNodeAt(Node, index);
-            }
-
-            EndChangeGroup();
-        }
     }
 }
