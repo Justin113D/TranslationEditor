@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace J113D.TranslationEditor.Data.JSON
+namespace J113D.TranslationEditor.Data.Json
 {
     public static class JsonConverterHelper
     {

@@ -1,11 +1,11 @@
-﻿using J113D.Common.JSON;
+﻿using J113D.Common.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 
-namespace J113D.TranslationEditor.Data.JSON
+namespace J113D.TranslationEditor.Data.Json
 {
     public class JsonFormatConverter : SimpleJsonObjectConverter<Format>
     {

@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using static J113D.UndoRedo.GlobalChangeTracker;
-using J113D.TranslationEditor.Data.JSON;
+using J113D.TranslationEditor.Data.Json;
 
 namespace J113D.TranslationEditor.Data
 {
@@ -264,8 +264,8 @@ namespace J113D.TranslationEditor.Data
                 WriteIndented = indented
             };
 
-            options.Converters.Add(new JSON.JsonNodeConverter());
-            options.Converters.Add(new JSON.JsonFormatConverter());
+            options.Converters.Add(new JsonNodeConverter());
+            options.Converters.Add(new JsonFormatConverter());
 
             return JsonSerializer.Serialize(this, options);
         }
@@ -288,8 +288,8 @@ namespace J113D.TranslationEditor.Data
         public static Format ReadFormatFromString(string json)
         {
             JsonSerializerOptions options = new();
-            options.Converters.Add(new JSON.JsonNodeConverter());
-            options.Converters.Add(new JSON.JsonFormatConverter());
+            options.Converters.Add(new JsonNodeConverter());
+            options.Converters.Add(new JsonFormatConverter());
 
             return JsonSerializer.Deserialize<Format>(json, options)!;
         }

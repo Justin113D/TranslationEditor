@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace J113D.TranslationEditor.Data.JSON
+namespace J113D.TranslationEditor.Data.Json
 {
     public readonly struct JsonProject(string name, string author, string language, Version version, Dictionary<string, JsonProjectValue> values)
     {

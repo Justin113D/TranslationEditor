@@ -1,5 +1,5 @@
 ﻿using J113D.TranslationEditor.Data;
-using J113D.TranslationEditor.Data.JSON;
+using J113D.TranslationEditor.Data.Json;
 using J113D.UndoRedo;
 using System;
 using System.Linq;
@@ -135,12 +135,12 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             return result;
         }
     
-        public void AppendFormat(string formatJSON)
+        public void AppendFormat(string formatJson)
         {
             Format format;
             try
             {
-                format = Data.Format.ReadFormatFromString(formatJSON);
+                format = Data.Format.ReadFormatFromString(formatJson);
             }
             catch
             {

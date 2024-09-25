@@ -1,4 +1,4 @@
-﻿namespace J113D.TranslationEditor.Data.JSON
+﻿namespace J113D.TranslationEditor.Data.Json
 {
     public readonly struct JsonProjectValue(string value, bool keepDefault, int valueVersionIndex)
     {
