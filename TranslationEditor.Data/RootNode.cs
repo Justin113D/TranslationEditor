@@ -7,7 +7,7 @@ namespace J113D.TranslationEditor.Data
         public override Format? Format { get; }
 
         internal RootNode(Format format, List<Node> childNodes) 
-            : base("Root", null, childNodes)
+            : base("Root", string.Empty, childNodes)
         {
             Format = format;
         }

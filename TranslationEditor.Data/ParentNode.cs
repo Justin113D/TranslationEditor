@@ -25,7 +25,7 @@ namespace J113D.TranslationEditor.Data
         public event NodeChildrenChangedEventHandler? ChildrenChanged;
 
 
-        internal ParentNode(string name, string? description, List<Node> childNodes)
+        internal ParentNode(string name, string description, List<Node> childNodes)
             : base(name, description, NodeState.None)
         {
             _childNodes = new(childNodes);
@@ -45,7 +45,7 @@ namespace J113D.TranslationEditor.Data
         /// </summary>
         /// <param name="name">The name of the node</param>
         /// <param name="description">The description of the node</param>
-        public ParentNode(string name, string? description = null) : this(name, description, []) { }
+        public ParentNode(string name, string description = "") : this(name, description, []) { }
 
 
 

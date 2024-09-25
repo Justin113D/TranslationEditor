@@ -4,7 +4,10 @@
 	xmlns:local="using:J113D.TranslationEditor.FormatApp.Views.NodeTree"
 	xmlns:vm="using:J113D.TranslationEditor.FormatApp.ViewModels"
 	xmlns:views="using:J113D.TranslationEditor.FormatApp.Views"
+	xmlns:j113dconverters="using:J113D.Avalonia.Converters"
 	x:ClassModifier="internal">
+
+	<j113dconverters:NullToStringConverter x:Key="NullToStringConverter"/>
 
 	<ControlTheme x:Key="NodeTreeViewExpandCollapseChevron" TargetType="ToggleButton">
 		<Setter Property="Background" Value="Transparent"/>
@@ -147,7 +150,7 @@
 
 									<views:UndoRedoTextBox
 										Grid.Column="3"
-										Text="{Binding Name, UpdateSourceTrigger=LostFocus}"
+										Text="{Binding Name, Mode=TwoWay, Converter={StaticResource NullToStringConverter}, UpdateSourceTrigger=LostFocus}"
 										Background="Transparent"
 										ToolTip.Tip="Identifier by which the developer accesses the translation"
 										VerticalAlignment="Stretch"
@@ -171,7 +174,7 @@
 									Grid.Column="2"
 									Margin="6 3"
 									Background="Transparent"
-									Text="{Binding Description, UpdateSourceTrigger=LostFocus}"
+									Text="{Binding Description, Mode=TwoWay, Converter={StaticResource NullToStringConverter}, UpdateSourceTrigger=LostFocus}"
 									TextWrapping="Wrap"
 									VerticalAlignment="Center"
 									AcceptsReturn="True"/>

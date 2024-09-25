@@ -16,7 +16,7 @@ namespace J113D.TranslationEditor.Data
 #pragma warning disable IDE0044
 
         private string _name;
-        private string? _description;
+        private string _description;
         protected internal NodeState _state;
         internal ParentNode? _parent;
 
@@ -65,7 +65,7 @@ namespace J113D.TranslationEditor.Data
 
                 if(string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("Name cant be Whitespace!", nameof(value));
+                    throw new ArgumentException("Name cant be empty or whitespace!", nameof(value));
                 }
 
                 if(value == _name)
@@ -89,15 +89,16 @@ namespace J113D.TranslationEditor.Data
         /// <summary>
         /// Gets and sets the nodes description accordingly
         /// </summary>
-        public string? Description
+        public string Description
         {
             get => _description;
             set
             {
-                value = string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+                value = value.Trim();
 
                 if(value == _description)
                 {
+                    BlankChange("Node.Description");
                     return;
                 }
 
@@ -150,12 +151,10 @@ namespace J113D.TranslationEditor.Data
         /// </summary>
         /// <param name="name">The name of the node</param>
         /// <param name="description">The description of the node</param>
-        protected Node(string name, string? description, NodeState defaultState)
+        protected Node(string name, string description, NodeState defaultState)
         {
-            _name = name.Trim();
-
-            description = description?.Trim();
-            _description = description?.Length > 0 ? description : null;
+            _name = ValidateName(name);
+            _description = description.Trim();
             _state = defaultState;
         }
 

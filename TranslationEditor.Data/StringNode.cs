@@ -176,7 +176,7 @@ namespace J113D.TranslationEditor.Data
 
         #endregion
 
-        public StringNode(string name, string value, int versionIndex = 0, string? description = null)
+        public StringNode(string name, string value, int versionIndex = 0, string description = "")
             : base(name, description, NodeState.Untranslated)
         {
             _nodeValue = _defaultValue = value.Trim();

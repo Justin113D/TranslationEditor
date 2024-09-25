@@ -45,7 +45,7 @@ namespace J113D.TranslationEditor.Data.JSON
             string name = (string?)values[_name]
                 ?? throw new InvalidDataException("Node has no name!");
 
-            string? description = (string?)values[_description];
+            string description = (string?)values[_description] ?? string.Empty;
 
             bool isStringNode = values[_defaultValue] is string;
             bool isParentNode = values[_childNodes] is List<Node>;

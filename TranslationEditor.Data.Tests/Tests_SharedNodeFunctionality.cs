@@ -9,7 +9,7 @@ namespace J113D.TranslationEditor.Data.Tests
     {
         private static TestNode CreateNode()
         {
-            return new("Test", null);
+            return new("Test", string.Empty);
         }
 
         #region Constructor
@@ -26,7 +26,7 @@ namespace J113D.TranslationEditor.Data.Tests
         public void Constructor_Name()
         {
             const string name = "Test";
-            TestNode node = new(name, null);
+            TestNode node = new(name, string.Empty);
             Assert.AreEqual(node.Name, name, "Name not set");
         }
 
@@ -35,22 +35,8 @@ namespace J113D.TranslationEditor.Data.Tests
         {
             const string name = " Test ";
             string nameTrimmed = name.Trim();
-            TestNode node = new(name, null);
+            TestNode node = new(name, string.Empty);
             Assert.AreEqual(node.Name, nameTrimmed, "Name not trimmed");
-        }
-
-        [TestMethod]
-        public void Constructor_Description_Null()
-        {
-            TestNode node = new("Test", null);
-            Assert.IsNull(node.Description, "Description was not set null");
-        }
-
-        [TestMethod]
-        public void Constructor_Description_Whitespace()
-        {
-            TestNode node = new("Test", " ");
-            Assert.IsNull(node.Description, "Description was converted to null");
         }
 
         [TestMethod]
@@ -199,14 +185,6 @@ namespace J113D.TranslationEditor.Data.Tests
         }
 
         [TestMethod]
-        public void Description_Whitespace()
-        {
-            TestNode node = CreateNode();
-            node.Description = " ";
-            Assert.IsNull(node.Description, "Whitespace not converted to null");
-        }
-
-        [TestMethod]
         public void Description_Undo()
         {
             TestNode node = CreateNode();
@@ -239,7 +217,7 @@ namespace J113D.TranslationEditor.Data.Tests
             UndoRedo.ChangeTracker.Pin pin = PinCurrentChange();
             node.Description = node.Description;
 
-            Assert.IsTrue(pin.IsValid, "Re-setting description to itself should track a blank change, which did not happen");
+            Assert.IsFalse(pin.IsValid, "Re-setting description to itself should track a blank change, which did not happen");
         }
 
         #endregion

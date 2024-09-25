@@ -2,7 +2,7 @@
 {
     public class TestNode : Node
     {
-        public TestNode(string name, string? description)
+        public TestNode(string name, string description)
             : base(name, description, NodeState.None)
         {
         }

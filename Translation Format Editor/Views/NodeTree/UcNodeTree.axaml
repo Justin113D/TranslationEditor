@@ -7,7 +7,6 @@
 	xmlns:ds="using:J113D.Avalonia.DataSelectors"
 	xmlns:local="using:J113D.TranslationEditor.FormatApp.Views.NodeTree"
 	xmlns:converters="using:Avalonia.Data.Converters"
-	xmlns:scrconverters="using:J113D.Avalonia.Converters"
 	xmlns:views="using:J113D.TranslationEditor.FormatApp.Views"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="J113D.TranslationEditor.FormatApp.Views.NodeTree.UcNodeTree"
@@ -21,8 +20,6 @@
 				<MergeResourceInclude Source="avares://TranslationFormatEditor/Views/NodeTree/NodeTreeViewItem.axaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
-		
-		<scrconverters:NullToStringConverter x:Key="NullToStringConverter"/>
 	</UserControl.Resources>
 
 	<UserControl.Styles>

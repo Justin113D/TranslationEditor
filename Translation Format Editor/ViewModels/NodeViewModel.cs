@@ -8,6 +8,14 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
     {
         protected readonly FormatViewModel _format;
 
+        #region private fields
+#pragma warning disable IDE0044
+
+        private string _realDescription;
+
+#pragma warning restore IDE0044
+        #endregion
+
         public Node Node { get; }
 
         public string Name
@@ -29,18 +37,19 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             }
         }
 
-        public string? Description
+        public string Description
         {
-            get => Node.Description;
+            get => _realDescription;
             set
             {
-                if(Node.Description == value)
+                if(_realDescription == value)
                 {
                     return;
                 }
 
                 BeginChangeGroup("NodeViewModel.Description");
 
+                TrackFieldChange(this, nameof(_realDescription), value);
                 Node.Description = value;
                 this.AddChangeGroupInvokePropertyChanged(nameof(Description));
 
@@ -63,6 +72,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
         {
             Node = node;
             _format = format;
+            _realDescription = node.Description ?? string.Empty;
         }
 
 

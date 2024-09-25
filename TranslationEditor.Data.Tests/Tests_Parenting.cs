@@ -9,7 +9,7 @@ namespace J113D.TranslationEditor.Data.Tests
     {
         private static TestNode CreateNode()
         {
-            return new("Test", null);
+            return new("Test", string.Empty);
         }
 
         #region Setting in Node
