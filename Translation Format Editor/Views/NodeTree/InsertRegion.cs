@@ -2,11 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
-using Avalonia.VisualTree;
 using J113D.TranslationEditor.FormatApp.ViewModels;
 using PropertyChanged;
 using System;
-using System.Linq;
 
 namespace J113D.TranslationEditor.FormatApp.Views.NodeTree
 {

@@ -1,9 +1,7 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using J113D.Avalonia.Utilities.IO;
 using J113D.TranslationEditor.FormatApp.ViewModels;
-using System;
 using System.Collections.Generic;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
@@ -18,6 +16,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
         protected override Window Window
             => (Window)TopLevel.GetTopLevel(_control)!;
 
+        protected override IFileChangeTracker? FileChangeTracker => _control;
 
         protected override string FileTypeName
             => "Language format";
@@ -28,9 +27,6 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
                 Patterns = ["*.json"]
             }
         ];
-
-        protected override IFileChangeTracker? FileChangeTracker => _control;
-
 
         public BaseFormatFileHandler(UcMenuBar control)
         {

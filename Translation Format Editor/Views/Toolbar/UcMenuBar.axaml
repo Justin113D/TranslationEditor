@@ -42,10 +42,26 @@
 			<Separator/>
 			<MenuItem Header="Append Format" Click="OnAppendFormat" InputGesture="Ctrl+I" HotKey="Ctrl+I">
 				<MenuItem.Icon>
-					<Image Source="avares://J113D.Avalonia/Icons/OpenFile.png"/>
+					<Image Source="avares://J113D.Avalonia/Icons/ImportFile.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
 			<Separator/>
+			<MenuItem Header="Export to Language Key File" Click="OnExportLanguageFile">
+				<MenuItem.Icon>
+					<Image Source="avares://J113D.Avalonia/Icons/ExportFile.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Export to CSV File" Click="OnExportCSV">
+				<MenuItem.Icon>
+					<Image Source="avares://TranslationFormatEditor/Assets/ExportToCSVFile.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Header="Export to XAML File" Click="OnExportXAML">
+				<MenuItem.Icon>
+					<Image Source="avares://TranslationFormatEditor/Assets/ExportToXMLFile.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+
 		</MenuItem>
 		<MenuItem Header="Edit">
 			<MenuItem Header="Undo" Click="OnUndo" InputGesture="Ctrl+Z" HotKey="Ctrl+Z">

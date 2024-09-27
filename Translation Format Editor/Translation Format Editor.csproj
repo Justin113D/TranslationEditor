@@ -3,8 +3,6 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
 
 		<ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
 		<RootNamespace>J113D.TranslationEditor.FormatApp</RootNamespace>
@@ -32,7 +30,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0">
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		
 		<PackageReference Include="Avalonia" Version="11.2.0-beta2" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta2" />
 		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.0-beta2" />
@@ -46,10 +47,5 @@
 		<ProjectReference Include="..\TranslationEditor.Data\TranslationEditor.Data.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Views\NodeTree\UcNodeTree.axaml.cs">
-	    <DependentUpon>%(Filename)</DependentUpon>
-	  </Compile>
-	</ItemGroup>
 
 </Project>

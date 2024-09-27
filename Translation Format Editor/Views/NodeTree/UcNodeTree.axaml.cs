@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Data;
 using PropertyChanged;
 
 namespace J113D.TranslationEditor.FormatApp.Views.NodeTree

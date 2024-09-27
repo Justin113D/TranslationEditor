@@ -9,7 +9,7 @@ using System;
 using System.Threading.Tasks;
 using J113D.Avalonia.Utilities.IO;
 using J113D.UndoRedo;
-using static System.Net.Mime.MediaTypeNames;
+using J113D.TranslationEditor.FormatApp.Views.Export;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {
@@ -80,6 +80,41 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
         {
             Dispatcher.UIThread.Post(async () => await _formatFileAppendHandler.Open());
         }
+
+        public void OnExportLanguageFile(object sender, RoutedEventArgs e)
+        {
+            Window window = (Window)TopLevel.GetTopLevel(this)!;
+            Dispatcher.UIThread.Post(async () =>
+                await new WndLanguageExportDialog()
+                {
+                    DataContext = DataContext
+                }.ShowDialog<MessageBoxResult?>(window)
+            );
+        }
+
+        public void OnExportCSV(object sender, RoutedEventArgs e)
+        {
+            Window window = (Window)TopLevel.GetTopLevel(this)!;
+            Dispatcher.UIThread.Post(async () =>
+                await new WndCSVExportDialog()
+                {
+                    DataContext = DataContext
+                }.ShowDialog<MessageBoxResult?>(window)
+            );
+        }
+
+        public void OnExportXAML(object sender, RoutedEventArgs e)
+        {
+            Window window = (Window)TopLevel.GetTopLevel(this)!;
+            Dispatcher.UIThread.Post(async () =>
+                await new WndXamlExportDialog()
+                {
+                    DataContext = DataContext
+                }.ShowDialog<MessageBoxResult?>(window)
+            );
+        }
+
+
 
 
         private void OnUndo(object? sender, RoutedEventArgs e)

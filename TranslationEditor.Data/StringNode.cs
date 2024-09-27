@@ -1,9 +1,5 @@
 ﻿using J113D.TranslationEditor.Data.Events;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection.PortableExecutable;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.Data

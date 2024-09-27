@@ -2,12 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
-using Avalonia.Media;
 using Avalonia.VisualTree;
-using J113D.Avalonia.Theme.Accents;
 using J113D.TranslationEditor.FormatApp.ViewModels;
 using PropertyChanged;
 using System.Linq;

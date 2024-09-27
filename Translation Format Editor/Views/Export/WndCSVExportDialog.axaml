@@ -1,0 +1,76 @@
+<controls:Window 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="using:J113D.Avalonia.Controls"
+	xmlns:enumUtil="using:J113D.Avalonia.Utilities.Enum"
+	xmlns:local="using:J113D.TranslationEditor.FormatApp.Views.Export"
+    mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+    x:Class="J113D.TranslationEditor.FormatApp.Views.Export.WndCSVExportDialog"
+	x:ClassModifier="internal"
+    Title="XAML Resource Export"
+	HideMinimizeButton="True"
+	HideRestoreButton="True"
+	SizeToContent="WidthAndHeight"
+	CanResize="False"
+	MinWidth="400">
+
+	<controls:Window.Styles>
+		<Style Selector="HeaderedContentControl">
+			<Setter Property="HeaderTemplate">
+				<DataTemplate DataType="x:String">
+					<TextBlock Text="{Binding }" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0"/>
+				</DataTemplate>
+			</Setter>
+		</Style>
+	</controls:Window.Styles>
+
+	<controls:Window.Resources>
+		<enumUtil:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>		
+	</controls:Window.Resources>
+
+	<Border Background="{DynamicResource BackgroundColor1}" Padding="10" CornerRadius="3">
+		<Grid RowDefinitions="*, 10, auto">
+			<StackPanel Grid.IsSharedSizeScope="True">
+				<HeaderedContentControl Header="Inlude format values">
+					<CheckBox IsChecked="True" x:Name="ExportFormatValues"/>
+				</HeaderedContentControl>
+
+				<HeaderedContentControl Header="Project Files">
+					<Grid ColumnDefinitions="*,*">
+						<Button Margin="4" Padding="8" Grid.Column="0" HorizontalAlignment="Left" Click="OnAddProjectFiles">
+							<Button.Content>
+								<Grid ColumnDefinitions="auto, *">
+									<Image 
+										Grid.Column="0"
+										Source="avares://J113D.Avalonia/Icons/OpenFolder.png"
+										Width="16"
+										Height="16"/>
+									
+									<TextBlock Grid.Column="1" Text="Add Files" Margin="8 0 0 0"/>
+									
+								</Grid>
+							</Button.Content>
+						</Button>
+
+						<Image 
+							Width="16"
+							Height="16"
+							Grid.Column="1"
+							HorizontalAlignment="Right"
+							Source="avares://J113D.Avalonia/Icons/Question.png"
+							ToolTip.ShowDelay="0"
+							ToolTip.Tip="Include selected json project files as columns in the CSV table. Every line is a path to a file to include."/>
+					</Grid>
+				</HeaderedContentControl>
+				
+				<TextBox x:Name="ProjectFilePaths" AcceptsReturn="True"/>
+			</StackPanel>
+		
+			<Button Grid.Row="2" Click="OnExport" HorizontalAlignment="Right" Padding="20 5 20 6" Content="Export"/>
+		</Grid>
+		
+	</Border>
+	
+</controls:Window>

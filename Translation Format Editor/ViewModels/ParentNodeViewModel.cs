@@ -2,9 +2,7 @@
 using J113D.UndoRedo.Collections;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace J113D.TranslationEditor.FormatApp.ViewModels

@@ -259,14 +259,7 @@ namespace J113D.TranslationEditor.Data
 
         public string WriteFormatToString(bool indented)
         {
-            JsonSerializerOptions options = new()
-            {
-                WriteIndented = indented
-            };
-
-            options.Converters.Add(new JsonNodeConverter());
-            options.Converters.Add(new JsonFormatConverter());
-
+            JsonSerializerOptions options = JsonConverterHelper.CreateOptions(false);
             return JsonSerializer.Serialize(this, options);
         }
 
@@ -287,10 +280,7 @@ namespace J113D.TranslationEditor.Data
 
         public static Format ReadFormatFromString(string json)
         {
-            JsonSerializerOptions options = new();
-            options.Converters.Add(new JsonNodeConverter());
-            options.Converters.Add(new JsonFormatConverter());
-
+            JsonSerializerOptions options = JsonConverterHelper.CreateOptions(false);
             return JsonSerializer.Deserialize<Format>(json, options)!;
         }
 
@@ -459,54 +449,5 @@ namespace J113D.TranslationEditor.Data
 
         #endregion
 
-        #region Export
-
-        public void WriteExportToFiles(string keysFilePath, string stringsFilePath)
-        {
-            using(FileStream keysFileStream = File.OpenWrite(keysFilePath))
-            {
-                using(FileStream stringsFileStream = File.OpenWrite(stringsFilePath))
-                {
-                    WriteExport(keysFileStream, stringsFileStream);
-                }
-            }
-        }
-
-        public void WriteExportToStrings(out string keys, out string strings)
-        {
-            using(MemoryStream keysStream = new())
-            {
-                using(MemoryStream stringsStream = new())
-                {
-                    WriteExport(keysStream, stringsStream);
-                    keysStream.Position = 0;
-                    stringsStream.Position = 0;
-                    keys = new StreamReader(keysStream).ReadToEnd();
-                    strings = new StreamReader(stringsStream).ReadToEnd();
-                }
-            }
-        }
-
-        public void WriteExport(Stream keysFileStream, Stream stringsFileSteam)
-        {
-            StreamWriter keysWriter = new(keysFileStream);
-            StreamWriter stringsWriter = new(stringsFileSteam);
-
-            stringsWriter.WriteLine(Name);
-            stringsWriter.WriteLine(Version);
-            stringsWriter.WriteLine(Language);
-            stringsWriter.WriteLine(Author);
-            stringsWriter.Flush();
-
-            foreach(KeyValuePair<string, StringNode> stringNode in _stringNodes)
-            {
-                keysWriter.WriteLine(stringNode.Key);
-                stringsWriter.WriteLine(stringNode.Value.NodeValue.Escape());
-                keysWriter.Flush();
-                stringsWriter.Flush();
-            }
-        }
-
-        #endregion
     }
 }

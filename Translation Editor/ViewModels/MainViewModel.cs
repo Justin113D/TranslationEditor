@@ -1,4 +1,5 @@
 ﻿using J113D.TranslationEditor.Data;
+using J113D.TranslationEditor.Data.Conversion;
 using J113D.UndoRedo;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
@@ -158,9 +159,9 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
 
         public string ExportLanguage()
         {
-            Format!.Format.WriteExportToStrings(out _, out string values);
+            string result = Format!.Format.ConvertToValueExport();
             SetMessage("Exported Language File", false);
-            return values;
+            return result;
         }
     }
 }

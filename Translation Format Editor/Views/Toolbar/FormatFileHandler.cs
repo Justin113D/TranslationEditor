@@ -1,10 +1,5 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Platform.Storage;
-using J113D.Avalonia.Utilities.IO;
-using J113D.TranslationEditor.FormatApp.ViewModels;
 using System;
-using System.Collections.Generic;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {

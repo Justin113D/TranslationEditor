@@ -12,6 +12,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Csv" Version="2.0.93" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\Libraries\J113D.Common\J113D.Common\J113D.Common.csproj" />
 	  <ProjectReference Include="..\Libraries\J113D.UndoRedo\J113D.UndoRedo\J113D.UndoRedo.csproj" />
 	</ItemGroup>

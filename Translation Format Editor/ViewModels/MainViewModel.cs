@@ -1,7 +1,8 @@
 ﻿using J113D.TranslationEditor.Data;
+using J113D.TranslationEditor.Data.Conversion;
+using J113D.TranslationEditor.Data.Conversionj;
 using J113D.TranslationEditor.Data.Json;
 using J113D.UndoRedo;
-using System;
 using System.Linq;
 using System.Text.Json;
 
@@ -26,6 +27,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             Format = new(new());
         }
 
+
         private void SetMessage(string message, bool warning)
         {
             if(MessageType != ToolbarMessageType.None)
@@ -37,6 +39,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             Message = message;
             MessageType = warning ? ToolbarMessageType.Error : ToolbarMessageType.Success;
         }
+
 
         public void Undo()
         {
@@ -53,6 +56,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                 SetMessage("Performed Redo", false);
             }
         }
+
 
         public string? Copy()
         {
@@ -102,6 +106,7 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
                 SetMessage("Deleted selected nodes", false);
             }
         }
+
 
         public void NewFormat()
         {
@@ -153,5 +158,30 @@ namespace J113D.TranslationEditor.FormatApp.ViewModels
             SetMessage("Successfully opened and appended format!", false);
         }
 
+
+        public string ExportLanguageKeys()
+        {
+            return LanguageExportConverter.ConvertToKeyExport(Format.Format);
+        }
+
+        public string ExportLanguageValues()
+        {
+            return LanguageExportConverter.ConvertToValueExport(Format.Format);
+        }
+    
+        public string ExportAXAML(bool grouped)
+        {
+            return AXAMLConverter.ConvertToAXAMLResource(Format.Format, grouped);
+        }
+
+        public string ExportXAML(bool grouped)
+        {
+            return XAMLConverter.ConvertToXAMLResource(Format.Format, grouped);
+        }
+        
+        public string ExportCSV(bool includeFormat, string[] projectFiles)
+        {
+            return CSVConverter.ConvertToCSV(Format.Format, includeFormat, projectFiles);
+        }
     }
 }
