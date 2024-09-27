@@ -1,22 +1,14 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
 using Avalonia.Platform.Storage;
-using J113D.Avalonia.Utilities.IO;
-using J113D.TranslationEditor.ProjectApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 {
-    internal sealed class ImportProjectFileHandler : TextFileHandler
+    internal sealed class ImportProjectFileHandler : BaseFileHandler
     {
-        private readonly UcMenuBar _control;
-
-        private MainViewModel ViewModel
-            => (MainViewModel)_control.DataContext!;
-
-        protected override Window Window
-            => (Window)TopLevel.GetTopLevel(_control)!;
-
+        protected override bool AskForResetConfirmation => false;
 
         protected override string FileTypeName
             => "Language project";
@@ -28,28 +20,13 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
             }
         ];
 
-        protected override bool AskForResetConfirmation => false;
 
-        protected override IFileChangeTracker? FileChangeTracker => null;
+        public ImportProjectFileHandler(Visual visual) : base(visual, null) { }
 
-        public ImportProjectFileHandler(UcMenuBar control)
+
+        protected override void InternalLoad(Uri filePath)
         {
-            _control = control;
-        }
-
-        protected override string WriteText(Uri filePath)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override void ReadText(Uri filePath, string text)
-        {
-            ViewModel.ImportProjectValues(text);
-        }
-
-        protected override void InternalReset()
-        {
-            throw new NotSupportedException();
+            ViewModel.ImportProjectValues(File.ReadAllText(filePath.AbsolutePath));
         }
     }
 }

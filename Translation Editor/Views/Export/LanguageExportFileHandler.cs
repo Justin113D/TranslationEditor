@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace J113D.TranslationEditor.FormatApp.Views.Export
+namespace J113D.TranslationEditor.ProjectApp.Views.Export
 {
-    internal class LanguageExportFileHandler : BaseFileHandler
+    internal sealed class LanguageExportFileHandler : BaseFileHandler
     {
         protected override bool AskForResetConfirmation => false;
 
@@ -16,12 +16,9 @@ namespace J113D.TranslationEditor.FormatApp.Views.Export
         public override IReadOnlyList<FilePickerFileType>? FileType { get; } =
         [
             new("Language Export") {
-                Patterns = ["*.langkey"]
+                Patterns = ["*.lang"]
             }
         ];
-
-
-        public bool ExportValuesFileToo { get; set; }
 
 
         public LanguageExportFileHandler(Visual visual) : base(visual, null) { }
@@ -29,13 +26,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Export
 
         protected override void InternalSave(Uri filePath)
         {
-            File.WriteAllText(filePath.AbsolutePath, ViewModel.ExportLanguageKeys());
-
-            if(ExportValuesFileToo)
-            {
-                string valueFilePath = Path.ChangeExtension(filePath.AbsolutePath, ".lang");
-                File.WriteAllText(valueFilePath, ViewModel.ExportLanguageValues());
-            }
+            File.WriteAllText(filePath.AbsolutePath, ViewModel.ExportLanguage());
         }
     }
 }

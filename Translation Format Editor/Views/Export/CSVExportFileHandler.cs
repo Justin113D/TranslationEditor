@@ -1,7 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
 using Avalonia.Platform.Storage;
-using J113D.Avalonia.Utilities.IO;
-using J113D.TranslationEditor.FormatApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +9,8 @@ namespace J113D.TranslationEditor.FormatApp.Views.Export
 {
     internal class CSVExportFileHandler : BaseFileHandler
     {
+        protected override bool AskForResetConfirmation => false;
+
         protected override string FileTypeName
             => "CSV File";
 
@@ -21,34 +21,17 @@ namespace J113D.TranslationEditor.FormatApp.Views.Export
             }
         ];
 
-        protected override Window Window { get; }
-
-        private MainViewModel ViewModel
-            => (MainViewModel)Window.DataContext!;
-
-        protected override IFileChangeTracker? FileChangeTracker => null;
-
 
         public bool IncludeFormatValues { get; set; }
 
-        public string FilePaths { get; set; }
+        public string FilePaths { get; set; } = string.Empty;
 
 
-        public CSVExportFileHandler(Window window) : base()
+        public CSVExportFileHandler(Visual visual) : base(visual, null)
         {
-            Window = window;
             FilePaths = string.Empty;
         }
 
-        protected override void InternalLoad(Uri filePath)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override void InternalReset()
-        {
-            throw new NotSupportedException();
-        }
 
         protected override void InternalSave(Uri filePath)
         {

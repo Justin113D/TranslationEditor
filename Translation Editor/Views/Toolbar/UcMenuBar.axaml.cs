@@ -1,14 +1,15 @@
+using J113D.TranslationEditor.ProjectApp.ViewModels;
+using J113D.TranslationEditor.ProjectApp.Views.Windows;
+using J113D.TranslationEditor.ProjectApp.Views.Export;
+using J113D.Avalonia.Utilities.IO;
+using J113D.Avalonia.MessageBox;
+using J113D.UndoRedo;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using J113D.TranslationEditor.ProjectApp.ViewModels;
 using Avalonia.Threading;
 using PropertyChanged;
-using J113D.Avalonia.MessageBox;
-using J113D.TranslationEditor.ProjectApp.Views.Windows;
-using System;
 using System.Threading.Tasks;
-using J113D.Avalonia.Utilities.IO;
-using J113D.UndoRedo;
+using System;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 {
@@ -19,7 +20,9 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
         private readonly FormatFileHandler _formatFileHandler;
         private readonly ProjectFileHandler _projectFileHandler;
         private readonly ImportProjectFileHandler _importProjectFileHandler;
-        private readonly ExportFileHandler _exportFileHandler;
+        private readonly LanguageExportFileHandler _languageExportFileHandler;
+        private readonly CSVExportFileHandler _csvExportFileHandler;
+        private readonly XAMLExportFileHandler _xamlExportFileHandler;
         public WndHelp? HelpWindow { get; private set; }
 
         private MainViewModel ViewModel
@@ -31,10 +34,12 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
         {
             InitializeComponent();
 
-            _formatFileHandler = new(this);
-            _projectFileHandler = new(this);
+            _formatFileHandler = new(this, this);
+            _projectFileHandler = new(this, this);
             _importProjectFileHandler = new(this);
-            _exportFileHandler = new(this);
+            _languageExportFileHandler = new(this);
+            _csvExportFileHandler = new(this);
+            _xamlExportFileHandler = new(this);
         }
 
 
@@ -135,6 +140,7 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
             Dispatcher.UIThread.Post(async () => await _importProjectFileHandler.Open());
         }
 
+
         public void OnExportLanguageFile(object sender, RoutedEventArgs e)
         {
             if(ViewModel.Format == null)
@@ -142,7 +148,33 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
                 return;
             }
 
-            Dispatcher.UIThread.Post(async () => await _exportFileHandler.Save(true));
+            Dispatcher.UIThread.Post(async () => await _languageExportFileHandler.Save(true));
+        }
+
+        public void OnExportCSV(object sender, RoutedEventArgs e)
+        {
+            if(ViewModel.Format == null)
+            {
+                return;
+            }
+
+            Dispatcher.UIThread.Post(async () => await _csvExportFileHandler.Save(true));
+        }
+
+        public void OnExportXAML(object sender, RoutedEventArgs e)
+        {
+            if(ViewModel.Format == null)
+            {
+                return;
+            }
+
+            Window window = (Window)TopLevel.GetTopLevel(this)!;
+            Dispatcher.UIThread.Post(async () =>
+                await new WndXamlExportDialog()
+                {
+                    DataContext = DataContext
+                }.ShowDialog<MessageBoxResult?>(window)
+            );
         }
 
 

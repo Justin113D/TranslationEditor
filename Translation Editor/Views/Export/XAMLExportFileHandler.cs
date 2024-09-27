@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace J113D.TranslationEditor.FormatApp.Views.Export
+namespace J113D.TranslationEditor.ProjectApp.Views.Export
 {
     internal class XAMLExportFileHandler : BaseFileHandler
     {

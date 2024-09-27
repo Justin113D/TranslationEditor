@@ -1,23 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
 using Avalonia.Platform.Storage;
 using J113D.Avalonia.Utilities.IO;
-using J113D.TranslationEditor.FormatApp.ViewModels;
 using System.Collections.Generic;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {
-    internal abstract class BaseFormatFileHandler : TextFileHandler
+    internal abstract class BaseFormatFileHandler : BaseFileHandler
     {
-        private readonly UcMenuBar _control;
-
-        protected MainViewModel ViewModel
-            => (MainViewModel)_control.DataContext!;
-
-        protected override Window Window
-            => (Window)TopLevel.GetTopLevel(_control)!;
-
-        protected override IFileChangeTracker? FileChangeTracker => _control;
-
         protected override string FileTypeName
             => "Language format";
 
@@ -28,10 +17,8 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
             }
         ];
 
-        public BaseFormatFileHandler(UcMenuBar control)
-        {
-            _control = control;
-        }
 
+        protected BaseFormatFileHandler(Visual visual, IFileChangeTracker? fileChangeTracker) 
+            : base(visual, fileChangeTracker) { }
     }
 }

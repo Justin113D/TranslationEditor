@@ -1,11 +1,13 @@
 ﻿using Avalonia;
+using J113D.Avalonia.Utilities.IO;
 using System;
+using System.IO;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {
     internal sealed class FormatFileHandler : BaseFormatFileHandler
     {
-        public FormatFileHandler(UcMenuBar control) : base(control) { }
+        public FormatFileHandler(Visual control, IFileChangeTracker tracker) : base(control, tracker) { }
 
 
         protected override void InternalReset()
@@ -13,15 +15,15 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
             ViewModel.NewFormat();
         }
 
-        protected override void ReadText(Uri filePath, string text)
+        protected override void InternalLoad(Uri filePath)
         {
-            ViewModel.OpenFormat(text);
+            ViewModel.OpenFormat(File.ReadAllText(filePath.AbsolutePath));
         }
 
-        protected override string WriteText(Uri filePath)
+        protected override void InternalSave(Uri filePath)
         {
-            return ViewModel.SaveFormat(((App)Application.Current!).Settings.IndentJson);
+            string text = ViewModel.SaveFormat(((App)Application.Current!).Settings.IndentJson);
+            File.WriteAllText(filePath.AbsolutePath, text);
         }
-
     }
 }

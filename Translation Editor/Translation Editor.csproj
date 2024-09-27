@@ -31,6 +31,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Assets\ExportToCSVFile.png" />
+	  <None Remove="Assets\ExportToXMLFile.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0">
 		  <PrivateAssets>All</PrivateAssets>
 		</PackageReference>

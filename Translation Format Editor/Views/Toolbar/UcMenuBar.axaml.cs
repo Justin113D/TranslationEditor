@@ -29,7 +29,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
         public UcMenuBar()
         {
             InitializeComponent();
-            _formatFileHandler = new(this);
+            _formatFileHandler = new(this, this);
             _formatFileAppendHandler = new(this);
         }
 

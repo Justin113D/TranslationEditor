@@ -13,6 +13,11 @@ namespace J113D.TranslationEditor.FormatApp.Views
     {
         protected override Type StyleKeyOverride => typeof(TextBox);
 
+#pragma warning disable CS0067
+        public event EventHandler? CanExecuteChanged;
+#pragma warning restore CS0067
+
+
         public UndoRedoTextBox() : base()
         {
             IsUndoEnabled = false;
@@ -24,9 +29,6 @@ namespace J113D.TranslationEditor.FormatApp.Views
             });
         }
 
-#pragma warning disable CS0067
-        public event EventHandler? CanExecuteChanged;
-#pragma warning restore CS0067
 
         public bool CanExecute(object? parameter)
         {

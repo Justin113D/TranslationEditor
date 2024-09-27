@@ -1,6 +1,8 @@
 ﻿using J113D.TranslationEditor.Data;
 using J113D.TranslationEditor.Data.Conversion;
+using J113D.TranslationEditor.Data.Conversionj;
 using J113D.UndoRedo;
+using Tmds.DBus.Protocol;
 
 namespace J113D.TranslationEditor.ProjectApp.ViewModels
 {
@@ -157,11 +159,27 @@ namespace J113D.TranslationEditor.ProjectApp.ViewModels
             ProjectTracker.EndGroup();
         }
 
+
         public string ExportLanguage()
         {
             string result = Format!.Format.ConvertToValueExport();
             SetMessage("Exported Language File", false);
             return result;
+        }
+
+        public string ExportCSV()
+        {
+            return CSVConverter.ConvertToCSV(Format!.Format, true, System.Array.Empty<Data.Json.JsonProject>());
+        }
+
+        public string ExportAXAML(bool grouped)
+        {
+            return AXAMLConverter.ConvertToAXAMLResource(Format!.Format, grouped);
+        }
+
+        public string ExportXAML(bool grouped)
+        {
+            return XAMLConverter.ConvertToXAMLResource(Format!.Format, grouped);
         }
     }
 }

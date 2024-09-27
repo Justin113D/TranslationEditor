@@ -1,23 +1,14 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
 using Avalonia.Platform.Storage;
 using J113D.Avalonia.Utilities.IO;
-using J113D.TranslationEditor.ProjectApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 {
-    internal sealed class ProjectFileHandler : TextFileHandler
+    internal sealed class ProjectFileHandler : BaseFileHandler
     {
-        private readonly UcMenuBar _menuBar;
-
-        private MainViewModel ViewModel
-            => (MainViewModel)_menuBar.DataContext!;
-
-        protected override Window Window
-            => (Window)TopLevel.GetTopLevel(_menuBar)!;
-
-
         protected override string FileTypeName 
             => "Language project";
 
@@ -28,12 +19,8 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
             }
         ];
 
-        protected override IFileChangeTracker? FileChangeTracker => _menuBar;
 
-        public ProjectFileHandler(UcMenuBar menuBar)
-        {
-            _menuBar = menuBar;
-        }
+        public ProjectFileHandler(Visual visual, IFileChangeTracker fileChangeTracker) : base(visual, fileChangeTracker) { }
 
 
         protected override void InternalReset()
@@ -41,15 +28,14 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
             ViewModel.NewProject();
         }
 
-        protected override void ReadText(Uri filePath, string text)
+        protected override void InternalLoad(Uri filePath)
         {
-            ViewModel.ReadProject(text);
+            ViewModel.ReadProject(File.ReadAllText(filePath.AbsolutePath));
         }
 
-        protected override string WriteText(Uri filePath)
+        protected override void InternalSave(Uri filePath)
         {
-            return ViewModel.WriteProject();
+            File.WriteAllText(filePath.AbsolutePath, ViewModel.WriteProject());
         }
-
     }
 }

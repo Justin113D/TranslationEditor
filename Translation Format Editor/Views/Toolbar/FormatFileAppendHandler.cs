@@ -1,32 +1,20 @@
-﻿using J113D.Avalonia.Utilities.IO;
+﻿using Avalonia;
 using System;
+using System.IO;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {
     internal sealed class FormatFileAppendHandler : BaseFormatFileHandler
     {
-        protected override IFileChangeTracker? FileChangeTracker => null;
-
         protected override bool AskForResetConfirmation => false;
 
 
-        public FormatFileAppendHandler(UcMenuBar control) : base(control) { }
+        public FormatFileAppendHandler(Visual visual) : base(visual, null) { }
 
 
-        protected override void InternalReset()
+        protected override void InternalLoad(Uri filePath)
         {
-            throw new NotSupportedException();
+            ViewModel.AppendFormat(File.ReadAllText(filePath.AbsolutePath));
         }
-
-        protected override void ReadText(Uri filePath, string text)
-        {
-            ViewModel.AppendFormat(text);
-        }
-
-        protected override string WriteText(Uri filePath)
-        {
-            throw new NotSupportedException();
-        }
-
     }
 }
