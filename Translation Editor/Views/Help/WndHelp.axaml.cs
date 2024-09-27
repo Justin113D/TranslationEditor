@@ -1,7 +1,7 @@
 using Avalonia.Interactivity;
 using PropertyChanged;
 
-namespace J113D.TranslationEditor.ProjectApp.Views.Windows
+namespace J113D.TranslationEditor.ProjectApp.Views.Help
 {
     [DoNotNotify]
     internal partial class WndHelp : J113D.Avalonia.Controls.Window

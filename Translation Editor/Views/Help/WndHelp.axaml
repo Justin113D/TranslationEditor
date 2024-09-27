@@ -4,10 +4,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:controls="using:J113D.Avalonia.Controls"
-	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Windows"
-	xmlns:help="using:J113D.TranslationEditor.ProjectApp.Views.Help"
+	xmlns:local="using:J113D.TranslationEditor.ProjectApp.Views.Help"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1700"
-    x:Class="J113D.TranslationEditor.ProjectApp.Views.Windows.WndHelp"
+    x:Class="J113D.TranslationEditor.ProjectApp.Views.Help.WndHelp"
 	x:ClassModifier="internal"
     Title="Help"
 	Icon="avares://J113D.Avalonia/Utilities/MessageBox/Icons/Question.png"
@@ -16,8 +15,8 @@
 	MinWidth="600">
 
 	<controls:Window.Resources>
-		<help:FontSizeMultiplicatorConverter x:Key="TitleFontSizeConverter" Factor="1.5"/>
-		<help:FontSizeMultiplicatorConverter x:Key="CodeFontSizeConverter" Factor="1"/>
+		<local:FontSizeMultiplicatorConverter x:Key="TitleFontSizeConverter" Factor="1.5"/>
+		<local:FontSizeMultiplicatorConverter x:Key="CodeFontSizeConverter" Factor="1"/>
 	</controls:Window.Resources>
 
 	<controls:Window.Styles>
@@ -81,9 +80,9 @@
 			<TextBlock Classes="Title" Text="2. Getting started"/>
 			<Border Classes="TextBlock">
 				<TextBlock TextWrapping="Wrap">
-					This program won't be able to do anything by itself; The developer of the project you intend on translating for will provide a "Language Format" file, which you have to open using <Span xml:space="preserve" Classes="Code"> File > Load Format </Span>. This will read the format and create a node-tree with all the texts described in the format. <LineBreak/>
+					This program won't be able to do anything by itself; The developer of the project you intend on translating for will provide a "Language Format" file, which you have to open using <Span xml:space="preserve" Classes="Code">&#160;File&#160;>&#160;Load&#160;Format&#160;</Span>. This will read the format and create a node-tree with all the texts described in the format. <LineBreak/>
 					<LineBreak/>
-					Alternatively, you can open the settings and enter the path to the language format file in the <Span xml:space="preserve" Classes="Code"> Startup Format File </Span> text field, which will automatically open the file when starting the application. This is useful for when translating takes longer than one or two sessions.
+					Alternatively, you can open the settings and enter the path to the language format file in the <Span xml:space="preserve" Classes="Code">&#160;Startup&#160;Format&#160;File&#160;</Span> text field, which will automatically open the file when starting the application. This is useful for when translating takes longer than one or two sessions.
 				</TextBlock>
 			</Border>
 			<Separator/>
@@ -95,8 +94,8 @@
 					Once a language format file has been loaded, you will be greeted by a node tree like below. This annotated node tree serves as a reference regarding the functionality of each of its elements.
 				</TextBlock>
 			</Border>
-			<help:UcReferenceNodeTree/>
-			<help:UcReferenceList/>
+			<local:UcReferenceNodeTree/>
+			<local:UcReferenceList/>
 			<Separator/>
 
 			<!-- ////////// 4. Format versions ////////// -->
@@ -112,7 +111,7 @@
 			<TextBlock Classes="Title" Text="5. Collaboration"/>
 			<Border Classes="TextBlock">
 				<TextBlock TextWrapping="Wrap">
-					It is possible to split up work between multiple people! After splitting up work and having multiple project files, you can merge them together by using <Span xml:space="preserve" Classes="Code"> File > Import Project Values </Span> and selecting the file from your collaborator. This will read the project and all all translated texts to your currently active project. <LineBreak/>
+					It is possible to split up work between multiple people! After splitting up work and having multiple project files, you can merge them together by using <Span xml:space="preserve" Classes="Code">&#160;File&#160;>&#160;Import&#160;Project&#160;Values&#160;</Span> and selecting the file from your collaborator. This will read the project and all all translated texts to your currently active project. <LineBreak/>
 					When the active project and imported project both translate a same textnode, then the app will import whichever translation is from a newer version. If both are from the same version, then the imported text is used.
 				</TextBlock>
 			</Border>
@@ -122,8 +121,8 @@
 			<TextBlock Classes="Title" Text="6. Tips &amp; Tricks"/>
 			<Border Classes="TextBlock">
 				<TextBlock TextWrapping="Wrap">
-					- You can use the <Span xml:space="preserve" Classes="Code"> Tab </Span> key to quickly iterate over texts. This allows you to translate without ever needing to touch your mouse. <LineBreak/>
-					- Pressing <Span xml:space="preserve" Classes="Code"> CTRL + R </Span> while editing a text will reset it to it's default value. <LineBreak/>
+					- You can use the <Span xml:space="preserve" Classes="Code">&#160;Tab&#160;</Span> key to quickly iterate over texts. This allows you to translate without ever needing to touch your mouse. <LineBreak/>
+					- Pressing <Span xml:space="preserve" Classes="Code">&#160;CTRL&#160;+&#160;R&#160;</Span> while editing a text will reset it to it's default value. <LineBreak/>
 					- Definitely check out the settings!
 				</TextBlock>
 			</Border>
@@ -133,7 +132,7 @@
 			<TextBlock Classes="Title" Text="7. Handing in your work"/>
 			<Border Classes="TextBlock">
 				<TextBlock TextWrapping="Wrap">
-					Once you are done and have translated the entire format, you export the language file by using <Span xml:space="preserve" Classes="Code"> File > Export Language File </Span> and sending the exported file to your language format provider.
+					Once you are done and have translated the entire format, you export the language file by using one of the exporters in the <Span xml:space="preserve" Classes="Code">&#160;File&#160;</Span> menu to send that, or just the project file itself, to your language format provider.
 				</TextBlock>
 			</Border>
 		</StackPanel>

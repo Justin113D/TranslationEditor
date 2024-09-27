@@ -1,6 +1,7 @@
 using J113D.TranslationEditor.ProjectApp.ViewModels;
 using J113D.TranslationEditor.ProjectApp.Views.Windows;
 using J113D.TranslationEditor.ProjectApp.Views.Export;
+using J113D.TranslationEditor.ProjectApp.Views.Help;
 using J113D.Avalonia.Utilities.IO;
 using J113D.Avalonia.MessageBox;
 using J113D.UndoRedo;
