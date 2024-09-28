@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using J113D.Avalonia.Utilities.IO;
 using J113D.UndoRedo;
 using J113D.TranslationEditor.FormatApp.Views.Export;
+using J113D.TranslationEditor.FormatApp.Views.Help;
 
 namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 {
@@ -19,7 +20,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
         private ChangeTracker.Pin? _fileChangePin;
         private readonly FormatFileHandler _formatFileHandler;
         private readonly FormatFileAppendHandler _formatFileAppendHandler;
-        //public WndHelp? HelpWindow { get; private set; }
+        public WndHelp? HelpWindow { get; private set; }
 
         private MainViewModel ViewModel
             => (MainViewModel)DataContext!;
@@ -189,21 +190,26 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 
         private void OnOpenHelp(object sender, RoutedEventArgs e)
         {
-            //if(HelpWindow != null)
-            //{
-            //    HelpWindow.Focus();
-            //    return;
-            //}
+            if(HelpWindow != null)
+            {
+                if(HelpWindow.WindowState == WindowState.Minimized)
+                {
+                    HelpWindow.WindowState = WindowState.Normal;
+                }
 
-            //Window topLevel = (Window)TopLevel.GetTopLevel(this)!;
-            //HelpWindow = new();
-            //HelpWindow.Show();
-            //HelpWindow.Closed += OnCloseHelp;
+                HelpWindow.Activate();
+                return;
+            }
+
+            Window topLevel = (Window)TopLevel.GetTopLevel(this)!;
+            HelpWindow = new();
+            HelpWindow.Show();
+            HelpWindow.Closed += OnCloseHelp;
         }
 
         private void OnCloseHelp(object? sender, EventArgs e)
         {
-            //HelpWindow = null;
+            HelpWindow = null;
         }
     }
 }

@@ -229,7 +229,12 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
         {
             if(HelpWindow != null)
             {
-                HelpWindow.Focus();
+                if(HelpWindow.WindowState == WindowState.Minimized)
+                {
+                    HelpWindow.WindowState = WindowState.Normal;
+                }
+
+                HelpWindow.Activate();
                 return;
             }
 

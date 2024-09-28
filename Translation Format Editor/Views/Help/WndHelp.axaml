@@ -1,0 +1,226 @@
+<controls:Window
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="using:J113D.Avalonia.Controls"
+	xmlns:local="using:J113D.TranslationEditor.FormatApp.Views.Help"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1800"
+    x:Class="J113D.TranslationEditor.FormatApp.Views.Help.WndHelp"
+	x:ClassModifier="internal"
+    Title="Help"
+	Icon="avares://J113D.Avalonia/Utilities/MessageBox/Icons/Question.png"
+	HideRestoreButton="True"
+	Width="800"
+	MinWidth="600">
+
+	<controls:Window.Resources>
+		<local:FontSizeMultiplicatorConverter x:Key="TitleFontSizeConverter" Factor="1.5"/>
+		<local:FontSizeMultiplicatorConverter x:Key="CodeFontSizeConverter" Factor="1"/>
+	</controls:Window.Resources>
+
+	<controls:Window.Styles>
+		<Style Selector="TextBlock.Title">
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="FontSize" Value="{Binding $parent[controls:Window], Converter={StaticResource TitleFontSizeConverter}}"/>
+		</Style>
+
+		<Style Selector="Separator:not(.Vertical)">
+			<Setter Property="Margin" Value="8, 10"/>
+		</Style>
+
+		<Style Selector="Button.Link">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Foreground" Value="{DynamicResource BlueColor}"/>
+			<Setter Property="BorderThickness" Value="0 0 0 1"/>
+			<Setter Property="CornerRadius" Value="0"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource BlueColor}"/>
+
+			<Style Selector="^:pointerover">
+				<Setter Property="Foreground" Value="{DynamicResource HighlightedBlueColor}"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource HighlightedBlueColor}"/>
+			</Style>
+
+			<Style Selector="^:pressed">
+				<Setter Property="Foreground" Value="{DynamicResource PressedBlueColor}"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource PressedBlueColor}"/>
+			</Style>
+		</Style>
+
+		<Style Selector="Span.Code">
+			<Setter Property="Background" Value="{DynamicResource BackgroundColor3}"/>
+			<Setter Property="FontFamily" Value="Consolas"/>
+			<Setter Property="FontSize" Value="{Binding $parent[controls:Window], Converter={StaticResource CodeFontSizeConverter}}"/>
+		</Style>
+
+		<Style Selector="Border.TextBlock">
+			<Setter Property="Background" Value="{DynamicResource BackgroundColor1}"/>
+			<Setter Property="CornerRadius" Value="3"/>
+			<Setter Property="Padding" Value="4"/>
+		</Style>
+	</controls:Window.Styles>
+
+	<ScrollViewer AllowAutoHide="False" Margin="2">
+		<StackPanel Margin="2" Spacing="8">
+
+			<!-- ////////// 1. Introduction ////////// -->
+			<TextBlock Classes="Title" Text="1. Introduction"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					Welcome to the translation format editor! This help window should give you all info necessary to create your own translation format! <LineBreak/>
+					If you encounter any bugs or other issues, please open an issue on github: <InlineUIContainer>
+						<Button Classes="Link" Click="OnLinkClicked">https://github.com/Justin113D/TranslationEditor</Button>
+					</InlineUIContainer>
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 2. Getting started ////////// -->
+			<TextBlock Classes="Title" Text="2. The Basics"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					This app is the developers half of the translation-editor-toolset:<LineBreak/>
+					You, the developer, create a translation format with all the texts you need translated for your project;<LineBreak/>
+					Once done, you hand the format over to your translators, who will load it using the translation editor and translate all the texts, which are then handed back to you.<LineBreak/>
+					<LineBreak/>
+					A language format specifies: <LineBreak/>
+					- Format-unique keys by which texts are accessed<LineBreak/>
+					- The default text associated with a given key <LineBreak/>
+					- A descriptions to give contextual information on the text <LineBreak/>
+					- Groups to organize texts<LineBreak/>
+					- A version to keep track of changes and additions
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 3. Nodes ////////// -->
+			<TextBlock Classes="Title" Text="3. Nodes"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					The format is made up of so called "nodes", of which there are 2 types: Texts and Groups.<LineBreak/>
+					<LineBreak/>
+					Groups are like folders for nodes and only exist to organize the format. They have no effect on the actual texts that shoul be translated.<LineBreak/>
+					<LineBreak/>
+					Texts are the translatable texts. Each text node has a unique, alphanumeric name (which can also incude "." and "_") called a "key". While a key is stored case sensitive, they are compared case-insensitive, meaning that you cannot have texts with keys like "STRING" and "string" at the same time.<LineBreak/>
+					<LineBreak/>
+					Every node also contains a description, meant to give translators context on how a certain text is used and avoid double meanings or similar.
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 4. Versioning ////////// -->
+			<TextBlock Classes="Title" Text="4. Versioning"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					In the top right of the window, you will see an editable version field; This is the current version of your Format, and should always be changed when creating a new format or after distributing the format to translators.<LineBreak/>
+					<LineBreak/>
+					Every text node keeps track of the version during which it was created or last edited. This means that, when a translator opens a project in a newer format version, the translation editor will recognize any texts that have been changed since being translated and highlight them as such.
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 5. Creating and editing nodes ////////// -->
+			<TextBlock Classes="Title" Text="5. Creating and editing nodes"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					- To create a new node, simply press the "new group" or "new string" buttons of a group to create new nodes under that group (the "top level" acts like group too).<LineBreak/>
+					- To move a node, grab the dotted rectangle at the left end of a node and move it to the desired position.<LineBreak/>
+					- To delete a node, simply press the delete button at the right end of a node.<LineBreak/>
+					<LineBreak/>
+					You can also select multiple nodes to move or delete them. Clicking (or starting to drag) a node will select it.<LineBreak/>
+					- Hold <Span xml:space="preserve" Classes="Code">&#160;CTRL&#160;</Span> while doing so to select multiple nodes.<LineBreak/>
+					- Hold <Span xml:space="preserve" Classes="Code">&#160;Shift&#160;</Span> while doing so to select all visible nodes between the current and last selected node.<LineBreak/>
+					- Select a node again to unselect it.<LineBreak/>
+					<LineBreak/>
+					Delete all selected nodes by pressing <Span xml:space="preserve" Classes="Code">&#160;Delete&#160;</Span>.<LineBreak/>
+					You can also copy all selected nodes with <Span xml:space="preserve" Classes="Code">&#160;Ctrl&#160;+&#160;C&#160;</Span>, and paste them into the selected group / behind the selected text by pressing <Span xml:space="preserve" Classes="Code">&#160;Ctrl&#160;+&#160;V&#160;</Span>.<LineBreak/>
+					<LineBreak/>
+					In the event that you have multiple formats that you want to merge, you can do so by using <Span xml:space="preserve" Classes="Code">&#160;File&#160;>&#160;Append&#160;Format&#160;</Span>. This acts the same as copy &amp; pasting the entire selected format file.
+					<LineBreak/>
+					All editing actions are fully undo/redo compatible.
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 6. Translating the texts ////////// -->
+			<TextBlock Classes="Title" Text="6. Translating the texts"/>
+			<Border Classes="TextBlock">
+				<TextBlock TextWrapping="Wrap">
+					As mentioned above, the translation format editor is half of the same toolset. The other half is just called the "Translation Editor", and is to be downloaded by the translators. Same as with the format editor, it can be found on github: <InlineUIContainer>
+						<Button Classes="Link" Click="OnLinkClicked">https://github.com/Justin113D/TranslationEditor</Button>
+					</InlineUIContainer><LineBreak/>
+					<LineBreak/>
+					Depending on how you intend on using the finished translations, it may be necessary to have the translators enter their locale-key (like "en-us" or "de-de") instead of the name of their langauge.
+				</TextBlock>
+			</Border>
+			<Separator/>
+
+			<!-- ////////// 7. Using the texts ////////// -->
+			<TextBlock Classes="Title" Text="7. Using the texts in a program"/>
+			<Border Classes="TextBlock">
+				<StackPanel>
+					<TextBlock TextWrapping="Wrap">
+						Once all the texts are translated, you can export them to a the format you need. Some formats can be exported by the translators themselves, others may require the translator to send you their project file directly.
+					</TextBlock>
+
+					<Border BorderBrush="{DynamicResource BorderColor1}" BorderThickness="1" CornerRadius="2" Margin="0 8">
+						<Border.Styles>
+							<Style Selector="Grid > Border">
+								<Setter Property="BorderBrush" Value="{DynamicResource BorderColor1}"/>
+								<Setter Property="Padding" Value="4"/>
+							</Style>
+						</Border.Styles>
+						
+						<Grid ColumnDefinitions="auto,*" RowDefinitions="auto,auto,auto,auto">
+
+							<!-- Headers -->
+							<Border BorderThickness="0 0 1 1" Background="{DynamicResource DefaultColor}">
+								<TextBlock FontWeight="Bold" Text="Export Format" HorizontalAlignment="Center"/>
+							</Border>
+
+							<Border Grid.Column="1" BorderThickness="0 0 0 1" Background="{DynamicResource DefaultColor}">
+								<TextBlock FontWeight="Bold" Text="Description" HorizontalAlignment="Center"/>
+							</Border>
+							
+							<!-- Language Key & Value export -->
+
+							<Border Grid.Row="1" BorderThickness="0 0 1 1">
+								<TextBlock Text="Language Key &amp; value export"/>
+							</Border>
+
+							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0 0 0 1">
+								<TextBlock TextWrapping="Wrap" Text="Language Key &amp; value export"/>
+							</Border>
+
+							<!-- CSV -->
+
+							<Border Grid.Row="2" BorderThickness="0 0 1 1">
+								<TextBlock Text="Comma separated values (CSV)"/>
+							</Border>
+
+							<Border Grid.Row="2" Grid.Column="1" BorderThickness="0 0 0 1">
+								<TextBlock TextWrapping="Wrap" Text="A CSV file where each column holds the value to a different language. You will need the finished project files of your translators if you want to export the different languages as individual multiple columns."/>
+							</Border>
+
+							<!-- XAML -->
+
+							<Border Grid.Row="3" BorderThickness="0 0 1 0">
+								<TextBlock Text="XAML Resource Dictionary"/>
+							</Border>
+
+							<Border Grid.Row="3" Grid.Column="1">
+								<TextBlock TextWrapping="Wrap" Text="A WPF compatible resource dictionary that contains the texts. Also supports exporting for Avalonia."/>
+							</Border>
+						</Grid>
+						
+					</Border>
+					
+					<TextBlock TextWrapping="Wrap">
+						In the event that none of the available export formats are suitable to you, hand in a request to implement such a format or create a pull request at the github repository.
+					</TextBlock>
+				</StackPanel>
+			</Border>
+		</StackPanel>
+	</ScrollViewer>
+</controls:Window>

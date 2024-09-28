@@ -112,7 +112,7 @@
 								
 								<Grid ColumnDefinitions="* auto auto *">
 									<Button Grid.Column="1" Command="{Binding RootNode.AddNewParentNode}" Classes="Green" Content="New Group" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
-									<Button Grid.Column="2" Command="{Binding RootNode.AddNewStringNode}" Classes="Blue" Content="New String" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
+									<Button Grid.Column="2" Command="{Binding RootNode.AddNewStringNode}" Classes="Blue" Content="New Text" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
 								</Grid>
 							</StackPanel>
 						</ScrollViewer>
@@ -125,7 +125,7 @@
 					<TreeDataTemplate x:DataType="vm:ParentNodeViewModel" ItemsSource="{Binding ChildNodes}">
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddNewParentNode}" Classes="Green" Content="New Group" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
-							<Button Command="{Binding AddNewStringNode}" Classes="Blue" Content="New String" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
+							<Button Command="{Binding AddNewStringNode}" Classes="Blue" Content="New Text" Margin="3" Padding="8" VerticalContentAlignment="Center"/>
 						</StackPanel>
 					</TreeDataTemplate>
 
