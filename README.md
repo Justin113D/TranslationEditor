@@ -1,14 +1,14 @@
 # Translation Editor
   <p align="center">
-    <a href="https://github.com/jeffvli/feishin/blob/main/LICENSE">
+    <a href="https://github.com/Justin113D/TranslationEditor/blob/master/LICENSE.txt">
       <img src="https://img.shields.io/github/license/Justin113D/TranslationEditor?style=flat-square&color=brightgreen"
       alt="License">
     </a>
-    <a href="https://github.com/jeffvli/feishin/releases">
+    <a href="https://github.com/Justin113D/TranslationEditor/releases">
       <img src="https://img.shields.io/github/v/release/Justin113D/TranslationEditor?style=flat-square&color=blue"
       alt="Release">
     </a>
-    <a href="https://github.com/jeffvli/feishin/releases">
+    <a href="https://github.com/Justin113D/TranslationEditor/releases">
       <img src="https://img.shields.io/github/downloads/Justin113D/TranslationEditor/total?style=flat-square&color=orange"
       alt="Downloads">
     </a>
