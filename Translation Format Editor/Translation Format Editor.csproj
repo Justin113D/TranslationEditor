@@ -13,7 +13,7 @@
 		<Title>Translation Format Editor</Title>
 		<Authors>Justin113D</Authors>
 		<Company>J113D</Company>
-		<Product>Translation Editor</Product>
+		<Product>Translation Format Editor</Product>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
