@@ -123,6 +123,7 @@
 				<TextBlock TextWrapping="Wrap">
 					- You can use the <Span xml:space="preserve" Classes="Code">&#160;Tab&#160;</Span> key to quickly iterate over texts. This allows you to translate without ever needing to touch your mouse. <LineBreak/>
 					- Pressing <Span xml:space="preserve" Classes="Code">&#160;CTRL&#160;+&#160;R&#160;</Span> while editing a text will reset it to it's default value. <LineBreak/>
+					- The numbers in the bottom right show you the number of text-nodes of each state in their respective color.
 					- Definitely check out the settings!
 				</TextBlock>
 			</Border>

@@ -190,7 +190,7 @@
 							</Border>
 
 							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0 0 0 1">
-								<TextBlock TextWrapping="Wrap" Text="Language Key &amp; value export"/>
+								<TextBlock TextWrapping="Wrap" Text="The key file contains all text keys in alphabetical order, and the value file has 4 lines of metadata, followed by the values, sorted in alphabetical order of their keys."/>
 							</Border>
 
 							<!-- CSV -->
