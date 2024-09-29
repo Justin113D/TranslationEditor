@@ -58,8 +58,8 @@ cd ..
 
 cd .\Releases
 
-set te_version="1.0.0"
-set tfe_version="1.0.0"
+set te_version="1.0.1"
+set tfe_version="1.0.1"
 
 tar --strip-components 1 -acf TranslationEditor-%te_version%-linux-arm64.zip -C TranslationEditor\linux-arm64 .
 tar --strip-components 1 -acf TranslationEditor-%te_version%-linux-x64.zip -C TranslationEditor\linux-x64 .
