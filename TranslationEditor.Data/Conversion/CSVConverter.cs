@@ -10,7 +10,7 @@ namespace J113D.TranslationEditor.Data.Conversionj
     {
         public static string ConvertToCSV(this Format format, bool includeFormatProject, IEnumerable<JsonProject> projects)
         {
-            List<string> columnsNames = ["Key"];
+            List<string> columnsNames = ["keys"];
 
             if(includeFormatProject)
             {
