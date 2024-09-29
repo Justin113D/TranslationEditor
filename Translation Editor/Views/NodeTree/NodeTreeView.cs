@@ -1,5 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
@@ -12,7 +14,6 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
     [DoNotNotify]
     internal sealed class NodeTreeView : TreeView, ICustomKeyboardNavigation
     {
-
         public static readonly StyledProperty<double> NameWidthProperty =
             AvaloniaProperty.Register<NodeTreeView, double>(nameof(NameWidth));
 
@@ -33,6 +34,15 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
             set => SetValue(ContentWidthProperty, value);
         }
 
+
+        public ScrollViewer? ScrollViewer { get; private set; }
+
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+            ScrollViewer = e.NameScope.Get<ScrollViewer>("PART_ScrollViewer");
+        }
 
         protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
         {

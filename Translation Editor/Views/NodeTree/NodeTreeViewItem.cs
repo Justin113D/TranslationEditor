@@ -1,5 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
@@ -13,14 +15,26 @@ using System.Linq;
 namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
 {
     [DoNotNotify]
+    [TemplatePart("PART_LayoutRoot", typeof(Border))]
     internal sealed class NodeTreeViewItem : TreeViewItem
     {
+        private NodeTreeView? _tree;
+        private Border? _layoutRoot;
         private TextBox? _nodeValueTextBox;
         private CheckBox? _defaultValueCheckBox;
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+            _layoutRoot = e.NameScope.Get<Border>("PART_LayoutRoot");
+        }
 
         protected override void LogicalChildrenCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             base.LogicalChildrenCollectionChanged(sender, e);
+
+            _tree = this.FindAncestorOfType<NodeTreeView>();
+
             if(DataContext is StringNodeViewModel)
             {
                 IEnumerable<Control> descendants = this.GetLogicalDescendants().OfType<Control>();
@@ -111,5 +125,20 @@ namespace J113D.TranslationEditor.ProjectApp.Views.NodeTree
         {
             return;
         }
+
+        protected override void OnGotFocus(GotFocusEventArgs e)
+        {
+            if(e.NavigationMethod == NavigationMethod.Tab)
+            {
+                ScrollViewer scrollViewer = _tree!.ScrollViewer!;
+
+                Matrix matrix = this.TransformToVisual(scrollViewer)!.Value;
+                double offset = matrix.M32 + scrollViewer.Offset.Y - (scrollViewer.Bounds.Height * 0.5) + (_layoutRoot!.Bounds.Height * 0.5);
+                scrollViewer.Offset = new(0, offset);
+                e.Handled = true;
+            }
+
+            base.OnGotFocus(e);
+        }
     }
-}
+}   

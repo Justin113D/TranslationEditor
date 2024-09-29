@@ -78,7 +78,8 @@
 			ContentWidth="{Binding #ContentHeader.Bounds.Width}"
 			HorizontalAlignment="Stretch"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-			ScrollViewer.AllowAutoHide="False">
+			ScrollViewer.AllowAutoHide="False"
+			ScrollViewer.BringIntoViewOnFocusChange="False">
 
 			<local:NodeTreeView.Template>
 				<ControlTemplate>
