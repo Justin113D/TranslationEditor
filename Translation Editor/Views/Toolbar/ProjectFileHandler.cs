@@ -30,12 +30,12 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 
         protected override void InternalLoad(Uri filePath)
         {
-            ViewModel.ReadProject(File.ReadAllText(filePath.AbsolutePath));
+            ViewModel.ReadProject(File.ReadAllText(filePath.LocalPath));
         }
 
         protected override void InternalSave(Uri filePath)
         {
-            File.WriteAllText(filePath.AbsolutePath, ViewModel.WriteProject());
+            File.WriteAllText(filePath.LocalPath, ViewModel.WriteProject());
         }
     }
 }

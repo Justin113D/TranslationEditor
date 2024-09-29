@@ -29,11 +29,11 @@ namespace J113D.TranslationEditor.FormatApp.Views.Export
 
         protected override void InternalSave(Uri filePath)
         {
-            File.WriteAllText(filePath.AbsolutePath, ViewModel.ExportLanguageKeys());
+            File.WriteAllText(filePath.LocalPath, ViewModel.ExportLanguageKeys());
 
             if(ExportValuesFileToo)
             {
-                string valueFilePath = Path.ChangeExtension(filePath.AbsolutePath, ".lang");
+                string valueFilePath = Path.ChangeExtension(filePath.LocalPath, ".lang");
                 File.WriteAllText(valueFilePath, ViewModel.ExportLanguageValues());
             }
         }

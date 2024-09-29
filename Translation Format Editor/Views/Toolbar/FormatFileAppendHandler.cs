@@ -14,7 +14,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Toolbar
 
         protected override void InternalLoad(Uri filePath)
         {
-            ViewModel.AppendFormat(File.ReadAllText(filePath.AbsolutePath));
+            ViewModel.AppendFormat(File.ReadAllText(filePath.LocalPath));
         }
     }
 }

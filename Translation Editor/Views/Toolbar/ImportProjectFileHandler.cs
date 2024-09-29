@@ -26,7 +26,7 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 
         protected override void InternalLoad(Uri filePath)
         {
-            ViewModel.ImportProjectValues(File.ReadAllText(filePath.AbsolutePath));
+            ViewModel.ImportProjectValues(File.ReadAllText(filePath.LocalPath));
         }
     }
 }

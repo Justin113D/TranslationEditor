@@ -41,7 +41,7 @@ namespace J113D.TranslationEditor.FormatApp.Views.Export
                 .ToArray();
 
             string csv = ViewModel.ExportCSV(IncludeFormatValues, fileContents);
-            File.WriteAllText(filePath.AbsolutePath, csv);
+            File.WriteAllText(filePath.LocalPath, csv);
         }
     }
 }

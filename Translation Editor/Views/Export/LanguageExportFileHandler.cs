@@ -26,7 +26,7 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Export
 
         protected override void InternalSave(Uri filePath)
         {
-            File.WriteAllText(filePath.AbsolutePath, ViewModel.ExportLanguage());
+            File.WriteAllText(filePath.LocalPath, ViewModel.ExportLanguage());
         }
     }
 }

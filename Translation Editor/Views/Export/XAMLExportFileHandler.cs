@@ -52,7 +52,7 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Export
                 _ => ViewModel.ExportXAML(Grouped),
             };
 
-            File.WriteAllText(filePath.AbsolutePath, text);
+            File.WriteAllText(filePath.LocalPath, text);
         }
     }
 }

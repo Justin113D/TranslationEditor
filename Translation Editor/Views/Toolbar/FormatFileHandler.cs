@@ -25,7 +25,7 @@ namespace J113D.TranslationEditor.ProjectApp.Views.Toolbar
 
         protected override void InternalLoad(Uri filePath)
         {
-            ViewModel.LoadFormat(File.ReadAllText(filePath.AbsolutePath));
+            ViewModel.LoadFormat(File.ReadAllText(filePath.LocalPath));
         }
     }
 }
