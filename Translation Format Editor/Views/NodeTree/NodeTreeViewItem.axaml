@@ -152,7 +152,6 @@
 										Grid.Column="3"
 										Text="{Binding Name, Mode=TwoWay, Converter={StaticResource NullToStringConverter}, UpdateSourceTrigger=LostFocus}"
 										Background="Transparent"
-										ToolTip.Tip="Identifier by which the developer accesses the translation"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"/>
 								

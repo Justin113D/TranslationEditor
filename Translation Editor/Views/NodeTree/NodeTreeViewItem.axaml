@@ -103,13 +103,6 @@
 									IsEnabled="{TemplateBinding IsEnabled}"
 									IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
 									Padding="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeViewItemLeftMarginConverter}}"
-									
-									ToolTip.Tip="A group of translations. Click to expand.
-									&#10;
-									&#10;The Colored block represents the content's state:
-									&#10;    - Red: Not yet translated
-									&#10;    - Yellow: Needs re-translation
-									&#10;    - Green: All Translated"
 									IsTabStop="False"/>
 								
 								<Panel Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource TreeViewItemLeftMarginConverter}}"/>
@@ -122,11 +115,7 @@
 									Margin="6 4" 
 									CornerRadius="3" 
 									VerticalAlignment="Stretch" 
-									HorizontalAlignment="Left"
-									ToolTip.Tip="State of the tarnslation:
-									&#10;    - Red: Not yet translated
-									&#10;    - Yellow: Needs re-translation
-									&#10;    - Green: Translated"/>								
+									HorizontalAlignment="Left"/>								
 								
 								<Panel
 									Name="ButtonSpacer"
@@ -139,7 +128,6 @@
 									Grid.Column="3" 
 									Background="Transparent"
 									Name="NamePanel"
-									ToolTip.Tip="Identifier by which the developer accesses the translation"
 									VerticalAlignment="Stretch"
 									HorizontalAlignment="Stretch">
 									
@@ -148,7 +136,6 @@
 										Text="{Binding Name}"
 										VerticalAlignment="Center"
 										HorizontalAlignment="Left"
-										ToolTip.Tip="Identifier by which the developer accesses the translation"
 										IsTabStop="False"/>
 								</Border>
 								
